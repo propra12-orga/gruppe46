@@ -83,23 +83,23 @@ public class Spielmenue extends Frame
 		{
 			if(e.getActionCommand().equals("Fortsetzen"))
 			{
-				main.schließeSpiel();
+				main.schliesseSpiel();
 			}
 			if(e.getActionCommand().equals("Spiel neu starten"))
 			{
-				main.schließeSpiel();
+				main.schliesseSpiel();
 				main.setWert(1);
 				main.main2(string);	
 			}
 			if(e.getActionCommand().equals("Optionen"))
 			{
-				main.schließeSpiel();
+				main.schliesseSpiel();
 				main.setWert(2);
 				main.main2(string);
 			}
 			if(e.getActionCommand().equals("Hauptmenue"))
 			{
-				main.schließeSpiel();
+				main.schliesseSpiel();
 				main.setWert(3);
 				main.main2(string);
 				//Dieses Fenter schließen, Hauptmenue oeffnen.

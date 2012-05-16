@@ -160,7 +160,7 @@ public class Optionsmenue extends Frame
 		{
 			if(e.getActionCommand().equals("Zurueck"))
 			{
-				main.schließeOption();
+				main.schliesseOption();
 				main.setWert(3);
 				main.main2(string);
 			}

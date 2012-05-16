@@ -84,7 +84,7 @@ public class Hauptmenue extends Frame
 			if(e.getActionCommand().equals("Einzelspieler"))
 			{
 				//Ab hier ersetzen durch Spielbildschirm
-				main.schließeHaupt();
+				main.schliesseHaupt();
 				main.setWert(1);
 				main.main2(string);
 			}
@@ -94,7 +94,7 @@ public class Hauptmenue extends Frame
 			}
 			if(e.getActionCommand().equals("Optionen"))
 			{
-				main.schließeHaupt();
+				main.schliesseHaupt();
 				main.setWert(2);
 				main.main2(string);
 			}

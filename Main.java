@@ -4,17 +4,18 @@ public class Main
 	static Spielmenue spiel;
 	static Hauptmenue haupt;
 	static Optionsmenue option;
+	static Game game;
 	static int window;
 	
-	protected void schließeSpiel()
+	protected void schliesseSpiel()
 	{
 		spiel.dispose();
 	}
-	protected void schließeHaupt()
+	protected void schliesseHaupt()
 	{
 		haupt.dispose();
 	}
-	protected void schließeOption()
+	protected void schliesseOption()
 	{
 		option.dispose();
 	}
