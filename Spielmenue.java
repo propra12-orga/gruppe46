@@ -6,11 +6,13 @@ public class Spielmenue extends Frame
 {
 	private WindowListener l;
 	private ActionLauscher a;
-	private JButton restart, mainmenue, options, back;
 	private JTextField copyright;
 	private JLabel schriftzug;
 	private JFrame frame;
 	private ImageIcon icon;
+	
+	private JButton[] buttons;
+	private String[] headlines;
 	
 	public Spielmenue(String titel)
 	{
@@ -26,33 +28,24 @@ public class Spielmenue extends Frame
 		this.addWindowListener(l);
 		a = new ActionLauscher();
 		
-		//Buttons
-		back = new JButton("Fortsetzen");
-		back.setBounds(155, 140, 150, 50);
-		back.setBackground(Color.white);
-		back.addActionListener(a);
-		this.add(back);
-		
-		restart = new JButton("Spiel neu starten");
-		restart.setBounds(155, 200, 150, 50);
-		restart.setBackground(Color.white);
-		restart.addActionListener(a);
-		this.add(restart);
-		
-		options = new JButton("Optionen");
-		options.setBounds(155, 260, 150, 50);
-		options.setBackground(Color.white);
-		options.addActionListener(a);
-		this.add(options);
-		
-		mainmenue = new JButton("Hauptmenue");
-		mainmenue.setBounds(155, 320, 150, 50);
-		mainmenue.setBackground(Color.white);
-		mainmenue.addActionListener(a);
-		this.add(mainmenue);
+		buttons = new JButton[4];
+		headlines = new String[4];
+		headlines[0] = "Fortsetzen";
+		headlines[1] = "Spiel neu starten";
+		headlines[2] = "Optionen";
+		headlines[3] = "Hauptmenue";
+		for(int i=0;i<buttons.length;i++)
+		{
+			JButton b = new JButton(headlines[i]);
+			b.setBackground(Color.white);
+			b.setBounds(155, 140+(i*60), 150, 50);
+			b.addActionListener(a);
+			this.add(b);
+			buttons[i] = b;
+		}
 		
 		//TextFeld
-		copyright= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Poboda, Martin von Arkel, Philip Höfges");
+		copyright= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Podoba, Martin von Arkel, Philip Höfges");
 		copyright.setBounds(10, 450, 500, 50);
 		copyright.setForeground(Color.white);
 		copyright.setEditable(false);
@@ -83,26 +76,19 @@ public class Spielmenue extends Frame
 		{
 			if(e.getActionCommand().equals("Fortsetzen"))
 			{
-				main.schliesseSpiel();
+				
 			}
 			if(e.getActionCommand().equals("Spiel neu starten"))
 			{
-				main.schliesseSpiel();
-				main.setWert(1);
-				main.main2(string);	
+				
 			}
 			if(e.getActionCommand().equals("Optionen"))
 			{
-				main.schliesseSpiel();
-				main.setWert(2);
-				main.main2(string);
+				
 			}
 			if(e.getActionCommand().equals("Hauptmenue"))
 			{
-				main.schliesseSpiel();
-				main.setWert(3);
-				main.main2(string);
-				//Dieses Fenter schließen, Hauptmenue oeffnen.
+				
 			}
 		}
 	}

@@ -7,19 +7,18 @@ import javax.swing.ImageIcon;
 
 public class Optionsmenue extends Frame
 {
-	private JTextField powerups, leben, bomben, reichweite;
 	private ActionLauscher a;
 	private WindowListener l;
 	private JLabel schriftzug;
 	private JTextField copyright;
 	private JButton back;
 	private JRadioButton g1, g2, g3, g4;
-	private JCheckBox ups, ups2;
-	private JCheckBox lives, lives2, lives3;
-	private JCheckBox bombs, bombs2, bombs3;
-	private JCheckBox range, range2, range3;
 	private ImageIcon icon;
 	private JFrame frame;
+	
+	private JCheckBox[] boxen;
+	private JTextField[] felder;
+	private String[] headlines;
 	
 	public Optionsmenue(String titel)
 	{
@@ -35,89 +34,76 @@ public class Optionsmenue extends Frame
 		this.addWindowListener(l);
 		
 		//TextField
-		powerups = new JTextField("Power-Ups");
-		powerups.setBounds(125, 140, 150, 50);
-		powerups.setBackground(Color.white);
-		powerups.setEditable(false);
-		this.add(powerups);
-		
-		leben = new JTextField("Anzahl an Leben");
-		leben.setBounds(125, 200, 150, 50);
-		leben.setBackground(Color.white);
-		leben.setEditable(false);
-		this.add(leben);
-		
-		bomben = new JTextField("Anzahl an Bomben");
-		bomben.setBounds(125, 260, 150, 50);
-		bomben.setBackground(Color.white);
-		bomben.setEditable(false);
-		this.add(bomben);
-		
-		reichweite = new JTextField("Reichweite d. Bombens");
-		reichweite.setBounds(125, 320, 150, 50);
-		reichweite.setBackground(Color.white);
-		reichweite.setEditable(false);
-		this.add(reichweite);
+		headlines = new String[4];
+		headlines[0] = "Power-Ups";
+		headlines[1] = "Anzahl der Leben";
+		headlines[2] = "Anzahl an Bomben";
+		headlines[3] = "Reichweite d. Bomben";
+		felder = new JTextField[4];
+		for(int i=0;i<felder.length;i++)
+		{
+			JTextField t = new JTextField(headlines[i]);
+			t.setBounds(125, 140+(i*60), 150, 50);
+			t.setBackground(Color.white);
+			t.setEditable(false);
+			this.add(t);
+			felder[i] = t;
+		}
 		
 		//Checkboxen
-		ups = new JCheckBox("Ja");
-		this.add(ups);
-		
-		ups2 = new JCheckBox("Nein");
-		this.add(ups2);
-		
-		lives = new JCheckBox("1");
-		this.add(lives);
-		
-		lives2 = new JCheckBox("3");
-		this.add(lives2);
-		
-		lives3 = new JCheckBox("5");
-		this.add(lives3);
-		
-		bombs = new JCheckBox("1");
-		this.add(bombs);
-			
-		bombs2 = new JCheckBox("3");
-		this.add(bombs2); 
-			
-		bombs3 = new JCheckBox("5");
-		this.add(bombs3);
-				
-		range = new JCheckBox("1");
-		this.add(range); 
-			
-		range2 = new JCheckBox("3");
-		this.add(range2);
-				
-		range3 = new JCheckBox("5");
-		this.add(range3);
+		boxen = new JCheckBox[11];
+		for(int i=0;i<2;i++)
+		{
+			String s;
+			if(i==0)
+			{
+				s = "Ja";
+			}
+			else
+			{
+				s = "Nein";
+			}
+			JCheckBox c = new JCheckBox(s);
+			this.add(c);
+			boxen[i] = c;
+		}
+		int j = 1;
+		for(int i=2;i<boxen.length;i++)
+		{
+			JCheckBox c = new JCheckBox(""+j);
+			this.add(c);
+			j = j+2;
+			if(i==5 && i==8)
+			{
+				j = 1;
+			}
+		}
 		
 		//RadioButtons
 		g1 = new JRadioButton();
-		g1.add(ups);
-		g1.add(ups2);
-		g1.setBounds(300, 150, 100, 30);
+		g1.add(boxen[0]);
+		g1.add(boxen[1]);
+		g1.setBounds(300, 150, 50, 30);
 		this.add(g1);
 		
 		g2 = new JRadioButton();
-		g2.add(lives);
-		g2.add(lives2);
-		g2.add(lives3);
+		g2.add(boxen[2]);
+		g2.add(boxen[3]);
+		g2.add(boxen[4]);
 		g2.setBounds(300, 210, 50, 30);
 		this.add(g2);
 		
 		g3 = new JRadioButton();
-		g3.add(bombs);
-		g3.add(bombs2);
-		g3.add(bombs3);
+		g3.add(boxen[5]);
+		g3.add(boxen[6]);
+		g3.add(boxen[7]);
 		g3.setBounds(300, 270, 50, 30);
 		this.add(g3);
 		
 		g4 = new JRadioButton();
-		g4.add(range);
-		g4.add(range2);
-		g4.add(range3);
+		g4.add(boxen[8]);
+		g4.add(boxen[9]);
+		g4.add(boxen[10]);
 		g4.setBounds(300, 330, 50, 30);
 		this.add(g4);
 		
@@ -129,7 +115,7 @@ public class Optionsmenue extends Frame
 		this.add(back);
 		
 		//TextFeld
-		copyright= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Poboda, Martin von Arkel, Philip Höfges");
+		copyright= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Podoba, Martin von Arkel, Philip Höfges");
 		copyright.setBounds(10, 450, 500, 50);
 		copyright.setForeground(Color.white);
 		copyright.setEditable(false);
@@ -160,9 +146,7 @@ public class Optionsmenue extends Frame
 		{
 			if(e.getActionCommand().equals("Zurueck"))
 			{
-				main.schliesseOption();
-				main.setWert(3);
-				main.main2(string);
+				
 			}
 		}
 	}

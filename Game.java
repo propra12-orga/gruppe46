@@ -18,12 +18,12 @@ public Player one;
 
 public Game(){
 	 try{
-		  ObjectInputStream o = new ObjectInputStream(new FileInputStream("C/default.map")); //hier muss der Pfad der default.map angegeben werden sonst Error
+		  ObjectInputStream o = new ObjectInputStream(new FileInputStream("/home/philip/ProPra/gruppe46/src/default.map")); //hier muss der Pfad der default.map angegeben werden sonst Error
 		  spielfeld = (Feld[][]) o.readObject();
 		  o.close();
 		 } catch (IOException i){
 		  } 
-		 } catch (ClassNotFoundException e) {
+		  catch (ClassNotFoundException e) {
 			//Fehlerbehandlung "Level nicht gefunden"
 		  
 		 }
@@ -75,14 +75,13 @@ public void pollInput(){
 	    System.exit(0);
 	}
 	// init OpenGL here
-    /*  glMatrixMode(GL_PROJECTION);
+      glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0,640,480,0,1,-1);
         glMatrixMode(GL_MODELVIEW);
-        */
         while (!Display.isCloseRequested()) {
 	    // render OpenGL here
-        //glClear(GL_COLOR_BUFFER_BIT);		     //zu Testzwecken
+        glClear(GL_COLOR_BUFFER_BIT);		     //zu Testzwecken
         
        
         

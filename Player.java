@@ -36,16 +36,16 @@ public class Player{
  
  public void move(int addx, int addy){
 	 posx+=addx;
-	 posy+=addy;														//taste fürs bombe legen fehlt
+	 posy+=addy;														//taste fï¿½rs bombe legen fehlt
  }
  
  public void print(){
-	 /*glBegin(GL_QUADS);
+	 glBegin(GL_QUADS);
 	 	glVertex2i(10*(posx-1),10*(posy-1));
 	 	glVertex2i(10*posx, 10*(posy-1));
 	 	glVertex2i(10*posx,10*posy);
 	 	glVertex2i(10*(posx-1),10*posy);
-	 glEnd();*/ // Zum Test: Bomberman=weißer Kasten
+	 glEnd(); // Zum Test: Bomberman=weiï¿½er Kasten
  }
  
 }

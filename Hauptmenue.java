@@ -9,8 +9,9 @@ public class Hauptmenue extends Frame
 	private JTextField copyright;
 	private JLabel schriftzug;
 	private ImageIcon icon;
-	private JFrame frame;
-	private JButton einzel, mehr, options, finish;
+	private JFrame frame;	
+	private JButton[] buttons;
+	private String[] headlines;
 	
 	public Hauptmenue(String titel)
 	{
@@ -27,32 +28,25 @@ public class Hauptmenue extends Frame
 		a = new ActionLauscher();
 		
 		//Buttons
-		einzel = new JButton("Einzelspieler");
-		einzel.setBounds(155, 140, 150, 50);
-		einzel.setBackground(Color.white);
-		einzel.addActionListener(a);
-		this.add(einzel);
+		buttons = new JButton[4];
+		headlines = new String[4];
+		headlines[0] = "Einzelspieler";
+		headlines[1] = "Mehrspieler";
+		headlines[2] = "Optionen";
+		headlines[3] = "Spiel beenden";
 		
-		mehr = new JButton("Mehrspieler");
-		mehr.setBounds(155, 200, 150, 50);
-		mehr.setBackground(Color.white);
-		mehr.addActionListener(a);
-		this.add(mehr);
-		
-		options = new JButton("Optionen");
-		options.setBounds(155, 260, 150, 50);
-		options.setBackground(Color.white);
-		options.addActionListener(a);
-		this.add(options);
-		
-		finish = new JButton("Spiel beenden");
-		finish.setBounds(155, 320, 150, 50);
-		finish.setBackground(Color.white);
-		finish.addActionListener(a);
-		this.add(finish);
+		for(int i=0;i<buttons.length;i++)
+		{
+			JButton b = new JButton(headlines[i]);
+			b.setBackground(Color.white);
+			b.setBounds(155, 140+(i*60), 150, 50);
+			b.addActionListener(a);
+			this.add(b);
+			buttons[i] = b;
+		}
 		
 		//TextFeld
-		copyright= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Poboda, Martin von Arkel, Philip Höfges");
+		copyright= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Podoba, Martin von Arkel, Philip Höfges");
 		copyright.setBounds(10, 450, 500, 50);
 		copyright.setForeground(Color.white);
 		copyright.setEditable(false);
@@ -83,10 +77,7 @@ public class Hauptmenue extends Frame
 		{
 			if(e.getActionCommand().equals("Einzelspieler"))
 			{
-				//Ab hier ersetzen durch Spielbildschirm
-				main.schliesseHaupt();
-				main.setWert(1);
-				main.main2(string);
+				
 			}
 			if(e.getActionCommand().equals("Mehrspieler"))
 			{
@@ -94,9 +85,7 @@ public class Hauptmenue extends Frame
 			}
 			if(e.getActionCommand().equals("Optionen"))
 			{
-				main.schliesseHaupt();
-				main.setWert(2);
-				main.main2(string);
+				
 			}
 			if(e.getActionCommand().equals("Spiel beenden"))
 			{
