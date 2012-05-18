@@ -17,7 +17,6 @@ public class Menue extends Frame
 	private String[] headlines;
 	private JTextField[] felder;
 	private JCheckBox[] boxen;
-	private JRadioButton g1, g2, g3, g4;
 	
 	public Menue(String titel)
 	{
@@ -111,55 +110,38 @@ public class Menue extends Frame
 				s = "Nein";
 			}
 			JCheckBox c = new JCheckBox(s);
-			this.add(c);
+			if(i==0)
+			{
+				c.setSelected(true);
+			}
+			c.setBounds(300+(i*90), 180, 80, 30);
 			c.setVisible(false);
+			this.add(c);
 			boxen[i] = c;
 		}
 		int j = 1;
+		int k = 0;
+		int l = 0;
 		for(int i=2;i<boxen.length;i++)
 		{
 			JCheckBox c = new JCheckBox(""+j);
+			c.setBounds(300+(l*60), 235+(k*60), 50, 30);
+			c.setVisible(false);
 			this.add(c);
 			j = j+2;
-			if(i==5 && i==8)
+			l++;
+			if(i==4 || i==7)
 			{
 				j = 1;
+				k = k+1;
+				l = 0;
 			}
-			c.setVisible(false);
+			if(i==2 || i==5 || i==8)
+			{
+				c.setSelected(true);
+			}
 			boxen[i] = c;
 		}
-		
-		//RadioButtons
-		g1 = new JRadioButton();
-		g1.add(boxen[0]);
-		g1.add(boxen[1]);
-		g1.setBounds(300, 175, 50, 30);
-		g1.setVisible(false);
-		this.add(g1);
-		
-		g2 = new JRadioButton();
-		g2.add(boxen[2]);
-		g2.add(boxen[3]);
-		g2.add(boxen[4]);
-		g2.setBounds(300, 235, 50, 30);
-		g2.setVisible(false);
-		this.add(g2);
-		
-		g3 = new JRadioButton();
-		g3.add(boxen[5]);
-		g3.add(boxen[6]);
-		g3.add(boxen[7]);
-		g3.setBounds(300, 295, 50, 30);
-		g3.setVisible(false);
-		this.add(g3);
-		
-		g4 = new JRadioButton();
-		g4.add(boxen[8]);
-		g4.add(boxen[9]);
-		g4.add(boxen[10]);
-		g4.setBounds(300, 355, 50, 30);
-		g4.setVisible(false);
-		this.add(g4);
 		
 		//Image/Banner
 		schriftzug = new JLabel();
@@ -186,7 +168,7 @@ public class Menue extends Frame
 				for(int i=0;i<hauptButtons.length;i++)
 				{
 					hauptButtons[i].setVisible(false);
-					spielButtons[i].setVisible(true);
+					spielButtons[i].setVisible(true); //Nur zu Testzwecken.
 				}
 			}
 			if(e.getActionCommand().equals("Mehrspieler"))
@@ -200,12 +182,11 @@ public class Menue extends Frame
 					spielButtons[i].setVisible(false);
 					hauptButtons[i].setVisible(false);
 					optionButton.setVisible(true);
-					boxen[i].setVisible(true);
 					felder[i].setVisible(true);
-					g1.setVisible(true);
-					g2.setVisible(true);
-					g3.setVisible(true);
-					g4.setVisible(true);
+				}
+				for(int i=0;i<boxen.length;i++)
+				{
+					boxen[i].setVisible(true);
 				}
 			}
 			if(e.getActionCommand().equals("Spiel beenden"))
@@ -214,7 +195,7 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Fortsetzen"))
 			{
-				
+				System.exit(0);
 			}
 			if(e.getActionCommand().equals("Neustarten"))
 			{
@@ -230,15 +211,15 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Zurueck"))
 			{
-				g1.setVisible(false);
-				g2.setVisible(false);
-				g3.setVisible(false);
-				g4.setVisible(false);
 				optionButton.setVisible(false);
 				for(int i=0;i<hauptButtons.length;i++)
 				{
 					felder[i].setVisible(false);
 					hauptButtons[i].setVisible(true);
+				}
+				for(int i=0;i<boxen.length;i++)
+				{
+					boxen[i].setVisible(false);
 				}
 			}
 		}

@@ -64,47 +64,50 @@ public class Optionsmenue extends Frame
 				s = "Nein";
 			}
 			JCheckBox c = new JCheckBox(s);
+			c.setBounds(300+(i*30), 150, 50, 30);
 			this.add(c);
 			boxen[i] = c;
 		}
 		int j = 1;
+		int k = 0;
+		int l = 0;
 		for(int i=2;i<boxen.length;i++)
 		{
 			JCheckBox c = new JCheckBox(""+j);
+			c.setBounds(300+(l*60), 150+(k*60), 50, 30);
 			this.add(c);
 			j = j+2;
 			if(i==5 && i==8)
 			{
 				j = 1;
+				k++;
+				l = 0;
 			}
+			l++;
 		}
 		
 		//RadioButtons
 		g1 = new JRadioButton();
 		g1.add(boxen[0]);
 		g1.add(boxen[1]);
-		g1.setBounds(300, 150, 50, 30);
 		this.add(g1);
 		
 		g2 = new JRadioButton();
 		g2.add(boxen[2]);
 		g2.add(boxen[3]);
 		g2.add(boxen[4]);
-		g2.setBounds(300, 210, 50, 30);
 		this.add(g2);
 		
 		g3 = new JRadioButton();
 		g3.add(boxen[5]);
 		g3.add(boxen[6]);
 		g3.add(boxen[7]);
-		g3.setBounds(300, 270, 50, 30);
 		this.add(g3);
 		
 		g4 = new JRadioButton();
 		g4.add(boxen[8]);
 		g4.add(boxen[9]);
 		g4.add(boxen[10]);
-		g4.setBounds(300, 330, 50, 30);
 		this.add(g4);
 		
 		//Button
