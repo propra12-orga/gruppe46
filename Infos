@@ -5,6 +5,5 @@ wird. Also sind die Klassen Optionsmenue, Spielmenue und Hauptmenue überflüssi
 die Klasse Menue zu ersetzen. Auch die Main wurde verändert.
 
 Bei den CheckBoxen in den Optionen ist noch ein Fehler, den ich nicht wegkriege.
-Die einzelnen CheckBoxen sind an so genannte RadioButtons angeschlossen, was dazu führt, dass
-immer nur eine Auswahl zur selben Zeit möglich ist. Leider überlappen die CheckBoxen und da
-liegt das Problem. Wäre schön, wenn sich jemand darum kümmern könnte.
+Habe jetzt die RadioButtons entfernt und einfach den CheckBoxen direkt Positionen zugewiesen. Leider fehlt jetzt die
+Funktion der RadioButtons, dass nur eine Option gleichzeitig möglich ist.
