@@ -3,7 +3,7 @@
 public class Steinfeld extends Feld{
 	
 	
-	public void draw(){
+	public void draw(int x, int y){
 	
 	}
 }

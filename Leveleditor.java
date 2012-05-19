@@ -13,9 +13,9 @@ public class Leveleditor {
 				char auswahl = zeile.charAt(0);
 				System.out.println(auswahl);
 				switch(auswahl){
-					case 'S': spielfeld[i][j]=new Steinfeld();
+					case 'S': spielfeld[j][i]=new Steinfeld();
 								break;
-					case 'L': spielfeld[i][j]=new Leerfeld();
+					case 'L': spielfeld[j][i]=new Leerfeld();
 								break;
 					default: System.out.println("Fehlerhafte Eingabe. Bitte Programm erneut starten.");
 								break;
@@ -33,7 +33,7 @@ public class Leveleditor {
 	System.out.println("Wie soll das neue Level heiﬂen?");
 	String name= eingabe.readLine();
 	
-	Feld[][] spielfeld = new Feld[13][15];
+	Feld[][] spielfeld = new Feld[15][13];
 	
 	try{
 	ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(name + ".map",true));

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public abstract class Feld implements Serializable {
 	
-	public void draw(){
+	public void draw(int x, int y){
 	}
 	
 }
