@@ -1,52 +1,64 @@
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
-import static org.lwjgl.opengl.GL11.*;
-
 
 public class Player{
- private String name;
- private boolean alive;
- private int posx, posy;
- 
- 
- public Player (String name, int x, int y){
-	this.name=name;
-	this.posx=x;
-	this.posy=y;
-	this.alive=true;
- }
-
- public boolean isAlive(){
-	 return alive;
- }
- 
- public int getx(){
-	 return posx;
- }
- 
- public int gety(){
-	 return posy;
- }
- 
- public void die(){
-	 alive=false;
- }
- 
- public void move(int addx, int addy){
-	 posx+=addx;
-	 posy+=addy;														//taste f�rs bombe legen fehlt
- }
- 
- public void print(){
-	 glBegin(GL_QUADS);
-	 	glVertex2i(10*(posx-1),10*(posy-1));
-	 	glVertex2i(10*posx, 10*(posy-1));
-	 	glVertex2i(10*posx,10*posy);
-	 	glVertex2i(10*(posx-1),10*posy);
-	 glEnd(); // Zum Test: Bomberman=wei�er Kasten
- }
- 
+	private String name;
+	private boolean alive;
+	private int posx, posy;
+	
+	private LWJGL_Sprite Sprite;
+	
+	private long lastMove;
+	
+	public Player (String name, int x, int y){
+		this.name=name;
+		this.posx=x;
+		this.posy=y;
+		this.alive=true;
+		lastMove = 0;
+	}
+	
+	public boolean isAlive(){
+		return alive;
+	}
+	
+	public int getx(){
+		return posx;
+	}
+	
+	public int gety(){
+		return posy;
+	}
+	
+	public void die(){
+		alive=false;
+	}
+	
+	public void move(int addx, int addy){
+		if((GameTime.getTime() - lastMove) > 500)
+		{
+			posx+=addx;
+			posy+=addy;											//taste f�rs bombe legen fehlt
+			lastMove = GameTime.getTime();
+		}
+	}
+	
+	public void loadSprite(String file) {
+		Sprite = new LWJGL_Sprite(file);
+		Sprite.init();
+		Sprite.setScaleX(0.25f);
+		Sprite.setScaleY(0.25f);
+		
+	}
+	
+	public void draw(){
+		/*
+		glBegin(GL_QUADS);
+		glVertex2i(10*(posx-1),10*(posy-1));
+		glVertex2i(10*posx, 10*(posy-1));
+		glVertex2i(10*posx,10*posy);
+		glVertex2i(10*(posx-1),10*posy);
+		glEnd(); // Zum Test: Bomberman=wei�er Kasten*/
+		Sprite.draw(posx * 32, posy * 32);
+	}
+	
 }
  

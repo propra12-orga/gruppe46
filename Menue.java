@@ -148,7 +148,7 @@ public class Menue extends Frame
 		schriftzug.setBounds(0, 0, 500, 500);
 		this.add(schriftzug);
 		//Hier Pfad eurem PC anpassen.
-		icon = new ImageIcon("/home/philip/ProPra/Spielmenue/src/Bomberman_Vector_by_Haite_S_Regna.png");
+		icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("Bomberman_Vector_by_Haite_S_Regna.png"));
 		frame = new JFrame();
 		frame.getContentPane().add(schriftzug);
 		frame.setBounds(0, 0, 612, 792);
