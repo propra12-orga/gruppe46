@@ -1,9 +1,3 @@
 Hallo Leute,
 
-habe jetzt alle Menues in eine Klasse verpackt, damit das Problem mit den vielen Fenstern gelöst
-wird. Also sind die Klassen Optionsmenue, Spielmenue und Hauptmenue überflüssig und durch
-die Klasse Menue zu ersetzen. Auch die Main wurde verändert.
-
-Bei den CheckBoxen in den Optionen ist noch ein Fehler, den ich nicht wegkriege.
-Habe jetzt die RadioButtons entfernt und einfach den CheckBoxen direkt Positionen zugewiesen. Leider fehlt jetzt die
-Funktion der RadioButtons, dass nur eine Option gleichzeitig möglich ist.
+Gut, als nächstes wären sprengbare Mauern gut.
