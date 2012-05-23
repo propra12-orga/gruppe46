@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import org.lwjgl.input.Keyboard;
 
 public class Menue extends Frame
 {
@@ -209,8 +210,8 @@ public class Menue extends Frame
 				{
 					spielButtons[i].setVisible(false);
 				}
-				Main.t1.resume();
 				Main.m.setVisible(false);
+				Main.t1.resume();
 			}
 			if(e.getActionCommand().equals("Neustarten"))
 			{
