@@ -33,7 +33,7 @@ public class Player{
 	}
 	
 	public void move(int addx, int addy){
-		if((GameTime.getTime() - lastMove) > 500)
+		if((GameTime.getTime() - lastMove) > 300)
 		{
 			posx+=addx;
 			posy+=addy;											//taste f�rs bombe legen fehlt

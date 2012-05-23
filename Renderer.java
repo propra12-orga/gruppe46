@@ -10,6 +10,8 @@ public class Renderer {
 	
 	public static final LWJGL_Sprite Tile_Empty = new LWJGL_Sprite("empty.png");
 	public static final LWJGL_Sprite Tile_Wall = new LWJGL_Sprite("wall.png");
+	public static final LWJGL_Sprite Tile_Bomb = new LWJGL_Sprite("bomb.png");
+	public static final LWJGL_Sprite Tile_Explosion = new LWJGL_Sprite("explosion.png");
 	
 	public static void initDisplay() {
 		initDisplay(640,480,60);
@@ -61,6 +63,10 @@ public class Renderer {
         Tile_Empty.setScaleX(0.25f); Tile_Empty.setScaleY(0.25f);
         Tile_Wall.init();
         Tile_Wall.setScaleX(0.25f); Tile_Wall.setScaleY(0.25f);
+        Tile_Bomb.init();
+        Tile_Bomb.setScaleX(0.25f); Tile_Bomb.setScaleY(0.25f);
+        Tile_Explosion.init();
+        Tile_Explosion.setScaleX(0.25f); Tile_Explosion.setScaleY(0.25f);
 	}
 	
 	public static void setClearColor(float r, float g, float b, float a) {
