@@ -60,13 +60,13 @@ public class Renderer {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
         Tile_Empty.init();
-        Tile_Empty.setScaleX(0.25f); Tile_Empty.setScaleY(0.25f);
+        Tile_Empty.setScaleX(0.33f); Tile_Empty.setScaleY(0.33f);
         Tile_Wall.init();
-        Tile_Wall.setScaleX(0.25f); Tile_Wall.setScaleY(0.25f);
+        Tile_Wall.setScaleX(0.33f); Tile_Wall.setScaleY(0.33f);
         Tile_Bomb.init();
-        Tile_Bomb.setScaleX(0.25f); Tile_Bomb.setScaleY(0.25f);
+        Tile_Bomb.setScaleX(0.33f); Tile_Bomb.setScaleY(0.33f);
         Tile_Explosion.init();
-        Tile_Explosion.setScaleX(0.25f); Tile_Explosion.setScaleY(0.25f);
+        Tile_Explosion.setScaleX(0.33f); Tile_Explosion.setScaleY(0.33f);
 	}
 	
 	public static void setClearColor(float r, float g, float b, float a) {

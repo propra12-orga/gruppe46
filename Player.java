@@ -44,8 +44,8 @@ public class Player{
 	public void loadSprite(String file) {
 		Sprite = new LWJGL_Sprite(file);
 		Sprite.init();
-		Sprite.setScaleX(0.25f);
-		Sprite.setScaleY(0.25f);
+		Sprite.setScaleX(0.33f);
+		Sprite.setScaleY(0.33f);
 		
 	}
 	
@@ -57,7 +57,7 @@ public class Player{
 		glVertex2i(10*posx,10*posy);
 		glVertex2i(10*(posx-1),10*posy);
 		glEnd(); // Zum Test: Bomberman=wei�er Kasten*/
-		Sprite.draw(posx * 32, posy * 32);
+		Sprite.draw(posx * 128 * 0.33f, posy * 128 * 0.33f);
 	}
 	
 }

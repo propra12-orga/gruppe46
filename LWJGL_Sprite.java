@@ -11,7 +11,7 @@ public class LWJGL_Sprite {
 	
 	private float u1, v1, u2, v2, scalex, scaley;
 	
-	private int x, y, offsetx, offsety;
+	private float x, y, offsetx, offsety;
 	
 	public LWJGL_Sprite(String filename) {
 		try {
@@ -39,7 +39,7 @@ public class LWJGL_Sprite {
 		texture.init();
 	}
 	
-	public void draw(int x, int y) {
+	public void draw(float x, float y) {
 		
 		this.x = x;
 		this.y = y;
@@ -130,19 +130,19 @@ public class LWJGL_Sprite {
 		this.scaley = scaley;
 	}
 
-	public int getOffsetX() {
+	public float getOffsetX() {
 		return offsetx;
 	}
 
-	public void setOffsetX(int offsetx) {
+	public void setOffsetX(float offsetx) {
 		this.offsetx = offsetx;
 	}
 
-	public int getOffsetY() {
+	public float getOffsetY() {
 		return offsety;
 	}
 
-	public void setOffsetY(int offsety) {
+	public void setOffsetY(float offsety) {
 		this.offsety = offsety;
 	}
 }

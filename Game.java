@@ -146,7 +146,7 @@ public class Game implements Runnable {
 	
     public void run() {
     	
-    	Renderer.initDisplay(640,480,60);
+    	Renderer.initDisplay(800,600,60);
     	Renderer.initGL();
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
