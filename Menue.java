@@ -11,8 +11,8 @@ public class Menue extends Frame
 	private ImageIcon icon;
 	private JFrame frame;
 	
-	private JButton[] hauptButtons;
-	private JButton[] spielButtons;
+	protected JButton[] hauptButtons;
+	protected JButton[] spielButtons;
 	private JButton optionButton;
 	private String[] headlines;
 	private JTextField[] felder;
@@ -163,12 +163,22 @@ public class Menue extends Frame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			String[] string = new String[1];
 			if(e.getActionCommand().equals("Einzelspieler"))
 			{
 				for(int i=0;i<hauptButtons.length;i++)
 				{
 					hauptButtons[i].setVisible(false);
-					spielButtons[i].setVisible(true); //Nur zu Testzwecken.
+				}
+				
+				Menue.this.setVisible(false);
+				
+				Main.main2(string);
+				
+				for(int i=0;i<hauptButtons.length;i++)
+				{
+					hauptButtons[i].setVisible(true);
+					spielButtons[i].setVisible(false);
 				}
 			}
 			if(e.getActionCommand().equals("Mehrspieler"))
@@ -195,7 +205,12 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Fortsetzen"))
 			{
-				System.exit(0);
+				for(int i=0;i<spielButtons.length;i++)
+				{
+					spielButtons[i].setVisible(false);
+				}
+				Main.t1.resume();
+				Main.m.setVisible(false);
 			}
 			if(e.getActionCommand().equals("Neustarten"))
 			{

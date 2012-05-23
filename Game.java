@@ -55,8 +55,6 @@ public class Game implements Runnable {
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
 			if (spielfeld[one.getx()][one.gety()-1] instanceof Leerfeld){
-				
-			
 				one.move(0,-1);
 			}
 		}
@@ -64,10 +62,18 @@ public class Game implements Runnable {
 			new Bombe(one.getx(),one.gety()).start();
 			spielfeld[one.getx()][one.gety()]= new Bombenfeld();
 		}
-		 lock1.unlock();
+		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			for(int i=0;i<4;i++){
+				Main.m.hauptButtons[i].setVisible(false);
+				Main.m.spielButtons[i].setVisible(true);
+			}
+			Main.m.setVisible(true);
+			Thread.currentThread().suspend();
+			System.out.println(" "); //Zum "Bremsen".
+		}
+			lock1.unlock();
 	 
 	}
-
 	
 	static class Bombe extends Thread{
 		private int x;
@@ -150,8 +156,8 @@ public class Game implements Runnable {
         	
         	Renderer.clearGL();
         	
-		    pollInput();
-		    
+
+				pollInput();
 		    
 		    for(int x = 0; x < spielfeld.length; x++) {
 		    	for(int y = 0; y < spielfeld[0].length; y++) {
