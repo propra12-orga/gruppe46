@@ -5,42 +5,28 @@ import org.lwjgl.opengl.GL11;
 
 public class Renderer {
 	
-	private int width, height, fps;
-	private float clearR, clearG, clearB, clearA;
+	private static int width, height, fps;
+	private static float clearR, clearG, clearB, clearA;
 	
-	public Renderer(int width, int height, int fps) {
-		this.width = width;
-		this.height = height;
-		this.fps = fps;
-		setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	public static final LWJGL_Sprite Tile_Empty = new LWJGL_Sprite("empty.png");
+	public static final LWJGL_Sprite Tile_Wall = new LWJGL_Sprite("wall.png");
+	
+	public static void initDisplay() {
+		initDisplay(640,480,60);
 	}
 	
-	public Renderer(int width, int height) {
-		this(width, height, 60);
+	public static void initDisplay(int w, int h) {
+		initDisplay(w,h,60);
 	}
 	
-	public Renderer(int fps) {
-		this(640, 480, fps);
+	public static void initDisplay(int fps) {
+		initDisplay(640,480,fps);
 	}
 	
-	public Renderer() {
-		this(640, 480, 60);
-	}
-	
-	public void initDisplay() {
-		/* set up display mode */
-		try {
-			Display.setDisplayMode(new DisplayMode(width, height));
-			Display.create();
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-	}
-	
-	public void initDisplay(int width, int height) {
-		this.width = width;
-		this.height = height;
+	public static void initDisplay(int w, int h, int fps) {
+		width = w;
+		height = h;
+		Renderer.fps = fps;
 		
 		/* set up display mode */
 		try {
@@ -53,7 +39,7 @@ public class Renderer {
 	}
 	
 
-	public void initGL() {
+	public static void initGL() {
 		
 		/* set up 'camera' as Ortho */
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -71,9 +57,13 @@ public class Renderer {
         GL11.glEnable (GL11.GL_BLEND); 
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
+        Tile_Empty.init();
+        Tile_Empty.setScaleX(0.25f); Tile_Empty.setScaleY(0.25f);
+        Tile_Wall.init();
+        Tile_Wall.setScaleX(0.25f); Tile_Wall.setScaleY(0.25f);
 	}
 	
-	public void setClearColor(float r, float g, float b, float a) {
+	public static void setClearColor(float r, float g, float b, float a) {
 		clearR = r;
 		clearG = g;
 		clearB = b;
@@ -81,18 +71,18 @@ public class Renderer {
 	}
 	
 	
-	public void clearGL() {
+	public static void clearGL() {
 		// Clear The Screen And The Depth Buffer
 		GL11.glClearColor(clearR, clearG, clearB, clearA);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
 	
-	public void sync() {
+	public static void sync() {
 		Display.update();
 		Display.sync(fps);
 	}
 	
-	public void destroy() {
+	public static void destroy() {
 		Display.destroy();
 	}
 }

@@ -10,8 +10,6 @@ public class Game implements Runnable {
 	public static Feld[][] spielfeld;
 	public Player one;
 	static Lock lock1 = new ReentrantLock();
-	//public GameTime Timer;
-	public Renderer Render;
 	
 	public Game() {
 		try {
@@ -29,9 +27,7 @@ public class Game implements Runnable {
 		
 		one = new Player("One",1,1);
 		
-		//Timer = new GameTime();
 		GameTime.init();
-		Render = new Renderer(640, 480, 60);
 	}
 	
 	public void pollInput(){
@@ -144,25 +140,33 @@ public class Game implements Runnable {
 	
     public void run() {
     	
-    	Render.initDisplay();
-    	Render.initGL();
+    	Renderer.initDisplay(640,480,60);
+    	Renderer.initGL();
+    	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
-    	one.loadSprite("player.png"); // kann erst nach initGL benutzt werden, alternativ initGL und so mit im konstruktor?
-        
+    	one.loadSprite("player.png"); // kann erst nach initGL benutzt werden, alternativ initGL usw mit im konstruktor?
+    	
         while (!Display.isCloseRequested() && one.isAlive()) {
         	
-        	Render.clearGL();
+        	Renderer.clearGL();
         	
 		    pollInput();
+		    
+		    
+		    for(int x = 0; x < spielfeld.length; x++) {
+		    	for(int y = 0; y < spielfeld[0].length; y++) {
+		    		spielfeld[x][y].draw(x, y);
+		    	}
+		    }
 		    
 		    one.draw();
 		    
 		    GameTime.update();
-		    Render.sync();
+		    Renderer.sync();
 		}
 	    //ggf. Game-Over Behandlung    
 	        
-		Render.destroy();
+		Renderer.destroy();
     }
     
 }
