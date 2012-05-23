@@ -26,35 +26,35 @@ public class Game implements Runnable {
 		} 
 		
 		one = new Player("One",1,1);
-		
+		spielfeld[13][11]=new Exitfeld();//Ausgang für Präsentation
 		GameTime.init();
 	}
 	
 	public void pollInput(){
 		lock1.lock();
-		if (spielfeld[one.getx()][one.gety()] instanceof Explosionsfeld) {one.die();};
-		//Zeichnen des Feldes durch spielfeld[x][y].draw();?
+		if (spielfeld[one.getx()][one.gety()] instanceof Explosionsfeld | spielfeld[one.getx()][one.gety()] instanceof Exitfeld) {one.die();};
+		
 				 
 		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-			if (spielfeld[one.getx()+1][one.gety()] instanceof Leerfeld){
+			if (spielfeld[one.getx()+1][one.gety()] instanceof Leerfeld | spielfeld[one.getx()+1][one.gety()] instanceof Exitfeld){
 			
 				 one.move(1,0);
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			if (spielfeld[one.getx()-1][one.gety()] instanceof Leerfeld){
+			if (spielfeld[one.getx()-1][one.gety()] instanceof Leerfeld | spielfeld[one.getx()-1][one.gety()] instanceof Exitfeld){
 			
 				one.move(-1,0);
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-			if (spielfeld[one.getx()][one.gety()+1] instanceof Leerfeld){
+			if (spielfeld[one.getx()][one.gety()+1] instanceof Leerfeld | spielfeld[one.getx()][one.gety()+1] instanceof Exitfeld){
 			 
 				one.move(0,1);
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			if (spielfeld[one.getx()][one.gety()-1] instanceof Leerfeld){
+			if (spielfeld[one.getx()][one.gety()-1] instanceof Leerfeld | spielfeld[one.getx()][one.gety()-1] instanceof Exitfeld){
 				one.move(0,-1);
 			}
 		}
@@ -87,19 +87,19 @@ public class Game implements Runnable {
 	private void explosion(int x, int y){
 		spielfeld[x][y]= new Explosionsfeld();
 		for (int i=1;i<4;i++){		//Explosion nach links
-			if (spielfeld[x-i][y] instanceof Leerfeld) {spielfeld[x-i][y]= new Explosionsfeld();}
+			if (spielfeld[x-i][y] instanceof Leerfeld | spielfeld[x-i][y] instanceof Explosionsfeld) {spielfeld[x-i][y]= new Explosionsfeld();}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//Explosion nach rechts
-			if (spielfeld[x+i][y] instanceof Leerfeld) {spielfeld[x+i][y]= new Explosionsfeld();}
+			if (spielfeld[x+i][y] instanceof Leerfeld | spielfeld[x+i][y] instanceof Explosionsfeld) {spielfeld[x+i][y]= new Explosionsfeld();}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//Explosion nach oben
-			if (spielfeld[x][y-i] instanceof Leerfeld) {spielfeld[x][y-i]= new Explosionsfeld();}
+			if (spielfeld[x][y-i] instanceof Leerfeld | spielfeld[x][y-i] instanceof Explosionsfeld) {spielfeld[x][y-i]= new Explosionsfeld();}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//Explosion nach unten
-			if (spielfeld[x][y+i] instanceof Leerfeld) {spielfeld[x][y+i]= new Explosionsfeld();}
+			if (spielfeld[x][y+i] instanceof Leerfeld | spielfeld[x][y+i] instanceof Explosionsfeld) {spielfeld[x][y+i]= new Explosionsfeld();}
 			else {break;}
 		}
 	}
@@ -108,19 +108,19 @@ public class Game implements Runnable {
 	private void clean(int x, int y){ //macht aus den Explosionsfeldern Leerfelder
 		spielfeld[x][y]=new Leerfeld();
 		for (int i=1;i<4;i++){		//links
-			if (spielfeld[x-i][y] instanceof Explosionsfeld) {spielfeld[x-i][y]= new Leerfeld();}
+			if (spielfeld[x-i][y] instanceof Explosionsfeld | spielfeld[x-i][y] instanceof Leerfeld) {spielfeld[x-i][y]= new Leerfeld();}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//rechts
-			if (spielfeld[x+i][y] instanceof Explosionsfeld) {spielfeld[x+i][y]= new Leerfeld();}
+			if (spielfeld[x+i][y] instanceof Explosionsfeld | spielfeld[x+i][y] instanceof Leerfeld) {spielfeld[x+i][y]= new Leerfeld();}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//oben
-			if (spielfeld[x][y-i] instanceof Explosionsfeld) {spielfeld[x][y-i]= new Leerfeld();}
+			if (spielfeld[x][y-i] instanceof Explosionsfeld | spielfeld[x][y-i] instanceof Leerfeld) {spielfeld[x][y-i]= new Leerfeld();}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//unten
-			if (spielfeld[x][y+i] instanceof Explosionsfeld) {spielfeld[x][y+i]= new Leerfeld();}
+			if (spielfeld[x][y+i] instanceof Explosionsfeld | spielfeld[x][y+i] instanceof Leerfeld) {spielfeld[x][y+i]= new Leerfeld();}
 			else {break;}
 		}
 	}
@@ -171,7 +171,12 @@ public class Game implements Runnable {
 		    Renderer.sync();
 		}
 	    //ggf. Game-Over Behandlung    
-	        
+        try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}    
 		Renderer.destroy();
     }
     
