@@ -1,3 +1,4 @@
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import java.io.*;
@@ -26,7 +27,7 @@ public class Game implements Runnable {
 		} 
 		
 		one = new Player("One",1,1);
-		spielfeld[13][11]=new Exitfeld();//Ausgang für Präsentation
+		spielfeld[13][11]=new Exitfeld();//Ausgang fï¿½r Prï¿½sentation
 		GameTime.init();
 	}
 	
@@ -68,11 +69,15 @@ public class Game implements Runnable {
 				Main.m.spielButtons[i].setVisible(true);
 			}
 			Main.m.setVisible(true);
-			Thread.currentThread().suspend();
-			System.out.println(" "); //Zum "Bremsen".
+			Keyboard.destroy(); //Ab hier neu. Keyboard wird zerstÃ¶rt...
+			try {
+				Keyboard.create(); // ...und hier wieder neu erstellt.
+			} catch (LWJGLException e){
+				e.printStackTrace();
+			}
+			Main.t1.suspend();
 		}
 			lock1.unlock();
-	 
 	}
 	
 	static class Bombe extends Thread{
