@@ -11,6 +11,7 @@ public class Menue extends Frame
 	private JLabel schriftzug;
 	private ImageIcon icon;
 	private JFrame frame;
+	public static boolean conti = true;
 	
 	protected JButton[] hauptButtons;
 	protected JButton[] spielButtons;
@@ -219,11 +220,14 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Hauptmenue"))
 			{
+				conti = false;
 				for(int i=0;i<spielButtons.length;i++)
 				{
 					spielButtons[i].setVisible(false);
-					hauptButtons[i].setVisible(true);
 				}
+				Main.m.setVisible(false);
+				Main.t1.resume();
+				System.out.println("Spiel wurde erfolgreich beendet.");
 			}
 			if(e.getActionCommand().equals("Zurueck"))
 			{

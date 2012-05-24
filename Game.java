@@ -156,8 +156,8 @@ public class Game implements Runnable {
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
     	one.loadSprite("player.png"); // kann erst nach initGL benutzt werden, alternativ initGL usw mit im konstruktor?
-    	
-        while (!Display.isCloseRequested() && one.isAlive()) {
+    	Menue.conti = true;
+        while (!Display.isCloseRequested() && one.isAlive() && Menue.conti == true) {
         	
         	Renderer.clearGL();
         	
@@ -182,8 +182,22 @@ public class Game implements Runnable {
 			
 			e.printStackTrace();
 		}    
+        for(int i=0;i<4;i++){
+			Main.m.hauptButtons[i].setVisible(true);
+			
+		}
+		Main.m.setVisible(true);
+		Keyboard.destroy(); //Ab hier neu. Keyboard wird zerstört...
+		try {
+			Keyboard.create(); // ...und hier wieder neu erstellt.
+		} catch (LWJGLException e){
+			e.printStackTrace();
+		}
 		Renderer.destroy();
     }
-    
+    public static void destroy()
+    {
+    	Renderer.destroy();
+    }
 }
 
