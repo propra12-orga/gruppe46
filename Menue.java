@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.*;
 import org.lwjgl.input.Keyboard;
 
@@ -11,6 +13,7 @@ public class Menue extends Frame
 	private JLabel schriftzug;
 	private ImageIcon icon;
 	private JFrame frame;
+	public static boolean conti = false;
 	
 	protected JButton[] hauptButtons;
 	protected JButton[] spielButtons;
@@ -174,7 +177,9 @@ public class Menue extends Frame
 				
 				Menue.this.setVisible(false);
 				
-				Main.main2(string);
+				Main.t1 = new Thread(new Game());
+				Main.t1.start();
+				//Main.main2(string);
 				
 				for(int i=0;i<hauptButtons.length;i++)
 				{
@@ -185,6 +190,7 @@ public class Menue extends Frame
 			if(e.getActionCommand().equals("Mehrspieler"))
 			{
 				//Mehrspielermenue.
+				System.out.println("KNEEECHT klappt noch nit :D");
 			}
 			if(e.getActionCommand().equals("Optionen"))
 			{
@@ -216,18 +222,44 @@ public class Menue extends Frame
 			if(e.getActionCommand().equals("Neustarten"))
 			{
 				//aktuelle Spiel beenden, neue beginnen
+				
+				/*conti = false;
+				try {
+					TimeUnit.SECONDS.sleep(2);
+				} catch (InterruptedException f) {
+					
+					f.printStackTrace();
+				}
+				Main.t1 = new Thread(new Game());
+				Main.t1.start();*/
 			}
 			if(e.getActionCommand().equals("Hauptmenue"))
 			{
+				conti = false;
 				for(int i=0;i<spielButtons.length;i++)
 				{
 					spielButtons[i].setVisible(false);
-					hauptButtons[i].setVisible(true);
 				}
+				Main.m.setVisible(false);
+				Main.t1.resume();
+				System.out.println("Spiel wurde erfolgreich beendet.");
 			}
 			if(e.getActionCommand().equals("Zurueck"))
 			{
 				optionButton.setVisible(false);
+				
+				if(conti == true){
+					for(int i=0;i<spielButtons.length;i++)
+					{
+						felder[i].setVisible(false);
+						spielButtons[i].setVisible(true);
+					}
+					for(int i=0;i<boxen.length;i++)
+					{
+						boxen[i].setVisible(false);
+					}
+				}
+				else{
 				for(int i=0;i<hauptButtons.length;i++)
 				{
 					felder[i].setVisible(false);
@@ -236,6 +268,7 @@ public class Menue extends Frame
 				for(int i=0;i<boxen.length;i++)
 				{
 					boxen[i].setVisible(false);
+				}
 				}
 			}
 		}

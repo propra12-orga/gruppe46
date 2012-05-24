@@ -17,7 +17,7 @@ public class Player{
 	}
 	
 	public boolean isAlive(){
-		return alive;
+		return alive; // ES LEEEEEEEBT!
 	}
 	
 	public int getx(){
@@ -29,14 +29,14 @@ public class Player{
 	}
 	
 	public void die(){
-		alive=false;
+		alive=false; // Sterben kann er auch :D so richtig gut
 	}
 	
 	public void move(int addx, int addy){
 		if((GameTime.getTime() - lastMove) > 300)
 		{
 			posx+=addx;
-			posy+=addy;											//taste f�rs bombe legen fehlt
+			posy+=addy;											//taste f�rs bombe legen fehlt NICHT
 			lastMove = GameTime.getTime();
 		}
 	}

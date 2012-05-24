@@ -9,9 +9,9 @@ public class Main
 	{
 		m = new Menue("Menue");
 	}
-	public static void main2(String[] args)
+	/*public static void main2(String[] args)
 	{
 		t1 = new Thread(new Game());
 		t1.start();
-	}
+	}*/
 }

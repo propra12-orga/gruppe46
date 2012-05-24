@@ -10,6 +10,7 @@ public class Game implements Runnable {
 
 	public static Feld[][] spielfeld;
 	public Player one;
+	public static boolean bombeVerwendbar = true;
 	static Lock lock1 = new ReentrantLock();
 	
 	public Game() {
@@ -59,8 +60,9 @@ public class Game implements Runnable {
 				one.move(0,-1);
 			}
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) && bombeVerwendbar == true) {
 			new Bombe(one.getx(),one.gety()).start();
+			bombeVerwendbar = false;
 			spielfeld[one.getx()][one.gety()]= new Bombenfeld();
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
@@ -107,6 +109,7 @@ public class Game implements Runnable {
 			if (spielfeld[x][y+i] instanceof Leerfeld | spielfeld[x][y+i] instanceof Explosionsfeld) {spielfeld[x][y+i]= new Explosionsfeld();}
 			else {break;}
 		}
+		bombeVerwendbar = true;
 	}
 		
 
@@ -156,9 +159,9 @@ public class Game implements Runnable {
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
     	one.loadSprite("player.png"); // kann erst nach initGL benutzt werden, alternativ initGL usw mit im konstruktor?
-    	
-        while (!Display.isCloseRequested() && one.isAlive()) {
-        	
+    	Menue.conti = true;
+        while (!Display.isCloseRequested() && one.isAlive() && Menue.conti == true) {
+        	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
         	
 
@@ -182,8 +185,22 @@ public class Game implements Runnable {
 			
 			e.printStackTrace();
 		}    
+        for(int i=0;i<4;i++){
+			Main.m.hauptButtons[i].setVisible(true);
+			
+		}
+		Main.m.setVisible(true);
+		Keyboard.destroy(); //Ab hier neu. Keyboard wird zerstört...
+		try {
+			Keyboard.create(); // ...und hier wieder neu erstellt.
+		} catch (LWJGLException e){
+			e.printStackTrace();
+		}
 		Renderer.destroy();
     }
-    
+    public static void destroy()
+    {
+    	Renderer.destroy();
+    }
 }
 
