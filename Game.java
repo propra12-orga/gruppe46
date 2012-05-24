@@ -161,7 +161,11 @@ public class Game implements Runnable {
     	one.loadSprite("player.png"); // kann erst nach initGL benutzt werden, alternativ initGL usw mit im konstruktor?
     	Menue.conti = true;
         while (!Display.isCloseRequested() && one.isAlive() && Menue.conti == true) {
+<<<<<<< HEAD
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
+=======
+        	
+>>>>>>> d5be4a20f6f2d641fca711effa874842a7ae5089
         	Renderer.clearGL();
         	
 

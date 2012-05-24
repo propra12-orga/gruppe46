@@ -13,7 +13,11 @@ public class Menue extends Frame
 	private JLabel schriftzug;
 	private ImageIcon icon;
 	private JFrame frame;
+<<<<<<< HEAD
 	public static boolean conti = false;
+=======
+	public static boolean conti = true;
+>>>>>>> d5be4a20f6f2d641fca711effa874842a7ae5089
 	
 	protected JButton[] hauptButtons;
 	protected JButton[] spielButtons;
