@@ -82,71 +82,7 @@ public class Game implements Runnable {
 			lock1.unlock();
 	}
 	
-	static class Bombe extends Thread{
-		private int x;
-		private int y;
-		
-		public Bombe(int a, int b){
-			x=a;
-			y=b;
-		}
-		
-	private void explosion(int x, int y){
-		spielfeld[x][y]= new Explosionsfeld();
-		for (int i=1;i<4;i++){		//Explosion nach links
-			if (spielfeld[x-i][y] instanceof Leerfeld | spielfeld[x-i][y] instanceof Explosionsfeld) {spielfeld[x-i][y]= new Explosionsfeld();}
-			else {break;}
-		}
-		for (int i=1;i<4;i++){		//Explosion nach rechts
-			if (spielfeld[x+i][y] instanceof Leerfeld | spielfeld[x+i][y] instanceof Explosionsfeld) {spielfeld[x+i][y]= new Explosionsfeld();}
-			else {break;}
-		}
-		for (int i=1;i<4;i++){		//Explosion nach oben
-			if (spielfeld[x][y-i] instanceof Leerfeld | spielfeld[x][y-i] instanceof Explosionsfeld) {spielfeld[x][y-i]= new Explosionsfeld();}
-			else {break;}
-		}
-		for (int i=1;i<4;i++){		//Explosion nach unten
-			if (spielfeld[x][y+i] instanceof Leerfeld | spielfeld[x][y+i] instanceof Explosionsfeld) {spielfeld[x][y+i]= new Explosionsfeld();}
-			else {break;}
-		}
-		bombeVerwendbar = true;
-	}
-		
 
-	private void clean(int x, int y){ //macht aus den Explosionsfeldern Leerfelder
-		spielfeld[x][y]=new Leerfeld();
-		for (int i=1;i<4;i++){		//links
-			if (spielfeld[x-i][y] instanceof Explosionsfeld | spielfeld[x-i][y] instanceof Leerfeld) {spielfeld[x-i][y]= new Leerfeld();}
-			else {break;}
-		}
-		for (int i=1;i<4;i++){		//rechts
-			if (spielfeld[x+i][y] instanceof Explosionsfeld | spielfeld[x+i][y] instanceof Leerfeld) {spielfeld[x+i][y]= new Leerfeld();}
-			else {break;}
-		}
-		for (int i=1;i<4;i++){		//oben
-			if (spielfeld[x][y-i] instanceof Explosionsfeld | spielfeld[x][y-i] instanceof Leerfeld) {spielfeld[x][y-i]= new Leerfeld();}
-			else {break;}
-		}
-		for (int i=1;i<4;i++){		//unten
-			if (spielfeld[x][y+i] instanceof Explosionsfeld | spielfeld[x][y+i] instanceof Leerfeld) {spielfeld[x][y+i]= new Leerfeld();}
-			else {break;}
-		}
-	}
-		public void run(){
-			try{
-			TimeUnit.SECONDS.sleep(3);
-			} catch(InterruptedException e){};
-			lock1.lock();
-			explosion(x,y);
-			lock1.unlock();
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e) {}
-			lock1.lock();
-			clean(x,y);
-			lock1.unlock();
-		}
-	}
 
 	
 	
