@@ -1,3 +1,4 @@
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
@@ -10,7 +11,7 @@ public class LWJGL_Font {
 	private float scale = 1.0f;
 	
 	public LWJGL_Font(final String filename) throws IOException {
-		texture = new LWJGL_Texture(Thread.currentThread().getContextClassLoader().getResourceAsStream(filename));
+		texture = new LWJGL_Texture(new FileInputStream(filename));
 		texture.init();
 	}
 	

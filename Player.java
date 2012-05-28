@@ -5,6 +5,10 @@ public class Player{
 	private int posx, posy;
 	private int Bombs;
 	
+	private int key_left, key_right, key_up, key_down, key_bomb;
+	
+	private boolean press_bomb;
+	
 	private LWJGL_Sprite Sprite;
 	
 	private long lastMove;
@@ -62,5 +66,50 @@ public class Player{
 	public int getBombs() {
 		return Bombs;
 	}
+	
+	public void setKeys(int l, int r, int u, int d, int b) {
+		key_left = l;
+		key_right = r;
+		key_down = d;
+		key_up = u;
+		key_bomb = b;
+	}
+	
+	public int getKeyUp() {
+		return key_up;
+	}
+
+	public int getKeyDown() {
+		return key_down;
+	}
+
+	public int getKeyLeft() {
+		return key_left;
+	}
+
+	public int getKeyRight() {
+		return key_right;
+	}
+
+	public int getKeyBomb() {
+		return key_bomb;
+	}
+
+	public boolean isPress_bomb() {
+		return press_bomb;
+	}
+
+	public void setPress_bomb(boolean press) {
+		press_bomb = press;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }
  
