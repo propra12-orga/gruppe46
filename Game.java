@@ -10,8 +10,10 @@ public class Game implements Runnable {
 
 	public static Feld[][] spielfeld;
 	public Player one;
-	public static boolean bombeVerwendbar = true;
+	public static int BombenZahl = 3;
+	public static int BombenGelegt = 0;
 	static Lock lock1 = new ReentrantLock();
+	private boolean Space = false;
 	
 	public Game() {
 		try {
@@ -38,33 +40,47 @@ public class Game implements Runnable {
 		
 				 
 		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-			if (spielfeld[one.getx()+1][one.gety()] instanceof Leerfeld | spielfeld[one.getx()+1][one.gety()] instanceof Exitfeld){
+			if (spielfeld[one.getx()+1][one.gety()] instanceof Leerfeld | 
+				spielfeld[one.getx()+1][one.gety()] instanceof Exitfeld |
+				spielfeld[one.getx()+1][one.gety()] instanceof Explosionsfeld){
 			
 				 one.move(1,0);
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			if (spielfeld[one.getx()-1][one.gety()] instanceof Leerfeld | spielfeld[one.getx()-1][one.gety()] instanceof Exitfeld){
+			if (spielfeld[one.getx()-1][one.gety()] instanceof Leerfeld | 
+				spielfeld[one.getx()-1][one.gety()] instanceof Exitfeld |
+				spielfeld[one.getx()-1][one.gety()] instanceof Explosionsfeld){
 			
 				one.move(-1,0);
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-			if (spielfeld[one.getx()][one.gety()+1] instanceof Leerfeld | spielfeld[one.getx()][one.gety()+1] instanceof Exitfeld){
+			if (spielfeld[one.getx()][one.gety()+1] instanceof Leerfeld | 
+				spielfeld[one.getx()][one.gety()+1] instanceof Exitfeld |
+				spielfeld[one.getx()][one.gety()+1] instanceof Explosionsfeld){
 			 
 				one.move(0,1);
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			if (spielfeld[one.getx()][one.gety()-1] instanceof Leerfeld | spielfeld[one.getx()][one.gety()-1] instanceof Exitfeld){
+			if (spielfeld[one.getx()][one.gety()-1] instanceof Leerfeld | 
+				spielfeld[one.getx()][one.gety()-1] instanceof Exitfeld |
+				spielfeld[one.getx()][one.gety()-1] instanceof Explosionsfeld){
 				one.move(0,-1);
 			}
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) && bombeVerwendbar == true) {
-			new Bombe(one.getx(),one.gety()).start();
-			bombeVerwendbar = false;
-			spielfeld[one.getx()][one.gety()]= new Bombenfeld();
+		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) ) {
+			if((BombenGelegt < BombenZahl) && (!Space)) {
+				new Bombe(one.getx(),one.gety()).start();
+				BombenGelegt++;
+				spielfeld[one.getx()][one.gety()]= new Bombenfeld();
+			}
+			Space = true;
+		} else {
+			Space = false;
 		}
+		
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			for(int i=0;i<4;i++){
 				Main.m.hauptButtons[i].setVisible(false);
@@ -94,8 +110,10 @@ public class Game implements Runnable {
     	Renderer.initGL();
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
-    	one.loadSprite("player.png"); // kann erst nach initGL benutzt werden, alternativ initGL usw mit im konstruktor?
+    	one.loadSprite("player.png");
+    	
     	Menue.conti = true;
+    	
         while (!Display.isCloseRequested() && one.isAlive() && Menue.conti == true) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();

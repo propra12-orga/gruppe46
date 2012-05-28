@@ -27,7 +27,7 @@ class Bombe extends Thread{
 			if (!(Game.spielfeld[x][y+i] instanceof Steinfeld)) {Game.spielfeld[x][y+i]= new Explosionsfeld();}
 			else {break;}
 		}
-		Game.bombeVerwendbar = true;
+		Game.BombenGelegt--;
 	}
 		
 
