@@ -20,33 +20,33 @@ class Bombe extends Thread{
 			Bombs.add(this);
 		}
 		
-	private void explosion(int x, int y){
+	private void explosion(){
 		exploding = true;
 		Game.spielfeld[x][y]= new Explosionsfeld(num);
 		for (int i=1;i<4;i++){		//Explosion nach links
-			if(Bombe.getBomb(x-i, y) != -1) Bombs.get(Bombe.getBomb(x-i, y)).explosion(x-i, y);
+			if(Bombe.getBomb(x-i, y) != -1) Bombs.get(Bombe.getBomb(x-i, y)).explosion();
 			if (!(Game.spielfeld[x-i][y] instanceof Steinfeld)) {Game.spielfeld[x-i][y]= new Explosionsfeld(num);}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//Explosion nach rechts
-			if(Bombe.getBomb(x+i, y) != -1) Bombs.get(Bombe.getBomb(x+i, y)).explosion(x+i, y);
+			if(Bombe.getBomb(x+i, y) != -1) Bombs.get(Bombe.getBomb(x+i, y)).explosion();
 			if (!(Game.spielfeld[x+i][y] instanceof Steinfeld)) {Game.spielfeld[x+i][y]= new Explosionsfeld(num);}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//Explosion nach oben
-			if(Bombe.getBomb(x, y-i) != -1) Bombs.get(Bombe.getBomb(x, y-i)).explosion(x, y-i);
+			if(Bombe.getBomb(x, y-i) != -1) Bombs.get(Bombe.getBomb(x, y-i)).explosion();
 			if (!(Game.spielfeld[x][y-i] instanceof Steinfeld)) {Game.spielfeld[x][y-i]= new Explosionsfeld(num);}
 			else {break;}
 		}
 		for (int i=1;i<4;i++){		//Explosion nach unten
-			if(Bombe.getBomb(x, y+i) != -1) Bombs.get(Bombe.getBomb(x, y+i)).explosion(x, y+i);
+			if(Bombe.getBomb(x, y+i) != -1) Bombs.get(Bombe.getBomb(x, y+i)).explosion();
 			if (!(Game.spielfeld[x][y+i] instanceof Steinfeld)) {Game.spielfeld[x][y+i]= new Explosionsfeld(num);}
 			else {break;}
 		}
 	}
 		
 
-	private void clean(int x, int y){ //macht aus den Explosionsfeldern Leerfelder
+	private void clean(){ //macht aus den Explosionsfeldern Leerfelder
 		if(Game.spielfeld[x][y] instanceof Explosionsfeld) {
 			if(((Explosionsfeld)(Game.spielfeld[x][y])).getBomb() == num) Game.spielfeld[x][y] = new Leerfeld();
 		}
@@ -93,13 +93,13 @@ class Bombe extends Thread{
 			TimeUnit.SECONDS.sleep(3);
 			} catch(InterruptedException e){};
 			Game.lock1.lock();
-			explosion(x,y);
+			explosion();
 			Game.lock1.unlock();
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {}
 			Game.lock1.lock();
-			clean(x,y);
+			clean();
 			Game.lock1.unlock();
 		}
 		
