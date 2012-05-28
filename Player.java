@@ -3,6 +3,7 @@ public class Player{
 	private String name;
 	private boolean alive;
 	private int posx, posy;
+	private int Bombs;
 	
 	private LWJGL_Sprite Sprite;
 	
@@ -14,6 +15,7 @@ public class Player{
 		this.posy=y;
 		this.alive=true;
 		lastMove = 0;
+		Bombs = 1;
 	}
 	
 	public boolean isAlive(){
@@ -50,15 +52,15 @@ public class Player{
 	}
 	
 	public void draw(){
-		/*
-		glBegin(GL_QUADS);
-		glVertex2i(10*(posx-1),10*(posy-1));
-		glVertex2i(10*posx, 10*(posy-1));
-		glVertex2i(10*posx,10*posy);
-		glVertex2i(10*(posx-1),10*posy);
-		glEnd(); // Zum Test: Bomberman=wei�er Kasten*/
 		Sprite.draw(posx * 128 * 0.33f, posy * 128 * 0.33f);
 	}
 	
+	public void setBombs(int n) {
+		Bombs = n;
+	}
+	
+	public int getBombs() {
+		return Bombs;
+	}
 }
  

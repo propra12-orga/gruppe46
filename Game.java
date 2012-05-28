@@ -10,8 +10,6 @@ public class Game implements Runnable {
 
 	public static Feld[][] spielfeld;
 	public Player one;
-	public static int BombenZahl = 3;
-	public static int BombenGelegt = 0;
 	static Lock lock1 = new ReentrantLock();
 	private boolean Space = false;
 	
@@ -71,9 +69,8 @@ public class Game implements Runnable {
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) ) {
-			if((BombenGelegt < BombenZahl) && (!Space)) {
+			if((Bombe.getBombs() < one.getBombs()) && (!Space)) {
 				new Bombe(one.getx(),one.gety()).start();
-				BombenGelegt++;
 				spielfeld[one.getx()][one.gety()]= new Bombenfeld();
 			}
 			Space = true;
@@ -111,6 +108,7 @@ public class Game implements Runnable {
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
     	one.loadSprite("player.png");
+    	one.setBombs(4);
     	
     	Menue.conti = true;
     	
