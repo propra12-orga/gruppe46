@@ -1,2 +1,17 @@
-Hallo, Hallo, Test, Dies ist die Readme-Datei. Der Anfang von allem und der Untergang von jedem :D Have Fun NOT!:D
--- gez Philip
+README
+
+Um diese Programm zum Laufen zu bringen, einfach die Main-Klasse starten. Wenn das Programm nicht direkt läuft,
+die Bilder aus dem src-Ordner rauskopieren und einen Ordner davor wieder einfügen.
+
+Steuerung:
+  Spieler 1:
+  Bewegen - Pfeiltasten
+  Bomben  - Leertaste
+
+  Spieler 2:
+  Bewegen - WASD
+  Bombem  - F
+
+Viel Spaß beim Spielen von Bomberman.
+
+¢by Martin von Arkel, Simon Thyßen, Marian Martini, Raphael Podoba, Philip Höfges
