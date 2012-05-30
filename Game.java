@@ -16,7 +16,7 @@ public class Game implements Runnable {
 	static Lock lock1 = new ReentrantLock();
 	private LWJGL_Font lucida;
 	
-	public Game() {
+	public Game(int spielerzahl) {
 		try {
 			ObjectInputStream o = new ObjectInputStream(new FileInputStream("default.map")); //hier muss der Pfad der default.map angegeben werden sonst Error
 			spielfeld = (Feld[][]) o.readObject();
@@ -29,9 +29,13 @@ public class Game implements Runnable {
 			//Fehlerbehandlung "Level nicht gefunden"
 			e.printStackTrace();
 		} 
-		
-		players.add(new Player("One",1,1));
-		players.add(new Player("Two",3,3));
+		if(spielerzahl==1) {
+			players.add(new Player("One",1,1));
+		}
+		if(spielerzahl==2) {
+			players.add(new Player("One",1,1));
+			players.add(new Player("Two",3,3));
+		}		
 		
 		spielfeld[13][11]=new Exitfeld();//Ausgang f�r Pr�sentation
 		GameTime.init();
@@ -92,7 +96,9 @@ public class Game implements Runnable {
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			for(int i = 0; i < 4; i++){
 				Main.m.hauptButtons[i].setVisible(false);
-				Main.m.spielButtons[i].setVisible(true);
+				if(i!=2){
+					Main.m.spielButtons[i].setVisible(true);
+				}
 			}
 			Main.m.setVisible(true);
 			Keyboard.destroy(); //Ab hier neu. Keyboard wird zerstört...
@@ -105,12 +111,6 @@ public class Game implements Runnable {
 		}
 			lock1.unlock();
 	}
-	
-
-
-	
-	
-	
 	
     public void run() {
     	
@@ -125,7 +125,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 			System.exit(0);
 		}
-    	
+    	System.out.println(players.size());
 		for(int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 			
@@ -161,7 +161,12 @@ public class Game implements Runnable {
 			}
 			
 			lucida.setScale(0.50f);
-			lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + ", Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.size() + ")");
+			if(players.size()==1) {
+				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead"));
+			}
+			else {
+				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + ", Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.size() + ")");
+			}
 			
 		    GameTime.update();
 		    Renderer.sync();
