@@ -18,6 +18,7 @@ public class Menue extends Frame
 	protected JButton[] hauptButtons;
 	protected JButton[] spielButtons;
 	private JButton optionButton;
+	private JButton[] multiButtons;
 	private String[] headlines;
 	private JTextField[] felder;
 	private JCheckBox[] boxen;
@@ -36,7 +37,7 @@ public class Menue extends Frame
 		this.addWindowListener(l);
 		
 		//String-Array für Titel der Komponenten.
-		headlines = new String[13];
+		headlines = new String[15];
 		headlines[0] = "Einzelspieler";
 		headlines[1] = "Mehrspieler";
 		headlines[2] = "Optionen";
@@ -50,6 +51,8 @@ public class Menue extends Frame
 		headlines[10] = "Anzahl der Leben";
 		headlines[11] = "Anzahl an Bomben";
 		headlines[12] = "Reichweite d. Bomben";
+		headlines[13] = "Am PC";
+		headlines[14] = "Netzwerk";
 		
 		//Buttons
 		hauptButtons = new JButton[4];
@@ -82,6 +85,18 @@ public class Menue extends Frame
 		optionButton.addActionListener(a);
 		optionButton.setVisible(false);
 		this.add(optionButton);
+		
+		multiButtons = new JButton[2];
+		for(int i=0;i<multiButtons.length;i++)
+		{
+			JButton b = new JButton(headlines[i+13]);
+			b.setBackground(Color.white);
+			b.setBounds(245, 160+(i*60), 150, 50);
+			b.setVisible(false);
+			b.addActionListener(a);
+			this.add(b);
+			multiButtons[i] = b;
+		}
 		
 		//TextField
 		felder = new JTextField[5];
@@ -197,19 +212,9 @@ public class Menue extends Frame
 				{
 					hauptButtons[i].setVisible(false);
 				}
-				
-				Menue.this.setVisible(false);
-				
-				Main.t1 = new Thread(new Game(2));
-				Main.t1.start();
-				
-				for(int i=0;i<hauptButtons.length;i++)
+				for(int j=0;j<multiButtons.length;j++)
 				{
-					hauptButtons[i].setVisible(true);
-					if(i!=2)
-					{
-						spielButtons[i].setVisible(false);
-					}
+					multiButtons[j].setVisible(true);
 				}
 			}
 			if(e.getActionCommand().equals("Optionen"))
@@ -285,16 +290,33 @@ public class Menue extends Frame
 						boxen[i].setVisible(false);
 					}
 				}
-				else{
+				else
+				{
+					for(int i=0;i<hauptButtons.length;i++)
+					{
+						felder[i].setVisible(false);
+						hauptButtons[i].setVisible(true);
+					}
+					for(int i=0;i<boxen.length;i++)
+					{
+						boxen[i].setVisible(false);
+					}
+				}
+			}
+			if(e.getActionCommand().equals("Am PC"))
+			{				
+				Menue.this.setVisible(false);
+				
+				Main.t1 = new Thread(new Game(2));
+				Main.t1.start();
+				
 				for(int i=0;i<hauptButtons.length;i++)
 				{
-					felder[i].setVisible(false);
 					hauptButtons[i].setVisible(true);
-				}
-				for(int i=0;i<boxen.length;i++)
-				{
-					boxen[i].setVisible(false);
-				}
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
 				}
 			}
 		}
