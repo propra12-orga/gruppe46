@@ -7,3 +7,10 @@ Also bei mir geht der ganze Menuekram nicht wie er soll!
 Liegt vllt an Linux, aber unter Windows geht das bei Tod komplett aus, 
 und bei Esc bleibt das Menue dauerthaft im Vordergrund.
 -Simon
+
+---------
+Bei mir geht Spielmenue nicht. Ruft aus dem Spiel heraus nicht das Menue auf und wirft auch keine Exception. Außerdem
+wäre ein Übergang von Einzelspieler auf Mehrspieler dann gut, wenn man quasi beides machen kann. Also im Haupt-
+menue über die Buttons dies steuern kann. Im Moment ist ja das Spiel nru auf Einzelspieler-Button gelegt, ruft
+aber Ḿehrspieler auf.
+-Philip
