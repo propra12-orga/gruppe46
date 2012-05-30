@@ -70,8 +70,11 @@ public class Menue extends Frame
 			b.setBounds(245, 160+(i*60), 150, 50);
 			b.addActionListener(a);
 			b.setVisible(false);
-			this.add(b);
-			spielButtons[i] = b;
+			if(i!=2)
+			{
+				this.add(b);
+				spielButtons[i] = b;
+			}
 		}
 		optionButton = new JButton("Zurueck");
 		optionButton.setBackground(Color.white);
@@ -167,7 +170,6 @@ public class Menue extends Frame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			String[] string = new String[1];
 			if(e.getActionCommand().equals("Einzelspieler"))
 			{
 				for(int i=0;i<hauptButtons.length;i++)
@@ -177,26 +179,47 @@ public class Menue extends Frame
 				
 				Menue.this.setVisible(false);
 				
-				Main.t1 = new Thread(new Game());
+				Main.t1 = new Thread(new Game(1));
 				Main.t1.start();
-				//Main.main2(string);
 				
 				for(int i=0;i<hauptButtons.length;i++)
 				{
 					hauptButtons[i].setVisible(true);
-					spielButtons[i].setVisible(false);
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
 				}
 			}
 			if(e.getActionCommand().equals("Mehrspieler"))
 			{
-				//Mehrspielermenue.
-				System.out.println("KNEEECHT klappt noch nit :D");
+				for(int i=0;i<hauptButtons.length;i++)
+				{
+					hauptButtons[i].setVisible(false);
+				}
+				
+				Menue.this.setVisible(false);
+				
+				Main.t1 = new Thread(new Game(2));
+				Main.t1.start();
+				
+				for(int i=0;i<hauptButtons.length;i++)
+				{
+					hauptButtons[i].setVisible(true);
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
+				}
 			}
 			if(e.getActionCommand().equals("Optionen"))
 			{
 				for(int i=0;i<spielButtons.length;i++)
 				{
-					spielButtons[i].setVisible(false);
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
 					hauptButtons[i].setVisible(false);
 					optionButton.setVisible(true);
 					felder[i].setVisible(true);
@@ -214,7 +237,10 @@ public class Menue extends Frame
 			{
 				for(int i=0;i<spielButtons.length;i++)
 				{
+					if(i!=2)
+					{
 					spielButtons[i].setVisible(false);
+					}
 				}
 				Main.m.setVisible(false);
 				Main.t1.resume();
