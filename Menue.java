@@ -149,9 +149,10 @@ public class Menue extends Frame
 			JCheckBox c = new JCheckBox(""+j);
 			c.setBounds(300+(l*60), 235+(k*60), 50, 30);
 			c.setVisible(false);
-			this.add(c);
+			boxen[i] = c; 
+			this.add(c); 
 			j = j+2;
-			l++;
+			l++; 
 			if(i==4 || i==7)
 			{
 				j = 1;
@@ -162,7 +163,6 @@ public class Menue extends Frame
 			{
 				c.setSelected(true);
 			}
-			boxen[i] = c;
 		}
 		
 		//Image/Banner
@@ -170,7 +170,7 @@ public class Menue extends Frame
 		schriftzug.setBounds(0, 0, 500, 500);
 		this.add(schriftzug);
 		//Hier Pfad eurem PC anpassen.
-		icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("Bomberman_Vector_by_Haite_S_Regna.png"));
+   		icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("Bomberman_Vector_by_Haite_S_Regna.png"));
 		frame = new JFrame();
 		frame.getContentPane().add(schriftzug);
 		frame.setBounds(0, 0, 612, 792);
@@ -179,6 +179,34 @@ public class Menue extends Frame
 		this.add(schriftzug);
 		
 		this.setVisible(true);
+	}
+	
+	public int getBombs()
+	{
+		int j = 0;
+		for(int i=5; i<8; i++)
+		{
+			if(boxen[i].isSelected())
+			{
+				j = Integer.parseInt(boxen[i].getText());
+				break;
+			}
+		}
+		return j;
+	}
+	
+	public int getLives()
+	{
+		int j = 0;
+		for(int i=8; i<11; i++) 
+		{ 
+			if(boxen[i].isSelected())
+			{
+				j = Integer.parseInt(boxen[i].getText());
+				break;
+			}
+		}
+		return j;
 	}
 	
 	private class ActionLauscher implements ActionListener
