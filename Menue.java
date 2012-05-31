@@ -269,7 +269,10 @@ public class Menue extends Frame
 				conti = false;
 				for(int i=0;i<spielButtons.length;i++)
 				{
-					spielButtons[i].setVisible(false);
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
 				}
 				Main.m.setVisible(false);
 				Main.t1.resume();
@@ -318,6 +321,14 @@ public class Menue extends Frame
 						spielButtons[i].setVisible(false);
 					}
 				}
+				for(int i=0;i<multiButtons.length;i++)
+				{
+					multiButtons[i].setVisible(false);
+				}
+			}
+			if(e.getActionCommand().equals("Netzwerk"))
+			{
+				//Netzwerkfähigkeit.
 			}
 		}
 	}
