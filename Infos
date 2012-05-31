@@ -3,6 +3,12 @@ Für den zweiten Meilenstein fehlt noch:
 - Einlesen über exterte Datei(en)
 - Ausgang hinter Mauern
 - Java Doc
+---------
+Martin:
+Ausgangsfeld mit zufaelligen Variablen bestuecken. Kollisionabfrage bzgl.:
+  - Spielerstartfelder
+  - Mauern
+  - Unter einem zerstörbarem Block
 
 _______
 Also bei mir geht der ganze Menuekram nicht wie er soll! 
