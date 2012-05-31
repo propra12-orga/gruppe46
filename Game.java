@@ -101,9 +101,9 @@ public class Game implements Runnable {
 				}
 			}
 			Main.m.setVisible(true);
-			Keyboard.destroy(); //Ab hier neu. Keyboard wird zerstört...
+			Keyboard.destroy();
 			try {
-				Keyboard.create(); // ...und hier wieder neu erstellt.
+				Keyboard.create();
 			} catch (LWJGLException e){
 				e.printStackTrace();
 			}
@@ -125,12 +125,11 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 			System.exit(0);
 		}
-    	System.out.println(players.size());
 		for(int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 			
 			p.loadSprite("player.png");
-    		p.setBombs(4);
+    		p.setBombs(Main.m.getBombs());
     		
     		if(i == 0) {
     			p.setKeys(Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN, Keyboard.KEY_SPACE);
