@@ -4,6 +4,7 @@ public class Player{
 	private boolean alive;
 	private int posx, posy;
 	private int Bombs;
+	protected int lives;
 	
 	private int key_left, key_right, key_up, key_down, key_bomb;
 	
@@ -19,6 +20,7 @@ public class Player{
 		this.posy=y;
 		this.alive=true;
 		lastMove = 0;
+		lives = Main.m.getLives();
 		Bombs = 1;
 	}
 	
@@ -29,20 +31,23 @@ public class Player{
 	public int getx(){
 		return posx;
 	}
+	public int getLives(){
+		return lives;
+	}
 	
 	public int gety(){
 		return posy;
 	}
 	
 	public void die(){
-		alive=false; // Sterben kann er auch :D so richtig gut
+		alive=false;
 	}
 	
 	public void move(int addx, int addy){
 		if((GameTime.getTime() - lastMove) > 300)
 		{
 			posx+=addx;
-			posy+=addy;											//taste f�rs bombe legen fehlt NICHT
+			posy+=addy;
 			lastMove = GameTime.getTime();
 		}
 	}
