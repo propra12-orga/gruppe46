@@ -7,7 +7,7 @@ public class Leveleditor {
 		
 		for (int i=0;i<13;i++){
 			for (int j=0;j<15;j++){
-				System.out.println("Position X:"+ (j+1) +" Y:"+ (i+1) + ". Welche Art von Feld soll an dieser Position sein? ('S'= nicht zerstörbarer Stein, 'L'= leeres Feld)");
+				System.out.println("Position X:"+ (j+1) +" Y:"+ (i+1) + ". Welche Art von Feld soll an dieser Position sein? ('S'= nicht zerstoerbarer Stein, 'L'= leeres Feld)");
 				BufferedReader eing = new BufferedReader(new InputStreamReader(System.in));
 				String zeile = eing.readLine();
 				char auswahl = zeile.charAt(0);
@@ -30,7 +30,7 @@ public class Leveleditor {
 	public static void main(String[] args) throws IOException{
 	BufferedReader eingabe = new BufferedReader(new InputStreamReader(System.in));
 	
-	System.out.println("Wie soll das neue Level heißen?");
+	System.out.println("Wie soll das neue Level heissen?");
 	String name= eingabe.readLine();
 	
 	Feld[][] spielfeld = new Feld[15][13];

@@ -1,5 +1,5 @@
 
-//Steinfelder sind nicht durch Bomben zerstörbar
+//Steinfelder sind nicht durch Bomben zerstoerbar
 public class Steinfeld extends Feld{
 	
 	

@@ -1,5 +1,5 @@
-//Oberklasse von der sämtliche Felder des Spielfeldes
-//abgeleitet werden können
+//Oberklasse von der saemtliche Felder des Spielfeldes
+//abgeleitet werden koennen
 
 import java.io.Serializable; 
 //Serializable zum Speichern des Objektes
