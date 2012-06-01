@@ -3,9 +3,18 @@ Für den zweiten Meilenstein fehlt noch:
 - Einlesen über exterte Datei(en)
 - Ausgang hinter Mauern
 - Java Doc
-
-_______
-Also bei mir geht der ganze Menuekram nicht wie er soll! 
-Liegt vllt an Linux, aber unter Windows geht das bei Tod komplett aus, 
-und bei Esc bleibt das Menue dauerthaft im Vordergrund.
--Simon
+---------
+Martin:
+Ausgangsfeld mit zufaelligen Variablen bestuecken. Kollisionabfrage bzgl.:
+  - Spielerstartfelder
+  - Mauern
+  - Unter einem zerstörbarem Block
+---------
+Marian:
+  - Netzwerk
+---------
+Philip:
+  - Optionen anbinden
+---------
+Raphael:
+  - Kettenreaktion
