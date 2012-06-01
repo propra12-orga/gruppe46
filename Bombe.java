@@ -10,6 +10,7 @@ class Bombe extends Thread{
 		private int y;
 		private int num;
 		private boolean exploding;
+		protected int range;
 		
 		public Bombe(int a, int b){
 			x=a;
@@ -18,27 +19,28 @@ class Bombe extends Thread{
 			num = Bombs.size();
 			//Bombs++;
 			Bombs.add(this);
+			range = 0;
 		}
 		
 	private void explosion(){
 		exploding = true;
 		Game.spielfeld[x][y]= new Explosionsfeld(num);
-		for (int i=1;i<4;i++){		//Explosion nach links
+		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach links
 			if(Bombe.getBomb(x-i, y) != -1) Bombs.get(Bombe.getBomb(x-i, y)).explosion();
 			if (!(Game.spielfeld[x-i][y] instanceof Steinfeld)) {Game.spielfeld[x-i][y]= new Explosionsfeld(num);}
 			else {break;}
 		}
-		for (int i=1;i<4;i++){		//Explosion nach rechts
+		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach rechts
 			if(Bombe.getBomb(x+i, y) != -1) Bombs.get(Bombe.getBomb(x+i, y)).explosion();
 			if (!(Game.spielfeld[x+i][y] instanceof Steinfeld)) {Game.spielfeld[x+i][y]= new Explosionsfeld(num);}
 			else {break;}
 		}
-		for (int i=1;i<4;i++){		//Explosion nach oben
+		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach oben
 			if(Bombe.getBomb(x, y-i) != -1) Bombs.get(Bombe.getBomb(x, y-i)).explosion();
 			if (!(Game.spielfeld[x][y-i] instanceof Steinfeld)) {Game.spielfeld[x][y-i]= new Explosionsfeld(num);}
 			else {break;}
 		}
-		for (int i=1;i<4;i++){		//Explosion nach unten
+		for (int i=1;i<(Main.m.getRange())+1;i++){		//Explosion nach unten
 			if(Bombe.getBomb(x, y+i) != -1) Bombs.get(Bombe.getBomb(x, y+i)).explosion();
 			if (!(Game.spielfeld[x][y+i] instanceof Steinfeld)) {Game.spielfeld[x][y+i]= new Explosionsfeld(num);}
 			else {break;}
@@ -51,7 +53,7 @@ class Bombe extends Thread{
 			if(((Explosionsfeld)(Game.spielfeld[x][y])).getBomb() == num) Game.spielfeld[x][y] = new Leerfeld();
 		}
 		
-		for (int i=1;i<4;i++){ //links
+		for (int i=1;i<(Main.m.getRange()+1);i++){ //links
 			if (!(Game.spielfeld[x-i][y] instanceof Explosionsfeld) && !(Game.spielfeld[x-i][y] instanceof Leerfeld)) {
 				break;
 			}
@@ -60,7 +62,7 @@ class Bombe extends Thread{
 			}
 		}
 		
-		for (int i=1;i<4;i++){ //rechts
+		for (int i=1;i<(Main.m.getRange()+1);i++){ //rechts
 			if (!(Game.spielfeld[x+i][y] instanceof Explosionsfeld) && !(Game.spielfeld[x+i][y] instanceof Leerfeld)) {
 				break;
 			}
@@ -69,7 +71,7 @@ class Bombe extends Thread{
 			}
 		}
 		
-		for (int i=1;i<4;i++){ //oben
+		for (int i=1;i<(Main.m.getRange()+1);i++){ //oben
 			if (!(Game.spielfeld[x][y-i] instanceof Explosionsfeld) && !(Game.spielfeld[x][y-i] instanceof Leerfeld)) {
 				break;
 			}
@@ -78,7 +80,7 @@ class Bombe extends Thread{
 			}
 		}
 		
-		for (int i=1;i<4;i++){ //unten
+		for (int i=1;i<(Main.m.getRange()+1);i++){ //unten
 			if (!(Game.spielfeld[x][y+i] instanceof Explosionsfeld) && !(Game.spielfeld[x][y+i] instanceof Leerfeld)) {
 				break;
 			}
