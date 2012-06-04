@@ -37,7 +37,7 @@ public class Game implements Runnable {
 			players.add(new Player("Two",3,3));
 		}		
 		
-		spielfeld[13][11]=new Exitfeld();//Ausgang f�r Pr�sentation
+		spielfeld[12][11]=new Exitfeld();//Ausgang fuer Praesentation
 		GameTime.init();
 	}
 	
@@ -47,7 +47,19 @@ public class Game implements Runnable {
 		for(int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 				
-			if (spielfeld[p.getx()][p.gety()] instanceof Explosionsfeld | spielfeld[p.getx()][p.gety()] instanceof Exitfeld) {p.die();};
+			if (spielfeld[p.getx()][p.gety()] instanceof Explosionsfeld) {
+				p.lives = p.lives-1;
+				try {
+						Main.t1.sleep(1000);
+					} catch (InterruptedException e) {
+					e.printStackTrace();
+					}
+				}
+			System.out.println(p.lives); //Ueberpruefung der Leben
+			if(spielfeld[p.getx()][p.gety()] instanceof Exitfeld){
+				Main.m.gameover.setText("Spieler "+(i+1)+" hat gewonnen!");
+				p.die();
+				}
 			
 			if(!p.isAlive()) { continue; }
 					 
@@ -99,6 +111,7 @@ public class Game implements Runnable {
 				if(i!=2){
 					Main.m.spielButtons[i].setVisible(true);
 				}
+				Main.m.gameover.setVisible(true);
 			}
 			Main.m.setVisible(true);
 			Keyboard.destroy();
@@ -179,7 +192,7 @@ public class Game implements Runnable {
 		}    
         for(int i = 0; i < 4; i++){
 			Main.m.hauptButtons[i].setVisible(true);
-			
+			Main.m.gameover.setVisible(true);
 		}
 		Main.m.setVisible(true);
 		Keyboard.destroy(); //Ab hier neu. Keyboard wird zerstört...
@@ -202,7 +215,8 @@ public class Game implements Runnable {
 		
 		for(int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
-			if(p.isAlive()) return true;
+			if(p.isAlive() && p.getLives()!=0) {return true;}
+			else{Main.m.gameover.setText("Spieler "+(i+1)+" ist tot!");}
 		}
     	return false;
     }
