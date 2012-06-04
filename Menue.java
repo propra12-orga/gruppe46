@@ -23,6 +23,11 @@ public class Menue extends Frame
 	private JTextField[] felder;
 	private JCheckBox[] boxen;
 	
+	protected JTextField gameover;
+	/**
+	 * Konstruktor der Klasse Menue
+	 * @param titel: Uueberschrift des Menues.
+	 */
 	public Menue(String titel)
 	{
 		super(titel);
@@ -111,12 +116,17 @@ public class Menue extends Frame
 			felder[i] = t;
 		}
 		felder[4]= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Podoba, Martin von Arkel, Philip Höfges");
-		felder[4].setBounds(10, 742, 500, 50);
+		felder[4].setBounds(55, 742, 500, 50);
 		felder[4].setForeground(Color.white);
 		felder[4].setEditable(false);
 		felder[4].setFont(new Font("Arial",Font.PLAIN , 10));
 		felder[4].setBackground(this.getBackground());
 		this.add(felder[4]);
+		
+		gameover = new JTextField();
+		gameover.setBounds(55, 420, 500, 50);
+		gameover.setEditable(false);
+		this.add(gameover);
 		
 		//CheckBoxen
 		boxen = new JCheckBox[11];
@@ -180,7 +190,10 @@ public class Menue extends Frame
 		
 		this.setVisible(true);
 	}
-	
+	/**
+	 * Bestimmt die Anzahl der zur Verfuegung stehenden Bomben an.
+	 * @return: Anzahl der zur Verfuegung stehenden Bomben.
+	 */
 	public int getBombs()
 	{
 		int j = 0;
@@ -194,11 +207,14 @@ public class Menue extends Frame
 		}
 		return j;
 	}
-	
+	/**
+	 * gibt die Anzahl an verfuegbaren Leben an.
+	 * @return: Anzahl der verguebaren Leben.
+	 */
 	public int getLives()
 	{
 		int j = 0;
-		for(int i=8; i<11; i++) 
+		for(int i=2; i<5; i++) 
 		{ 
 			if(boxen[i].isSelected())
 			{
@@ -208,7 +224,28 @@ public class Menue extends Frame
 		}
 		return j;
 	}
-	
+	/**
+	 * Reichweite der Bomben.
+	 * @return: Die im Optionsmenue bestimmte Reichweite.
+	 */
+	public int getRange()
+	{
+		int j=0;
+		for(int i=8; i<11; i++)
+		{
+			if(boxen[i].isSelected())
+			{
+				j = Integer.parseInt(boxen[i].getText());
+				break;
+			}
+		}
+		return j;
+	}
+	/**
+	 * ActionListener fuer Menue
+	 * @author philip
+	 *
+	 */
 	private class ActionLauscher implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -219,6 +256,7 @@ public class Menue extends Frame
 				{
 					hauptButtons[i].setVisible(false);
 				}
+				gameover.setVisible(false);
 				
 				Menue.this.setVisible(false);
 				
@@ -232,6 +270,7 @@ public class Menue extends Frame
 					{
 						spielButtons[i].setVisible(false);
 					}
+					gameover.setVisible(true);
 				}
 			}
 			if(e.getActionCommand().equals("Mehrspieler"))
@@ -240,6 +279,7 @@ public class Menue extends Frame
 				{
 					hauptButtons[i].setVisible(false);
 				}
+				gameover.setVisible(false);
 				for(int j=0;j<multiButtons.length;j++)
 				{
 					multiButtons[j].setVisible(true);
@@ -255,6 +295,7 @@ public class Menue extends Frame
 					}
 					hauptButtons[i].setVisible(false);
 					optionButton.setVisible(true);
+					gameover.setVisible(false);
 					felder[i].setVisible(true);
 				}
 				for(int i=0;i<boxen.length;i++)
@@ -314,7 +355,10 @@ public class Menue extends Frame
 					for(int i=0;i<spielButtons.length;i++)
 					{
 						felder[i].setVisible(false);
-						spielButtons[i].setVisible(true);
+						if(i!=2)
+						{
+							spielButtons[i].setVisible(true);
+						}
 					}
 					for(int i=0;i<boxen.length;i++)
 					{
