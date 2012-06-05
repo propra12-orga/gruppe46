@@ -1,13 +1,11 @@
 Für den zweiten Meilenstein fehlt noch:
 
-- Einlesen über exterte Datei(en)
+- Einlesen über exterte Datei(en), XML, what ever that is
 - Ausgang hinter Mauern
 - Java Doc
 ---------
 Martin:
-Ausgangsfeld - Kollisionabfrage bzgl.:
-  - Spielerstartfelder
-  - Ausgangsfeld; zur Zeit verschwindet auch Ausgang, wenn Bombe in Reichweite
+  - XML-Einlesen und Mauern, ggf. Power-Ups
 ---------
 Marian:
   - Netzwerk
