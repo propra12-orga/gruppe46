@@ -35,9 +35,17 @@ public class Game implements Runnable {
 		if(spielerzahl==2) {
 			players.add(new Player("One",1,1));
 			players.add(new Player("Two",3,3));
-		}		
-		
-		spielfeld[12][11]=new Exitfeld();//Ausgang fuer Praesentation
+		}	
+		//Ausgangsfeld mit zufaelligen Variablen
+		int x = 1;
+		int y = 1;
+		do {
+			x = (int) ((Math.random()*100)%13)+1;
+			y = (int) ((Math.random()*100)%11)+1;
+		}
+		while(spielfeld[x][y] instanceof Mauerfeld);
+//		System.out.println(x+", "+y);
+		spielfeld[x][y]=new Exitfeld();
 		GameTime.init();
 	}
 	
@@ -55,7 +63,7 @@ public class Game implements Runnable {
 					e.printStackTrace();
 					}
 				}
-			System.out.println(p.lives); //Ueberpruefung der Leben
+//			System.out.println(p.lives); //Ueberpruefung der Leben
 			if(spielfeld[p.getx()][p.gety()] instanceof Exitfeld){
 				Main.m.gameover.setText("Spieler "+(i+1)+" hat gewonnen!");
 				p.die();
