@@ -20,3 +20,4 @@ Raphael:
 ---------
 Simon:
   - Ueberpruefung fuer Spielerfeld, aehnlich Mauerfeld
+  - Gameoverbehandlung, vllt. Ausgabe ueber restliche Leben
