@@ -34,7 +34,7 @@ public class Game implements Runnable {
 		}
 		if(spielerzahl==2) {
 			players.add(new Player("One",1,1));
-			players.add(new Player("Two",3,3));
+			players.add(new Player("Two",13,11));
 		}	
 		//Ausgangsfeld mit zufaelligen Variablen
 		int x = 1;
@@ -62,6 +62,8 @@ public class Game implements Runnable {
 					} catch (InterruptedException e) {
 					e.printStackTrace();
 					}
+//				lucida.setScale(0.33f);
+//				lucida.print(10, 5, "Spieler "+i+" hat noch "+p.lives+" Leben.");
 				}
 //			System.out.println(p.lives); //Ueberpruefung der Leben
 			if(spielfeld[p.getx()][p.gety()] instanceof Exitfeld){
@@ -161,7 +163,7 @@ public class Game implements Runnable {
     	
     	Menue.conti = true;
     	
-        while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
+        while (!Display.isCloseRequested() && (playerAlive(players.get(0))||playerAlive(players.get(0))) && (Menue.conti == true)) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
         	
@@ -190,8 +192,7 @@ public class Game implements Runnable {
 			
 		    GameTime.update();
 		    Renderer.sync();
-		}
-	    //ggf. Game-Over Behandlung    
+		}   
         try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
@@ -203,7 +204,7 @@ public class Game implements Runnable {
 			Main.m.gameover.setVisible(true);
 		}
 		Main.m.setVisible(true);
-		Keyboard.destroy(); //Ab hier neu. Keyboard wird zerstört...
+		Keyboard.destroy(); //Keyboard wird zerstört...
 		try {
 			Keyboard.create(); // ...und hier wieder neu erstellt.
 		} catch (LWJGLException e){
@@ -217,7 +218,7 @@ public class Game implements Runnable {
     	Renderer.destroy();
     }
     
-    public boolean playersAlive() {
+/*    public boolean playersAlive() {
     	
 		if(players.size() <= 0) return false;
 		
@@ -227,6 +228,17 @@ public class Game implements Runnable {
 			else{Main.m.gameover.setText("Spieler "+(i+1)+" ist tot!");}
 		}
     	return false;
+    } */
+    
+    public boolean playerAlive(Player p){
+    	
+    	if(p.isAlive() && p.getLives()!=0){
+    		return true;
+    		}
+    	else{
+    		Main.m.gameover.setText("Spieler "+p.getName()+" ist tot!");
+    		return false;
+    		}
     }
 }
 
