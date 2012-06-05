@@ -5,9 +5,9 @@ Für den zweiten Meilenstein fehlt noch:
 - Java Doc
 ---------
 Martin:
-Ausgangsfeld mit zufaelligen Variablen bestuecken. Kollisionabfrage bzgl.:
+Ausgangsfeld - Kollisionabfrage bzgl.:
   - Spielerstartfelder
-  - Unter einem zerstörbarem Block
+  - Ausgangsfeld; zur Zeit verschwindet auch Ausgang, wenn Bombe in Reichweite
 ---------
 Marian:
   - Netzwerk
