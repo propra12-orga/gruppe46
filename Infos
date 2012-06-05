@@ -1,13 +1,11 @@
 Für den zweiten Meilenstein fehlt noch:
 
-- Einlesen über exterte Datei(en)
+- Einlesen über exterte Datei(en), XML, what ever that is
 - Ausgang hinter Mauern
 - Java Doc
 ---------
 Martin:
-Ausgangsfeld mit zufaelligen Variablen bestuecken. Kollisionabfrage bzgl.:
-  - Spielerstartfelder
-  - Unter einem zerstörbarem Block
+  - XML-Einlesen und Mauern, ggf. Power-Ups
 ---------
 Marian:
   - Netzwerk
@@ -20,3 +18,4 @@ Raphael:
 ---------
 Simon:
   - Ueberpruefung fuer Spielerfeld, aehnlich Mauerfeld
+  - Gameoverbehandlung, vllt. Ausgabe ueber restliche Leben
