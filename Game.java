@@ -229,7 +229,11 @@ public class Game implements Runnable {
 		}
     	return false;
     } */
-    
+    /**
+     * Sterbebedingungen fuer Einzel- und Mehrspieler
+     * @param p: Uebergabe des zu ueberpruefenden Spielers
+     * @return: true, falls betreffender Spieler lebt; false, falls betreffender Spieler tot
+     */
     public boolean playerAlive(Player p){
     	
     	if(p.isAlive() && p.getLives()!=0){
