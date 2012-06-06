@@ -1,12 +1,18 @@
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+
+import java.beans.XMLDecoder;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.TimeUnit;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 public class Game implements Runnable {
 
@@ -17,18 +23,17 @@ public class Game implements Runnable {
 	private LWJGL_Font lucida;
 	
 	public Game(int spielerzahl) {
+		//Spielfeld laden
 		try {
-			ObjectInputStream o = new ObjectInputStream(new FileInputStream("default.map")); //hier muss der Pfad der default.map angegeben werden sonst Error
-			spielfeld = (Feld[][]) o.readObject();
-			o.close();
-		} 
-		catch (IOException i) {
-			i.printStackTrace();
-		} 
-		catch (ClassNotFoundException e) {
-			//Fehlerbehandlung "Level nicht gefunden"
+			initialfeld("default.xml");
+		} catch (FileNotFoundException e) {
+			// Level nicht gefunden
 			e.printStackTrace();
-		} 
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		//
+		
 		if(spielerzahl==1) {
 			players.add(new Player("One",1,1));
 		}
@@ -43,7 +48,7 @@ public class Game implements Runnable {
 			x = (int) ((Math.random()*100)%13)+1;
 			y = (int) ((Math.random()*100)%11)+1;
 		}
-		while(spielfeld[x][y] instanceof Mauerfeld);
+		while(spielfeld[x][y] instanceof Steinfeld);
 //		System.out.println(x+", "+y);
 		spielfeld[x][y]=new Exitfeld();
 		GameTime.init();
@@ -244,5 +249,50 @@ public class Game implements Runnable {
     		return false;
     		}
     }
-}
 
+/**
+ * Laed das gewuenschte Level
+ * @param name: Uebergabe des Levelnamens
+ * @throws FileNotFoundException
+ * @throws XMLStreamException
+ */
+	protected void initialfeld(String name) throws FileNotFoundException, XMLStreamException{
+		InputStream in = new FileInputStream(name);
+		XMLInputFactory factory = XMLInputFactory.newInstance();
+		XMLStreamReader parser = factory.createXMLStreamReader(in);	
+		
+		spielfeld=new Feld[15][13];
+		int y = -2;		//2mal Start_Element bevor die Attribute kommen, somit y=0 beim ersten Attribut
+		
+		while( parser.hasNext() ) {
+		    int event = parser.next();
+		    if (event==XMLStreamConstants.START_ELEMENT) y++;
+		    switch (event) {
+		        case XMLStreamConstants.END_DOCUMENT:
+		            parser.close();
+		            break;
+		        case XMLStreamConstants.START_ELEMENT:
+		            for( int x = 0; x < parser.getAttributeCount(); x++ ){
+		            		switch(parser.getAttributeValue(x)){
+		            			case "Steinfeld": spielfeld[x][y]= new Steinfeld(); break;
+		            			case "Mauerfeld": spielfeld[x][y]= new Mauerfeld(); break;
+		            			case "Leerfeld": spielfeld[x][y]= new Leerfeld(); break;
+		            			default: break;
+		            		}
+		            }
+		            break;
+		        
+		       
+		        default:
+		            break;
+		    }
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
+}//end class
