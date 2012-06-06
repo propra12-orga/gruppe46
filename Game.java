@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 public class Game implements Runnable {
 
 	public static Feld[][] spielfeld;
-	//public Player one, two;
 	private final List<Player> players = new ArrayList<Player>();
 	static Lock lock1 = new ReentrantLock();
 	private LWJGL_Font lucida;
@@ -65,7 +64,6 @@ public class Game implements Runnable {
 //				lucida.setScale(0.33f);
 //				lucida.print(10, 5, "Spieler "+i+" hat noch "+p.lives+" Leben.");
 				}
-//			System.out.println(p.lives); //Ueberpruefung der Leben
 			if(spielfeld[p.getx()][p.gety()] instanceof Exitfeld){
 				Main.m.gameover.setText("Spieler "+(i+1)+" hat gewonnen!");
 				p.die();
