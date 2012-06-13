@@ -1,20 +1,30 @@
-Für den zweiten Meilenstein fehlt noch:
+Für den dritten Meilenstein fehlt noch:
 
-- Einlesen über exterte Datei(en), XML, what ever that is
-- Ausgang hinter Mauern
-- Java Doc
+  - Netzwerk
+  - Benutzerhandbuch und Dokumentation
+  - Zusatzaufgaben (10 Punkte)
+      - Weitere Karten / Levels - nach Aufwand
+      - Zufallsgenerator für Levels - 1 bzw. 3 Punkte
+      - Karteneditor - 3 bzw. 5 Punkte
+      - Sound - 1 Punkt
+      - Applet - 2 Punkte
+      - KI mit variablen Schwierigkeitsgrad - nach Aufwand
+      - Weitere Gadgets - 1 Punkt bzw. nach Aufwand
+      - Highscore - 2 Punkte bzw. nach Aufwand
+      - Speichern und Laden - 3 Punkte
+      - Tutorial - 2 Punkte
 ---------
 Martin:
-  - XML-Einlesen und Mauern, ggf. Power-Ups
+
 ---------
 Marian:
   - Netzwerk
 ---------
 Philip:
-  - Ausgangsfeld
+
 ---------
 Raphael:
-  - Kettenreaktion
+
 ---------
 Simon:
   - Ueberpruefung fuer Spielerfeld, aehnlich Mauerfeld
