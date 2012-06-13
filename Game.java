@@ -273,12 +273,18 @@ public class Game implements Runnable {
 		            break;
 		        case XMLStreamConstants.START_ELEMENT:
 		            for( int x = 0; x < parser.getAttributeCount(); x++ ){
-		            		switch(parser.getAttributeValue(x)){
+		            	String test = parser.getAttributeValue(x);
+		            	
+		            		if (test.equals("Steinfeld")){spielfeld[x][y]= new Steinfeld();}
+		            		else if (test.equals("Mauerfeld")){spielfeld[x][y]= new Mauerfeld();}
+		            		else if (test.equals("Leerfeld")){spielfeld[x][y]= new Leerfeld();};
+		            		
+		            		/*switch(parser.getAttributeValue(x)){
 		            			case "Steinfeld": spielfeld[x][y]= new Steinfeld(); break;
 		            			case "Mauerfeld": spielfeld[x][y]= new Mauerfeld(); break;
 		            			case "Leerfeld": spielfeld[x][y]= new Leerfeld(); break;
 		            			default: break;
-		            		}
+		            		}*/
 		            }
 		            break;
 		        

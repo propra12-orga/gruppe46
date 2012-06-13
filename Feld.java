@@ -9,4 +9,8 @@ public abstract class Feld implements Serializable {
 	public void draw(int x, int y){
 	}
 	
+	public void setUncovered(){
+		
+	}
+	
 }
