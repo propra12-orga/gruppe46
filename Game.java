@@ -66,8 +66,10 @@ public class Game implements Runnable {
 					} catch (InterruptedException e) {
 					e.printStackTrace();
 					}
-//				lucida.setScale(0.33f);
-//				lucida.print(10, 5, "Spieler "+i+" hat noch "+p.lives+" Leben.");
+				Main.m.gameover.setText("Spieler "+p.getName()+" ist tot!");
+				if(p.getLives()==0) {
+					p.die();
+					}
 				}
 			if(spielfeld[p.getx()][p.gety()] instanceof Exitfeld){
 				Main.m.gameover.setText("Spieler "+(i+1)+" hat gewonnen!");
@@ -243,7 +245,6 @@ public class Game implements Runnable {
     		return true;
     		}
     	else{
-    		Main.m.gameover.setText("Spieler "+p.getName()+" ist tot!");
     		return false;
     		}
     }
@@ -271,12 +272,17 @@ public class Game implements Runnable {
 		            break;
 		        case XMLStreamConstants.START_ELEMENT:
 		            for( int x = 0; x < parser.getAttributeCount(); x++ ){
+		            	String test = parser.getAttributeValue(x);
+		            	if (test.equals("Steinfeld")){spielfeld[x][y]= new Steinfeld();}
+	            		else if (test.equals("Mauerfeld")){spielfeld[x][y]= new Mauerfeld();}
+	            		else if (test.equals("Leerfeld")){spielfeld[x][y]= new Leerfeld();};
+	            		/*
 		            		switch(parser.getAttributeValue(x)){
 		            			case "Steinfeld": spielfeld[x][y]= new Steinfeld(); break;
 		            			case "Mauerfeld": spielfeld[x][y]= new Mauerfeld(); break;
 		            			case "Leerfeld": spielfeld[x][y]= new Leerfeld(); break;
 		            			default: break;
-		            		}
+		            		} */
 		            }
 		            break;
 		        
@@ -285,11 +291,6 @@ public class Game implements Runnable {
 		            break;
 		    }
 		}
-		
-		
-		
-		
-		
 	}
 	
 	
