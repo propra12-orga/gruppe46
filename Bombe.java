@@ -13,8 +13,9 @@ class Bombe extends Thread{
 		private boolean exploded=false;
 		private boolean time1=false;
 		protected int range;
+		private String player;
 		
-		public Bombe(int a, int b){
+		public Bombe(int a, int b, String p){
 			x=a;
 			y=b;
 			exploding = false;
@@ -22,6 +23,7 @@ class Bombe extends Thread{
 			//Bombs++;
 			Bombs.add(this);
 			range = 0;
+			player = p;
 		}
 		
 	private void setExploded(){
@@ -149,8 +151,14 @@ class Bombe extends Thread{
 		
 		
 		
-		public static int getBombs() {
-			return Bombs.size();
+		public static int getBombs(String p) {
+			//return Bombs.size();
+			int n = 0;
+			for(int i = 0; i < Bombs.size();i++)
+			{
+				if(Bombs.get(i).player.equals(p)) n++;
+			}
+			return n;
 		}
 		
 		public static int getBomb(int x, int y) {

@@ -28,6 +28,11 @@ public class Player{
 		return alive; // ES LEEEEEEEBT!
 	}
 	
+	public void hit() {
+		lives--;
+		if(lives<=0) alive=false;
+	}
+	
 	public int getx(){
 		return posx;
 	}
