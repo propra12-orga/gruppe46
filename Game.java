@@ -61,7 +61,7 @@ public class Game implements Runnable {
 			Player p = players.get(i);
 				
 			if (spielfeld[p.getx()][p.gety()] instanceof Explosionsfeld) {
-				p.hit();
+				p.lives = p.lives-1;
 				try {
 						Main.t1.sleep(1000);
 					} catch (InterruptedException e) {
@@ -110,8 +110,8 @@ public class Game implements Runnable {
 				}
 			}
 			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
-				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb())) {
-					new Bombe(p.getx(),p.gety(), p.getName()).start();
+				if((Bombe.getBombs() < p.getBombs()) && (!p.isPress_bomb())) {
+					new Bombe(p.getx(),p.gety()).start();
 					spielfeld[p.getx()][p.gety()]= new Bombenfeld();
 				}
 				p.setPress_bomb(true);
@@ -168,7 +168,7 @@ public class Game implements Runnable {
     	
     	Menue.conti = true;
     	
-        while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
+        while (!Display.isCloseRequested() && (playerAlive(players.get(0))) && (playerAlive(players.get(1))) && (Menue.conti == true)) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
         	
@@ -192,17 +192,12 @@ public class Game implements Runnable {
 				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead"));
 			}
 			else {
-				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + ", Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.size() + ") " + GameTime.getFPS());
+				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + ", Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.size() + ")");
 			}
 			
 		    GameTime.update();
 		    Renderer.sync();
 		}   
-        
-        for(int i = 0; i < players.size(); i++) {
-        	if(players.get(i).isAlive() == false) Main.m.gameover.setText("Spieler "+players.get(i).getName()+" ist tot!");
-        }
-        
         try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
@@ -244,11 +239,15 @@ public class Game implements Runnable {
      * @param p: Uebergabe des zu ueberpruefenden Spielers
      * @return: true, falls betreffender Spieler lebt; false, falls betreffender Spieler tot
      */
-    public boolean playersAlive(){
-    	for(int i = 0; i < players.size(); i++) {
-    		if(players.get(i).isAlive() == false) return false;
-    	}	
-    	return true;
+    public boolean playerAlive(Player p){
+    	
+    	if(p.isAlive() && p.getLives()!=0){
+    		return true;
+    		}
+    	else{
+    		Main.m.gameover.setText("Spieler "+p.getName()+" ist tot!");
+    		return false;
+    		}
     }
 
 /**
