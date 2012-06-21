@@ -61,12 +61,7 @@ public class Game implements Runnable {
 			Player p = players.get(i);
 				
 			if (spielfeld[p.getx()][p.gety()] instanceof Explosionsfeld) {
-				p.hit();
-				try {
-						Main.t1.sleep(1000);
-					} catch (InterruptedException e) {
-					e.printStackTrace();
-					}
+				p.hit(((Explosionsfeld)spielfeld[p.getx()][p.gety()]).getBomb());
 //				lucida.setScale(0.33f);
 //				lucida.print(10, 5, "Spieler "+i+" hat noch "+p.lives+" Leben.");
 				}
@@ -192,7 +187,7 @@ public class Game implements Runnable {
 				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead"));
 			}
 			else {
-				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + ", Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.size() + ") " + GameTime.getFPS());
+				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... (" + players.size() + ") " + GameTime.getFPS() + " ");
 			}
 			
 		    GameTime.update();
@@ -200,7 +195,7 @@ public class Game implements Runnable {
 		}   
         
         for(int i = 0; i < players.size(); i++) {
-        	if(players.get(i).isAlive() == false) Main.m.gameover.setText("Spieler "+players.get(i).getName()+" ist tot!");
+        	if(players.get(i).isAlive() == false) Main.m.gameover.setText("Spieler "+players.get(i).getName()+" ist tot!" + " (" + players.get(0).getLives() + ")");
         }
         
         try {

@@ -5,6 +5,7 @@ public class Player{
 	private int posx, posy;
 	private int Bombs;
 	protected int lives;
+	private Bombe last_hit_by;
 	
 	private int key_left, key_right, key_up, key_down, key_bomb;
 	
@@ -28,7 +29,9 @@ public class Player{
 		return alive; // ES LEEEEEEEBT!
 	}
 	
-	public void hit() {
+	public void hit(Bombe Bomb) {
+		if(last_hit_by == Bomb) { return; }
+		last_hit_by = Bomb;
 		lives--;
 		if(lives<=0) alive=false;
 	}

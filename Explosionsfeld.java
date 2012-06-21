@@ -1,9 +1,9 @@
 
 public class Explosionsfeld extends Feld {
-	private int Bomb;
+	private Bombe Bomb;
 	
-	public Explosionsfeld(int n) {
-		Bomb = n;
+	public Explosionsfeld(Bombe B) {
+		Bomb = B;
 	}
 	
 	public void draw(int x, int y){
@@ -11,7 +11,7 @@ public class Explosionsfeld extends Feld {
 		Renderer.Tile_Explosion.draw(x * 128 * 0.33f, y*128 * 0.33f);
 	}
 	
-	public int getBomb() {
+	public Bombe getBomb() {
 		return Bomb;
 	}
 }
