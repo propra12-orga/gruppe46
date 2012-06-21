@@ -21,6 +21,7 @@ public class Game implements Runnable {
 	private final List<Player> players = new ArrayList<Player>();
 	static Lock lock1 = new ReentrantLock();
 	private LWJGL_Font lucida;
+	private boolean[] arr;
 	
 	public Game(int spielerzahl) {
 		//Spielfeld laden
@@ -49,9 +50,78 @@ public class Game implements Runnable {
 			y = (int) ((Math.random()*100)%11)+1;
 		}
 		while(spielfeld[x][y] instanceof Steinfeld);
-//		System.out.println(x+", "+y);
+
 		spielfeld[x][y]=new Exitfeld();
+		int a = 1;
+		int b = 1;
+		do {
+			a = (int) ((Math.random()*100)%13)+1;
+			b = (int) ((Math.random()*100)%11)+1;
+		}
+		while(spielfeld[a][b] instanceof Steinfeld || spielfeld[a][b] instanceof Exitfeld || spielfeld[a][b] instanceof Extrasfeld);
+
+		int art = 1;
+		arr = new boolean[13];
+		for(int i=0;i<arr.length;i++)
+		{
+			arr[i] = true;
+		}
+		
+		if(Main.m.getPowerUps())
+		{
+			for(int i=0;i<5;i++)
+			{
+				int zahl = (int)((Math.random()*100)%100)+1;
+				
+					if(zahl>=1 && zahl<10 && arr[0] == true)
+					{ 	art = 1;
+						arr[0] = false;
+					}
+					//if(arr[0] == false) i--;
+					
+					if(zahl>=10 && zahl<26 && arr[1] == true)
+					{ 	art = 2;
+					arr[1] = false;
+					}
+					//if(arr[1] == false) i--;
+					
+					if(zahl>=26 && zahl<35 && arr[2] == true)
+					{ 	art = 3;
+					arr[2] = false;
+					}
+					//if(arr[2] == false) i--;
+					
+					if(zahl>=35 && zahl<40 && arr[3] == true)
+					{ 	art = 4;
+					arr[3] = false;
+					}
+					//if(arr[3] == false) i--;
+					
+					if(zahl>=40 && zahl<49 && arr[4] == true){ art = 5;}
+					if(zahl>=49 && zahl<53 && arr[5] == true){ art = 6;}
+					if(zahl>=53 && zahl<62 && arr[6] == true){ art = 7;}
+					if(zahl>=62 && zahl<66 && arr[7] == true){ art = 8;}
+					if(zahl>=66 && zahl<70 && arr[8] == true){ art = 9;}
+					if(zahl>=70 && zahl<73 && arr[9] == true){ art = 10;}
+					if(zahl>=73 && zahl<77 && arr[10] == true){ art = 11;}
+					if(zahl>=77 && zahl<86 && arr[11] == true){ art = 12;}
+					if(zahl>=86 && zahl<100 && arr[12] == true){ art = 13;}
+				
+			}
+		}
+		// art = Algorithmus... For-Schleife inklusive boolean um erneut zu generieren um mehrfach Extrafeld zu vermeiden
+		spielfeld[x][y]=new Extrasfeld(art);
 		GameTime.init();
+	}
+	/**
+	 * Veraendert die Zustaende des Arrays bzgl. der Anzahl der Power-Ups
+	 */
+	public void setArray(int i)
+	{
+		if(arr[i])
+		{
+			
+		}
 	}
 	
 	public void pollInput(){
@@ -207,6 +277,7 @@ public class Game implements Runnable {
         for(int i = 0; i < 4; i++){
 			Main.m.hauptButtons[i].setVisible(true);
 			Main.m.gameover.setVisible(true);
+			Menue.conti = false;
 		}
 		Main.m.setVisible(true);
 		Keyboard.destroy(); //Keyboard wird zerstört...
