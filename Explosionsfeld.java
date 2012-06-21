@@ -4,10 +4,10 @@
  *
  */
 public class Explosionsfeld extends Feld {
-	private int Bomb;
+	private Bombe Bomb;
 	
-	public Explosionsfeld(int n) {
-		Bomb = n;
+	public Explosionsfeld(Bombe B) {
+		Bomb = B;
 	}
 	/**
 	 * Zeichnen
@@ -20,7 +20,7 @@ public class Explosionsfeld extends Feld {
 	 * Rueckgabe der Bombe
 	 * @return: Rueckgabe der Bombe
 	 */
-	public int getBomb() {
+	public Bombe getBomb() {
 		return Bomb;
 	}
 }
