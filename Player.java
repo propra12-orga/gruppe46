@@ -5,15 +5,12 @@ public class Player{
 	private int posx, posy;
 	private int Bombs;
 	protected int lives;
-	private Bombe last_hit_by;
-	
+	private Bombe last_hit_by;	
 	private int key_left, key_right, key_up, key_down, key_bomb;
-	
-	private boolean press_bomb;
-	
+	private boolean press_bomb;	
 	private LWJGL_Sprite Sprite;
-	
 	private long lastMove;
+	public boolean kicker=true;
 	
 	public Player (String name, int x, int y){
 		this.name=name;
@@ -123,6 +120,15 @@ public class Player{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public boolean getKicker(){
+		return kicker;
+	}
+	
+	public void setKicker(){
+		this.kicker=true;
+	}
+	
 	
 }
  

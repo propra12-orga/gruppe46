@@ -4,7 +4,7 @@ import java.util.List;
 
 class Bombe extends Thread{
 		//private static int Bombs;
-		private static final List<Bombe> Bombs = new ArrayList<Bombe>();
+		public static final List<Bombe> Bombs = new ArrayList<Bombe>();
 		
 		private int x;
 		private int y;
@@ -14,6 +14,12 @@ class Bombe extends Thread{
 		private boolean time1=false;
 		protected int range;
 		private String player;
+		
+		private boolean kickedUp=false;
+		private boolean kickedDown=false;
+		private boolean kickedRight=false;
+		private boolean kickedLeft=false;
+		
 		
 		public Bombe(int a, int b, String p){
 			x=a;
@@ -131,9 +137,62 @@ class Bombe extends Thread{
 	
 		public void run(){
 			int i=0;
-			while (!((exploded )||(i==3000)))
+			while (!((exploded )||(i==24)))
 			{try {
-				TimeUnit.MILLISECONDS.sleep(1);
+				TimeUnit.MILLISECONDS.sleep(125);
+				
+				if (kickedUp == true){
+					if (Game.spielfeld[x][y-1] instanceof Leerfeld){
+						Game.spielfeld[x][y]= new Leerfeld();
+						y=y-1;
+						Game.spielfeld[x][y]= new Bombenfeld();
+					if (Game.spielfeld[x][y-1] instanceof Explosionsfeld){
+						Game.spielfeld[x][y]= new Explosionsfeld(this);
+						y=y-1;
+						exploded=true;
+					}
+					}
+				}
+				
+				if (kickedDown == true){
+					if (Game.spielfeld[x][y+1] instanceof Leerfeld){
+						Game.spielfeld[x][y]= new Leerfeld();
+						y=y+1;
+						Game.spielfeld[x][y]= new Bombenfeld();
+					}
+					if (Game.spielfeld[x][y+1] instanceof Explosionsfeld){
+						Game.spielfeld[x][y]= new Explosionsfeld(this);
+						y=y+1;
+						exploded=true;
+					}
+				}
+				
+				if (kickedLeft == true){
+					if (Game.spielfeld[x-1][y] instanceof Leerfeld){
+						Game.spielfeld[x][y]= new Leerfeld();
+						x=x-1;
+						Game.spielfeld[x][y]= new Bombenfeld();
+					}
+					if (Game.spielfeld[x-1][y] instanceof Explosionsfeld){
+						Game.spielfeld[x][y]= new Explosionsfeld(this);
+						x=x-1;
+						exploded=true;
+					}
+				}
+				
+				if (kickedRight == true){
+					if (Game.spielfeld[x+1][y] instanceof Leerfeld){
+						Game.spielfeld[x][y]= new Leerfeld();
+						x=x+1;
+						Game.spielfeld[x][y]= new Bombenfeld();
+					}
+					if (Game.spielfeld[x+1][y] instanceof Explosionsfeld){
+						Game.spielfeld[x][y]= new Explosionsfeld(this);
+						x=x+1;
+						exploded=true;
+					}
+				}
+				
 			} catch (InterruptedException e) {};
 			i++;
 			}
@@ -150,6 +209,22 @@ class Bombe extends Thread{
 		} 
 		
 		
+		
+		public void setkickedUp(){
+			this.kickedUp=true;
+		}
+		
+		public void setkickedDown(){
+			this.kickedDown=true;
+		}
+		
+		public void setkickedRight(){
+			this.kickedRight=true;
+		}
+		
+		public void setkickedLeft(){
+			this.kickedLeft=true;
+		}
 		
 		public static int getBombs(String p) {
 			//return Bombs.size();

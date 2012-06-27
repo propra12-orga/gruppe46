@@ -73,24 +73,33 @@ public class Game implements Runnable {
 				if (spielfeld[p.getx()+1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()+1][p.gety()] instanceof Exitfeld |
 					spielfeld[p.getx()+1][p.gety()] instanceof Explosionsfeld){
-				
 					 p.move(1,0);
+				} else{
+					if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
+						Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
+					}
 				}
 			}
 			if (Keyboard.isKeyDown(p.getKeyLeft())) {
 				if (spielfeld[p.getx()-1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()-1][p.gety()] instanceof Exitfeld |
 					spielfeld[p.getx()-1][p.gety()] instanceof Explosionsfeld){
-				
 					p.move(-1,0);
+				} else{
+					if ((spielfeld[p.getx()-1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
+						Bombe.Bombs.get(Bombe.getBomb(p.getx()-1, p.gety())).setkickedLeft();
+					}
 				}
 			}
 			if (Keyboard.isKeyDown(p.getKeyDown())) {
 				if (spielfeld[p.getx()][p.gety()+1] instanceof Leerfeld | 
 					spielfeld[p.getx()][p.gety()+1] instanceof Exitfeld |
 					spielfeld[p.getx()][p.gety()+1] instanceof Explosionsfeld){
-				 
 					p.move(0,1);
+				} else{
+					if ((spielfeld[p.getx()][p.gety()+1] instanceof Bombenfeld) && (p.getKicker())){
+								Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()+1)).setkickedDown();
+					}
 				}
 			}
 			if (Keyboard.isKeyDown(p.getKeyUp())) {
@@ -98,6 +107,10 @@ public class Game implements Runnable {
 					spielfeld[p.getx()][p.gety()-1] instanceof Exitfeld |
 					spielfeld[p.getx()][p.gety()-1] instanceof Explosionsfeld){
 					p.move(0,-1);
+				} else{
+					if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
+						Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()-1)).setkickedUp();
+					}
 				}
 			}
 			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
