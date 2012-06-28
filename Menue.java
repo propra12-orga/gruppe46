@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.openal.AL;
 
 public class Menue extends Frame
 {
@@ -305,6 +306,7 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Spiel beenden"))
 			{
+				AL.destroy();
 				System.exit(0);
 			}
 			if(e.getActionCommand().equals("Fortsetzen"))

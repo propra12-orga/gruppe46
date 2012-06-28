@@ -1,7 +1,12 @@
+import java.io.IOException;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Renderer {
 	
@@ -12,7 +17,8 @@ public class Renderer {
 	public static final LWJGL_Sprite Tile_Wall = new LWJGL_Sprite("wall.png");
 	public static final LWJGL_Sprite Tile_Bomb = new LWJGL_Sprite("bomb.png");
 	public static final LWJGL_Sprite Tile_Explosion = new LWJGL_Sprite("explosion.png");
-	
+	//public static Audio Theme;	
+	//public static Audio Bomb_Explode;
 	public static void initDisplay() {
 		initDisplay(640,480,60);
 	}
@@ -70,6 +76,14 @@ public class Renderer {
         Tile_Bomb.setScaleX(0.33f); Tile_Bomb.setScaleY(0.33f);
         Tile_Explosion.init();
         Tile_Explosion.setScaleX(0.33f); Tile_Explosion.setScaleY(0.33f);
+        
+        //Musik und Sounds laden. 
+        /*try {
+			Theme = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("theme.wav"));
+			Bomb_Explode = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("sound.wav"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 	}
 	
 	public static void setClearColor(float r, float g, float b, float a) {

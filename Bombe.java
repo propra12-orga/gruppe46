@@ -200,6 +200,7 @@ class Bombe extends Thread{
 			Game.lock1.lock();
 			explosion();
 			Game.lock1.unlock();			 
+			//Renderer.Bomb_Explode.playAsSoundEffect(1.0f , 1.0f, true);
 			try {
 				TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {};			

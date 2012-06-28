@@ -1,6 +1,8 @@
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.openal.SoundStore;
 
 import java.beans.XMLDecoder;
 import java.io.*;
@@ -26,19 +28,18 @@ public class Game implements Runnable {
 	public Game(int spielerzahl) {
 		//Spielfeld laden
 		try {
-			initialfeld("Level2.xml", spielerzahl); 
+			initialfeld("Level1.xml", spielerzahl); 
 		} catch (FileNotFoundException e) {
 			// Level nicht gefunden
 			e.printStackTrace();
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
+		
 		//
-		
-		
-		
-		
+				
 	}
+	
 	/**
 	 * Veraendert die Zustaende des Arrays bzgl. der Anzahl der Power-Ups
 	 */
@@ -172,6 +173,10 @@ public class Game implements Runnable {
     	
     	Menue.conti = true;
     	
+    	//Hintergrund-Musik starten
+    	//Renderer.Theme.playAsSoundEffect(1.0f, 1.0f, false);
+    	
+    	
         while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
@@ -199,6 +204,7 @@ public class Game implements Runnable {
 				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... (" + players.size() + ") " + GameTime.getFPS() + " ");
 			}
 			
+			SoundStore.get().poll(0);
 		    GameTime.update();
 		    Renderer.sync();
 		}   
@@ -225,12 +231,9 @@ public class Game implements Runnable {
 		} catch (LWJGLException e){
 			e.printStackTrace();
 		}
+		
+		//Renderer.Theme.stop();//Hintergrund-Musik stopppen
 		Renderer.destroy();
-    }
-    
-    public static void destroy()
-    {
-    	Renderer.destroy();
     }
     
 /*    public boolean playersAlive() {
