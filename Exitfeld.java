@@ -5,16 +5,21 @@ public class Exitfeld extends Feld{
 
 	public void draw  (int x, int y){
 		if (covered==true){
-			
+			Renderer.Tile_Break.draw(x*size, y*size);
+			//Renderer.Tile_Explosion.draw(x*size, y*size);
 		}
 		else {
-			Renderer.Tile_Empty.draw(x*128 * 0.33f, y*128* 0.33f);
-			Renderer.Tile_Explosion.draw(x*128* 0.33f, y*128* 0.33f);
+			Renderer.Tile_Empty.draw(x*size, y*size);
+			Renderer.Tile_Explosion.draw(x*size, y*size);
 		}
 		
 	}
 	
 	public void setUncovered(){
-		this.covered=false;
+		covered=false;
+	}
+	
+	public boolean isCovered(){
+		return covered;
 	}
 }

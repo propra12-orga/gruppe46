@@ -8,10 +8,8 @@ class Bombe extends Thread{
 		
 		private int x;
 		private int y;
-		private int num;
 		private boolean exploding;
 		private boolean exploded=false;
-		private boolean time1=false;
 		protected int range;
 		private String player;
 		
@@ -25,7 +23,6 @@ class Bombe extends Thread{
 			x=a;
 			y=b;
 			exploding = false;
-			num = Bombs.size();
 			//Bombs++;
 			Bombs.add(this);
 			range = 0;
@@ -130,7 +127,8 @@ class Bombe extends Thread{
 				 Game.spielfeld[x][y+i].setUncovered();}
 			
 		}
-		Bombs.remove(Bombe.getBomb(num));
+		//Bombs.remove(Bombe.getBomb(num));
+		Bombs.remove(Bombs.indexOf(this));
 	}
 	
 		
@@ -240,13 +238,6 @@ class Bombe extends Thread{
 		public static int getBomb(int x, int y) {
 			for(int i = 0; i < Bombs.size(); i++){
 				if((Bombs.get(i).x == x)&&(Bombs.get(i).y == y)&&(Bombs.get(i).exploding==false)) return i;
-			}
-			return -1;
-		}
-		
-		public static int getBomb(int n) {
-			for(int i = 0; i < Bombs.size(); i++){
-				if((Bombs.get(i).num == n)) return i;
 			}
 			return -1;
 		}

@@ -17,6 +17,7 @@ public class Renderer {
 	public static final LWJGL_Sprite Tile_Wall = new LWJGL_Sprite("wall.png");
 	public static final LWJGL_Sprite Tile_Bomb = new LWJGL_Sprite("bomb.png");
 	public static final LWJGL_Sprite Tile_Explosion = new LWJGL_Sprite("explosion.png");
+	public static final LWJGL_Sprite Tile_Break = new LWJGL_Sprite("breakable.png");
 	//public static Audio Theme;	
 	//public static Audio Bomb_Explode;
 	public static void initDisplay() {
@@ -69,13 +70,15 @@ public class Renderer {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
         Tile_Empty.init();
-        Tile_Empty.setScaleX(0.33f); Tile_Empty.setScaleY(0.33f);
+        Tile_Empty.setScaleX(Feld.getSize()/(float)Tile_Empty.getWidth()); Tile_Empty.setScaleY(Feld.getSize()/(float)Tile_Empty.getHeight());
         Tile_Wall.init();
-        Tile_Wall.setScaleX(0.33f); Tile_Wall.setScaleY(0.33f);
+        Tile_Wall.setScaleX(Feld.getSize()/(float)Tile_Wall.getWidth()); Tile_Wall.setScaleY(Feld.getSize()/(float)Tile_Wall.getHeight());
         Tile_Bomb.init();
-        Tile_Bomb.setScaleX(0.33f); Tile_Bomb.setScaleY(0.33f);
+        Tile_Bomb.setScaleX(Feld.getSize()/(float)Tile_Bomb.getWidth()); Tile_Bomb.setScaleY(Feld.getSize()/(float)Tile_Bomb.getHeight());
         Tile_Explosion.init();
-        Tile_Explosion.setScaleX(0.33f); Tile_Explosion.setScaleY(0.33f);
+        Tile_Explosion.setScaleX(Feld.getSize()/(float)Tile_Explosion.getWidth()); Tile_Explosion.setScaleY(Feld.getSize()/(float)Tile_Explosion.getHeight());
+        Tile_Break.init();
+        Tile_Break.setScaleX(Feld.getSize()/(float)Tile_Break.getWidth()); Tile_Break.setScaleY(Feld.getSize()/(float)Tile_Break.getHeight());
         
         //Musik und Sounds laden. 
         /*try {

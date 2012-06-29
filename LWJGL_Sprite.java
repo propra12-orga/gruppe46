@@ -145,4 +145,12 @@ public class LWJGL_Sprite {
 	public void setOffsetY(float offsety) {
 		this.offsety = offsety;
 	}
+	
+	public int getWidth(){
+		return texture.getWidth();
+	}
+	
+	public int getHeight(){
+		return texture.getHeight();
+	}
 }

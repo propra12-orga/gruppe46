@@ -1,10 +1,9 @@
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.openal.SoundStore;
 
-import java.beans.XMLDecoder;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,18 +63,21 @@ public class Game implements Runnable {
 				}
 //			System.out.println(p.lives); //Ueberpruefung der Leben
 			if(spielfeld[p.getx()][p.gety()] instanceof Exitfeld){
-				Main.m.gameover.setText("Spieler "+(i+1)+" hat gewonnen!");
-				p.die();
+					if(((Exitfeld)spielfeld[p.getx()][p.gety()]).isCovered() == false) {
+						Main.m.gameover.setText("Spieler "+(i+1)+" hat gewonnen!");
+						p.die();
+					}
 				}
 			
 			if(!p.isAlive()) { continue; }
 					 
 			if (Keyboard.isKeyDown(p.getKeyRight())) {
 				if (spielfeld[p.getx()+1][p.gety()] instanceof Leerfeld | 
-					spielfeld[p.getx()+1][p.gety()] instanceof Exitfeld |
 					spielfeld[p.getx()+1][p.gety()] instanceof Explosionsfeld){
 					 p.move(1,0);
-				} else{
+				} else if(spielfeld[p.getx()+1][p.gety()] instanceof Exitfeld){
+					if(((Exitfeld)spielfeld[p.getx()+1][p.gety()]).isCovered() == false) p.move(1,0);
+				} else {
 					if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
 						Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
 					}
@@ -83,10 +85,11 @@ public class Game implements Runnable {
 			}
 			if (Keyboard.isKeyDown(p.getKeyLeft())) {
 				if (spielfeld[p.getx()-1][p.gety()] instanceof Leerfeld | 
-					spielfeld[p.getx()-1][p.gety()] instanceof Exitfeld |
 					spielfeld[p.getx()-1][p.gety()] instanceof Explosionsfeld){
 					p.move(-1,0);
-				} else{
+				} else if(spielfeld[p.getx()-1][p.gety()] instanceof Exitfeld){
+					if(((Exitfeld)spielfeld[p.getx()-1][p.gety()]).isCovered() == false) p.move(-1,0);
+				} else {
 					if ((spielfeld[p.getx()-1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
 						Bombe.Bombs.get(Bombe.getBomb(p.getx()-1, p.gety())).setkickedLeft();
 					}
@@ -94,10 +97,11 @@ public class Game implements Runnable {
 			}
 			if (Keyboard.isKeyDown(p.getKeyDown())) {
 				if (spielfeld[p.getx()][p.gety()+1] instanceof Leerfeld | 
-					spielfeld[p.getx()][p.gety()+1] instanceof Exitfeld |
 					spielfeld[p.getx()][p.gety()+1] instanceof Explosionsfeld){
 					p.move(0,1);
-				} else{
+				} else if(spielfeld[p.getx()][p.gety()+1] instanceof Exitfeld){
+					if(((Exitfeld)spielfeld[p.getx()][p.gety()+1]).isCovered() == false) p.move(0,1);
+				} else {
 					if ((spielfeld[p.getx()][p.gety()+1] instanceof Bombenfeld) && (p.getKicker())){
 								Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()+1)).setkickedDown();
 					}
@@ -105,10 +109,11 @@ public class Game implements Runnable {
 			}
 			if (Keyboard.isKeyDown(p.getKeyUp())) {
 				if (spielfeld[p.getx()][p.gety()-1] instanceof Leerfeld | 
-					spielfeld[p.getx()][p.gety()-1] instanceof Exitfeld |
 					spielfeld[p.getx()][p.gety()-1] instanceof Explosionsfeld){
 					p.move(0,-1);
-				} else{
+				} else if(spielfeld[p.getx()][p.gety()-1] instanceof Exitfeld){
+					if(((Exitfeld)spielfeld[p.getx()][p.gety()-1]).isCovered() == false) p.move(0,-1);
+				} else {
 					if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
 						Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()-1)).setkickedUp();
 					}
@@ -146,7 +151,7 @@ public class Game implements Runnable {
 	}
 	
     public void run() {
-    	
+		GameTime.init();
     	Renderer.initDisplay(800,600,60);
     	Renderer.initGL();
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
@@ -193,7 +198,7 @@ public class Game implements Runnable {
 			for(int i = 0; i < players.size(); i++) {
 				Player p = players.get(i);
 				if(p.isAlive()) p.draw();
-				lucida.print((int)(p.getx()*128*0.33f),(int)(p.gety()*128*0.33f) - 6, p.getName());
+				lucida.print((int)(p.getx()*Feld.getSize()),(int)(p.gety()*Feld.getSize()) - 6, p.getName());
 			}
 			
 			lucida.setScale(0.50f);
@@ -386,9 +391,7 @@ public class Game implements Runnable {
 			}
 		}
 		// art = Algorithmus... For-Schleife inklusive boolean um erneut zu generieren um mehrfach Extrafeld zu vermeiden
-		spielfeld[x][y]=new Extrasfeld(art);
-		GameTime.init();*/
-		
+		spielfeld[x][y]=new Extrasfeld(art);*/
 		
 	}
 	

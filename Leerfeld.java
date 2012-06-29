@@ -8,7 +8,7 @@ public class Leerfeld extends Feld{
 	 * Zeichen
 	 */
 	public void draw(int x, int y){
-		Renderer.Tile_Empty.draw(x * 128 * 0.33f, y * 128 * 0.33f);
+		Renderer.Tile_Empty.draw(x*size, y*size);
 		
 	}
 }

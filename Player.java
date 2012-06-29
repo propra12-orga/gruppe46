@@ -60,13 +60,13 @@ public class Player{
 	public void loadSprite(String file) {
 		Sprite = new LWJGL_Sprite(file);
 		Sprite.init();
-		Sprite.setScaleX(0.33f);
-		Sprite.setScaleY(0.33f);
+		Sprite.setScaleX(Feld.getSize()/(float)Sprite.getWidth());
+		Sprite.setScaleY(Feld.getSize()/(float)Sprite.getHeight());
 		
 	}
 	
 	public void draw(){
-		Sprite.draw(posx * 128 * 0.33f, posy * 128 * 0.33f);
+		Sprite.draw(posx * Feld.getSize(), posy * Feld.getSize());
 	}
 	
 	public void setBombs(int n) {

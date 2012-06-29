@@ -35,8 +35,8 @@ public class Menue extends Frame
 		this.setResizable(true);
 		this.setLayout(null);
 		this.setBackground(Color.black);
-		this.setBounds(100, 100, 612, 792);
-		
+		this.setBounds(100, 100, 800, 545);
+		this.setSize(800, 545);
 		//Listener
 		a = new ActionLauscher();
 		l = new WindowListener();
@@ -116,12 +116,12 @@ public class Menue extends Frame
 			this.add(t);
 			felder[i] = t;
 		}
-		felder[4]= new JTextField("Copyright by: Simon Thyßen, Marian Martini, Raphael Podoba, Martin von Arkel, Philip Höfges");
-		felder[4].setBounds(55, 742, 500, 50);
-		felder[4].setForeground(Color.white);
+		felder[4]= new JTextField(" Copyright by: Simon Thyssen, Marian Martini, Raphael Podoba, Martin von Arkel, Philip Hoefges");
+		felder[4].setBounds(55, 495, 500, 50);
+		//felder[4].setForeground(Color.black);
 		felder[4].setEditable(false);
 		felder[4].setFont(new Font("Arial",Font.PLAIN , 10));
-		felder[4].setBackground(this.getBackground());
+		//felder[4].setBackground(this.getBackground());
 		this.add(felder[4]);
 		
 		gameover = new JTextField();
@@ -178,13 +178,13 @@ public class Menue extends Frame
 		
 		//Image/Banner
 		schriftzug = new JLabel();
-		schriftzug.setBounds(0, 0, 500, 500);
+		schriftzug.setBounds(0, 0, 800, 545);
 		this.add(schriftzug);
 		//Hier Pfad eurem PC anpassen.
-   		icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("Bomberman_Vector_by_Haite_S_Regna.png"));
+   		icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("menu.png"));
 		frame = new JFrame();
 		frame.getContentPane().add(schriftzug);
-		frame.setBounds(0, 0, 612, 792);
+		frame.setBounds(0, 0, 800, 545);
 		schriftzug.setIcon(icon);
 		frame.pack();
 		this.add(schriftzug);
