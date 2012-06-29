@@ -1,11 +1,11 @@
-Für den dritten Meilenstein fehlt noch:
+﻿Für den dritten Meilenstein fehlt noch:
 
   - Netzwerk
   - Benutzerhandbuch und Dokumentation
   - Zusatzaufgaben (10 Punkte)
       - Weitere Karten / Levels - nach Aufwand
       - Zufallsgenerator für Levels - 1 bzw. 3 Punkte
-      - Karteneditor - 3 bzw. 5 Punkte
+      - Karteneditor - 2 bzw. 5 Punkte
       - Sound - 1 Punkt
       - Weitere Gadgets - 1 Punkt bzw. nach Aufwand
       - Tutorial - 2 Punkte
@@ -26,6 +26,20 @@ Raphael:
 Simon:
   - Grafiken fuer Extras und zerstoerbare bzw. teilweise zerstoerte Mauern
   - Leveleditor
+
+
+Moegliche Extras:
+  - kurze Zeit unsichtbar/Rauchbombe
+  - Falle
+  - Schutzschild
+  - Bombe kicken
+  - Bombenreichweite
+  - Anzahl Bomben
+  - zusaetzliche Leben
+ 
+Extras wie Schutzschild, Falle, etc sollen nach jetzigem Plan ueber eine zusaetzliche
+Taste ausgeloest werden. Welches Extra grade zur Verfuegung steht, wird neben der map
+angezeigt.
 
 Für die Audioausgabe wird es sich als nützlich erweisen die slick-util zu importieren.
 http://slick.cokeandcode.com/downloads/util/
