@@ -46,10 +46,10 @@ public class Leveleditor {
 		}
 		boolean finish=false;
 		
-        while (!Display.isCloseRequested() | finish) {
+        while (!Display.isCloseRequested()) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
-        	if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) finish=true;//Beim druecken von esc wird versucht das level abzuspeichern, ggf. Fehlermeldungen
+        	if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) finish=true;//Beim druecken von esc wird ueberprueft ob LVL gueltig
         	pollInput();
         	
 		    for(int x = 0; x < spielfeld.length; x++) {
