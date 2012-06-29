@@ -26,3 +26,6 @@ Raphael:
 Simon:
   - Grafiken fuer Extras und zerstoerbare bzw. teilweise zerstoerte Mauern
   - Leveleditor
+
+Für die Audioausgabe wird es sich als nützlich erweisen die slick-util zu importieren.
+http://slick.cokeandcode.com/downloads/util/
