@@ -85,7 +85,7 @@ class Bombe extends Thread{
 		
 		for (int i=1;i<(Main.m.getRange()+1);i++){ //links
 			if (!(Game.spielfeld[x-i][y] instanceof Explosionsfeld) && !(Game.spielfeld[x-i][y] instanceof Leerfeld)) {
-				if(!(Game.spielfeld[x-i][y] instanceof Exitfeld))break;
+				if(!((Game.spielfeld[x-i][y] instanceof Exitfeld) || (Game.spielfeld[x-i][y] instanceof Extrasfeld))) break;
 			}
 			if (Game.spielfeld[x-i][y] instanceof Explosionsfeld) {
 				if(((Explosionsfeld)Game.spielfeld[x-i][y]).getBomb() == this) Game.spielfeld[x-i][y] = new Leerfeld();
@@ -100,7 +100,7 @@ class Bombe extends Thread{
 		
 		for (int i=1;i<(Main.m.getRange()+1);i++){ //rechts
 			if (!(Game.spielfeld[x+i][y] instanceof Explosionsfeld) && !(Game.spielfeld[x+i][y] instanceof Leerfeld)) {
-				if (!(Game.spielfeld[x+i][y] instanceof Exitfeld)) break;
+				if (!((Game.spielfeld[x+i][y] instanceof Exitfeld) || (Game.spielfeld[x+i][y] instanceof Extrasfeld))) break;
 			}
 			if (Game.spielfeld[x+i][y] instanceof Explosionsfeld) {
 				if(((Explosionsfeld)Game.spielfeld[x+i][y]).getBomb() == this) Game.spielfeld[x+i][y] = new Leerfeld();
@@ -115,7 +115,7 @@ class Bombe extends Thread{
 		
 		for (int i=1;i<(Main.m.getRange()+1);i++){ //oben
 			if (!(Game.spielfeld[x][y-i] instanceof Explosionsfeld) && !(Game.spielfeld[x][y-i] instanceof Leerfeld)) {
-				if(!(Game.spielfeld[x][y-i] instanceof Exitfeld))break;
+				if(!((Game.spielfeld[x][y-i] instanceof Exitfeld) || (Game.spielfeld[x][y-i] instanceof Exitfeld)))break;
 			}
 			if (Game.spielfeld[x][y-i] instanceof Explosionsfeld) {
 				if(((Explosionsfeld)Game.spielfeld[x][y-i]).getBomb() == this) Game.spielfeld[x][y-i] = new Leerfeld();
@@ -130,7 +130,7 @@ class Bombe extends Thread{
 		
 		for (int i=1;i<(Main.m.getRange()+1);i++){ //unten
 			if (!(Game.spielfeld[x][y+i] instanceof Explosionsfeld) && !(Game.spielfeld[x][y+i] instanceof Leerfeld)) {
-				if (!(Game.spielfeld[x][y+i] instanceof Exitfeld))break;
+				if ((!(Game.spielfeld[x][y+i] instanceof Exitfeld) || (Game.spielfeld[x][y+i] instanceof Exitfeld)))break;
 			}
 			if (Game.spielfeld[x][y+i] instanceof Explosionsfeld) {
 				if(((Explosionsfeld)Game.spielfeld[x][y+i]).getBomb() == this) Game.spielfeld[x][y+i] = new Leerfeld();
