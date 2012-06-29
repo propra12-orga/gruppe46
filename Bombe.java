@@ -145,7 +145,7 @@ class Bombe extends Thread{
 						y=y-1;
 						Game.spielfeld[x][y]= new Bombenfeld();
 					}
-					if ((Game.spielfeld[x][y-1] instanceof Steinfeld) || (Game.spielfeld[x][y-1] instanceof Mauerfeld)){
+					if ((Game.spielfeld[x][y-1] instanceof Steinfeld) || (Game.spielfeld[x][y-1] instanceof Mauerfeld) || (Game.spielfeld[x][y-1] instanceof Bombenfeld)){
 						kickedUp=false;
 					}
 					if (Game.spielfeld[x][y-1] instanceof Explosionsfeld){
@@ -161,7 +161,7 @@ class Bombe extends Thread{
 						y=y+1;
 						Game.spielfeld[x][y]= new Bombenfeld();
 					}
-					if ((Game.spielfeld[x][y+1] instanceof Steinfeld) || (Game.spielfeld[x][y+1] instanceof Mauerfeld)){
+					if ((Game.spielfeld[x][y+1] instanceof Steinfeld) || (Game.spielfeld[x][y+1] instanceof Mauerfeld) || (Game.spielfeld[x][y+1] instanceof Bombenfeld)){
 						kickedDown=false;
 					}
 					if (Game.spielfeld[x][y+1] instanceof Explosionsfeld){
@@ -177,7 +177,7 @@ class Bombe extends Thread{
 						x=x-1;
 						Game.spielfeld[x][y]= new Bombenfeld();
 					}
-					if ((Game.spielfeld[x-1][y] instanceof Steinfeld) || (Game.spielfeld[x-1][y] instanceof Mauerfeld)){
+					if ((Game.spielfeld[x-1][y] instanceof Steinfeld) || (Game.spielfeld[x-1][y] instanceof Mauerfeld) || (Game.spielfeld[x-1][y] instanceof Bombenfeld)){
 						kickedLeft=false;
 					}
 					if (Game.spielfeld[x-1][y] instanceof Explosionsfeld){
@@ -193,7 +193,7 @@ class Bombe extends Thread{
 						x=x+1;
 						Game.spielfeld[x][y]= new Bombenfeld();
 					}
-					if ((Game.spielfeld[x+1][y] instanceof Steinfeld) || (Game.spielfeld[x+1][y] instanceof Mauerfeld)){
+					if ((Game.spielfeld[x+1][y] instanceof Steinfeld) || (Game.spielfeld[x+1][y] instanceof Mauerfeld) || (Game.spielfeld[x+1][y] instanceof Bombenfeld)){
 						kickedRight=false;
 					}
 					if (Game.spielfeld[x+1][y] instanceof Explosionsfeld){
