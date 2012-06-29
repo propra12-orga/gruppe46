@@ -19,7 +19,7 @@ public class Game implements Runnable {
 
 	public static Feld[][] spielfeld;
 	//public Player one, two;
-	private final List<Player> players = new ArrayList<Player>();
+	public final List<Player> players = new ArrayList<Player>();
 	static Lock lock1 = new ReentrantLock();
 	private LWJGL_Font lucida;
 	private boolean[] arr;
@@ -67,7 +67,13 @@ public class Game implements Runnable {
 						Main.m.gameover.setText("Spieler "+(i+1)+" hat gewonnen!");
 						p.die();
 					}
-				}
+				}			
+//PowerUps einsammeln
+			if (spielfeld[p.getx()][p.gety()] instanceof Extrasfeld){
+				p.collect((Extrasfeld)spielfeld[p.getx()][p.gety()]);
+				spielfeld[p.getx()][p.gety()]= new Leerfeld();
+			}
+			
 			
 			if(!p.isAlive()) { continue; }
 					 
@@ -75,49 +81,72 @@ public class Game implements Runnable {
 				if (spielfeld[p.getx()+1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()+1][p.gety()] instanceof Explosionsfeld){
 					 p.move(1,0);
-				} else if(spielfeld[p.getx()+1][p.gety()] instanceof Exitfeld){
-					if(((Exitfeld)spielfeld[p.getx()+1][p.gety()]).isCovered() == false) p.move(1,0);
-				} else {
-					if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
-						Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
+				}  else if(spielfeld[p.getx()+1][p.gety()] instanceof Extrasfeld){
+					if(((Extrasfeld)spielfeld[p.getx()+1][p.gety()]).isCovered() == false){
+						p.move(1,0);
 					}
-				}
+					    } else if(spielfeld[p.getx()+1][p.gety()] instanceof Exitfeld){
+					    		if (((Exitfeld)spielfeld[p.getx()+1][p.gety()]).isCovered() == false){ 
+					    			p.move(1,0);
+					    		}
+								} else {
+									if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
+										Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
+									}
+								  }
 			}
 			if (Keyboard.isKeyDown(p.getKeyLeft())) {
 				if (spielfeld[p.getx()-1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()-1][p.gety()] instanceof Explosionsfeld){
 					p.move(-1,0);
-				} else if(spielfeld[p.getx()-1][p.gety()] instanceof Exitfeld){
-					if(((Exitfeld)spielfeld[p.getx()-1][p.gety()]).isCovered() == false) p.move(-1,0);
-				} else {
-					if ((spielfeld[p.getx()-1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
-						Bombe.Bombs.get(Bombe.getBomb(p.getx()-1, p.gety())).setkickedLeft();
-					}
-				}
+				}  else if(spielfeld[p.getx()-1][p.gety()] instanceof Extrasfeld){
+					if(((Extrasfeld)spielfeld[p.getx()-1][p.gety()]).isCovered() == false){ 
+						p.move(-1,0);
+						}
+					} else if(spielfeld[p.getx()-1][p.gety()] instanceof Exitfeld){
+						if(((Exitfeld)spielfeld[p.getx()-1][p.gety()]).isCovered() == false){ 
+							p.move(-1,0);
+						}
+						   } else {
+							   if ((spielfeld[p.getx()-1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
+								   Bombe.Bombs.get(Bombe.getBomb(p.getx()-1, p.gety())).setkickedLeft();
+							   }
+						     }
 			}
 			if (Keyboard.isKeyDown(p.getKeyDown())) {
 				if (spielfeld[p.getx()][p.gety()+1] instanceof Leerfeld | 
 					spielfeld[p.getx()][p.gety()+1] instanceof Explosionsfeld){
-					p.move(0,1);
-				} else if(spielfeld[p.getx()][p.gety()+1] instanceof Exitfeld){
-					if(((Exitfeld)spielfeld[p.getx()][p.gety()+1]).isCovered() == false) p.move(0,1);
-				} else {
-					if ((spielfeld[p.getx()][p.gety()+1] instanceof Bombenfeld) && (p.getKicker())){
-								Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()+1)).setkickedDown();
+						p.move(0,1);
+				} else if(spielfeld[p.getx()][p.gety()+1] instanceof Extrasfeld){
+					if (((Extrasfeld)spielfeld[p.getx()][p.gety()+1]).isCovered()==false){
+						p.move(0,1);
 					}
-				}
+					   } else if(spielfeld[p.getx()][p.gety()+1] instanceof Exitfeld){
+							if(((Exitfeld)spielfeld[p.getx()][p.gety()+1]).isCovered() == false){ 
+								p.move(0,1);
+							}
+							  } else {
+								  if ((spielfeld[p.getx()][p.gety()+1] instanceof Bombenfeld) && (p.getKicker())){
+									  Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()+1)).setkickedDown();
+								  }
+							  	}
 			}
 			if (Keyboard.isKeyDown(p.getKeyUp())) {
 				if (spielfeld[p.getx()][p.gety()-1] instanceof Leerfeld | 
 					spielfeld[p.getx()][p.gety()-1] instanceof Explosionsfeld){
 					p.move(0,-1);
-				} else if(spielfeld[p.getx()][p.gety()-1] instanceof Exitfeld){
-					if(((Exitfeld)spielfeld[p.getx()][p.gety()-1]).isCovered() == false) p.move(0,-1);
-				} else {
-					if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
-						Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()-1)).setkickedUp();
-					}
-				}
+				} else if(spielfeld[p.getx()][p.gety()-1] instanceof Extrasfeld)
+					if (((Extrasfeld)spielfeld[p.getx()][p.gety()+1]).isCovered()==false){
+						p.move(0,1);
+					} else if(spielfeld[p.getx()][p.gety()-1] instanceof Exitfeld){
+						if(((Exitfeld)spielfeld[p.getx()][p.gety()-1]).isCovered() == false){ 
+							p.move(0,-1);
+						}
+						} else {
+							if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
+								Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()-1)).setkickedUp();
+							}
+						 }
 			}
 			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
 				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb())) {
@@ -127,8 +156,9 @@ public class Game implements Runnable {
 				p.setPress_bomb(true);
 			} else {
 				p.setPress_bomb(false);
-			}
-		}
+			  }
+			
+	} //ende if
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			for(int i = 0; i < 4; i++){
@@ -146,9 +176,10 @@ public class Game implements Runnable {
 				e.printStackTrace();
 			}
 			Main.t1.suspend();
-		}
-			lock1.unlock();
+		}		
+		lock1.unlock();
 	}
+	 
 	
     public void run() {
 		GameTime.init();
@@ -340,6 +371,11 @@ public class Game implements Runnable {
 			b = (int) ((Math.random()*100)%(hoch-2))+1;
 		}
 		while(spielfeld[a][b] instanceof Steinfeld || spielfeld[a][b] instanceof Exitfeld || spielfeld[a][b] instanceof Extrasfeld);
+		
+//powerupfeldtest
+		//a=4;b=1;
+		//spielfeld[a][b]=new Extrasfeld(3);
+		
 		/*
 		int art = 1;
 		arr = new boolean[13];

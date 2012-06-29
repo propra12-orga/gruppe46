@@ -6,13 +6,17 @@
 public class Extrasfeld extends Feld
 {
 	public int art;
+	public boolean covered=true;
 	
-	public Extrasfeld(int art)
-	{
+	public Extrasfeld(int art){
 		this.art = art;
 	}
-	public void draw(int x, int y)
-	{
+	
+	
+	public void draw(int x, int y){
+		if (covered==true){
+			Renderer.Tile_Break.draw(x*size, y*size);
+		} else
 		switch(art)
 		{
 			case 1: {}//Dieses Feld generiert ein zusätzliches Leben um einen Bombentreffer zu überleben}
@@ -29,9 +33,20 @@ public class Extrasfeld extends Feld
 			case 12: {}//Dieses Feld generiert einen FROST-SCHOCK. Der Spieler der es aufsammelt, darf sich temporaer nicht bewegen. Wenn der Frost-Schock vorbei ist, erhält der Spieler seine komplette Bewegungsfreiheit.
 			case 13: {}//Dieses Feld generiert ein Upgrade zur Verbesserung der Bombenreichweite.
 		}
+	}
+		
+		public void setUncovered(){
+			System.out.println(covered);
+			covered=false;
+			System.out.println(covered);
+		}
+		
+		public boolean isCovered(){
+			return covered;
+		}
 		/*
 		 * Variable fuer das jeweilige Extra; Aufruf einer getter
 		 * Renderer.Tile_   .draw(x * 128 * 0.33f, y * 128 * 0.33f);
 		 */
 	}
-}
+
