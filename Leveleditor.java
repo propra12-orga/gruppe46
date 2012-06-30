@@ -46,7 +46,7 @@ public class Leveleditor {
 		}
 		boolean finish=false;
 		
-        while (!Display.isCloseRequested()) {
+        while (!Display.isCloseRequested() && !finish) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
         	if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) finish=true;//Beim druecken von esc wird ueberprueft ob LVL gueltig
@@ -107,11 +107,14 @@ public class Leveleditor {
 	    	
 	    	if (finish){
         	if (!startpruefung(px,py,p2x,p2y,width,height)){finish = false;}
-        	if (!aufbaupruefung(spielfeld, width, height)) {
-        		{lucida.print(0, 560, "Level ungueltig, da nicht gerecht aufgebaut.");
-        		finish=false;}	        		
-        		}
-        	}//while
+        	if (!aufbaupruefung(spielfeld, width, height)){ 
+        		lucida.print(0, 560, "Level ungueltig, da nicht nach auﬂen abgeschlossen!");
+        		finish=false;
+        		} else if (!sperrpruefung(spielfeld,width, height)) {
+        			lucida.print(0, 560, "Spieler koennen sich nicht erreichen!");
+        			finish=false;
+        			}
+        	}
 		    GameTime.update();
 		    Renderer.sync();
         }
@@ -239,10 +242,10 @@ public class Leveleditor {
 		
 		
 		//Konsistenzpruefungen
-	private static boolean ausgangpruefung(Feld[][] spielfeld) {
-		
+	private static boolean sperrpruefung(Feld[][] spielfeld,int breit, int hoch) {
 		return true;
-	}
+		}
+
 
 
 	private static boolean startpruefung(int x1, int y1, int x2, int y2, int breit, int hoch) {
@@ -265,21 +268,15 @@ public class Leveleditor {
 	}
 
 
-	private static boolean aufbaupruefung(Feld[][] spielfeld, int breit, int hoch) {
-		//Symmetrie der Spalten pruefen
-		for (int i=1;i<breit/2;i++) {
-			for (int j=0;j<hoch;j++){
-				if ((spielfeld[(breit/2)-i][j] instanceof Steinfeld) && !(spielfeld[(breit/2)+i][j] instanceof Steinfeld)) {return false;}
-			}
+	private static boolean aufbaupruefung(Feld[][] spielfeld, int breit, int hoch) {	//testet ob die map aussen aus steinfeldern besteht
+		for (int i=0;i<breit;i++){		
+			if (!(spielfeld[i][0] instanceof Steinfeld)) return false;
+			if (!(spielfeld[i][hoch-1] instanceof Steinfeld)) return false;
 		}
-		//Symmetrie der Zeilen pruefen
-		for (int j=1;j<hoch/2;j++) {
-			for (int i=0;i<breit;i++){
-				if ((spielfeld[i][(hoch/2)-j] instanceof Steinfeld) && !(spielfeld[i][(hoch/2)+j] instanceof Steinfeld )) {return false;}							
-			}
+		for (int j=0;j<hoch;j++){
+			if (!(spielfeld[0][j] instanceof Steinfeld)) return false;
+			if (!(spielfeld[breit-1][j] instanceof Steinfeld)) return false;
 		}
-		
-		
 		
 		return true;
 	}
