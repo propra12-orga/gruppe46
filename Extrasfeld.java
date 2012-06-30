@@ -6,7 +6,7 @@
 public class Extrasfeld extends Feld
 {
 	public int art;
-	public boolean covered=true;
+	private boolean covered=true;
 	
 	public Extrasfeld(int art){
 		this.art = art;

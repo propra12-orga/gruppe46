@@ -133,21 +133,22 @@ public class Game implements Runnable {
 			}
 			if (Keyboard.isKeyDown(p.getKeyUp())) {
 				if (spielfeld[p.getx()][p.gety()-1] instanceof Leerfeld | 
-					spielfeld[p.getx()][p.gety()-1] instanceof Explosionsfeld){
-					p.move(0,-1);
-				} else if(spielfeld[p.getx()][p.gety()-1] instanceof Extrasfeld)
-					if (((Extrasfeld)spielfeld[p.getx()][p.gety()+1]).isCovered()==false){
-						p.move(0,1);
-					} else if(spielfeld[p.getx()][p.gety()-1] instanceof Exitfeld){
-						if(((Exitfeld)spielfeld[p.getx()][p.gety()-1]).isCovered() == false){ 
+						spielfeld[p.getx()][p.gety()-1] instanceof Explosionsfeld){
+							p.move(0,-1);
+					} else if(spielfeld[p.getx()][p.gety()-1] instanceof Extrasfeld){
+						if (((Extrasfeld)spielfeld[p.getx()][p.gety()-1]).isCovered()==false){
 							p.move(0,-1);
 						}
-						} else {
-							if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
-								Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()-1)).setkickedUp();
-							}
-						 }
-			}
+						   } else if(spielfeld[p.getx()][p.gety()-1] instanceof Exitfeld){
+								if(((Exitfeld)spielfeld[p.getx()][p.gety()-1]).isCovered() == false){ 
+									p.move(0,-1);
+								}
+								  } else {
+									  if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
+										  Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()-1)).setkickedUp();
+									  }
+								  	}
+				}
 			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
 				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb())) {
 					new Bombe(p.getx(),p.gety(), p.getName()).start();
@@ -373,8 +374,10 @@ public class Game implements Runnable {
 		while(spielfeld[a][b] instanceof Steinfeld || spielfeld[a][b] instanceof Exitfeld || spielfeld[a][b] instanceof Extrasfeld);
 		
 //powerupfeldtest
-		//a=4;b=1;
-		//spielfeld[a][b]=new Extrasfeld(3);
+		a=4;b=1;
+		spielfeld[a][b]=new Extrasfeld(3);
+		a=3;b=4;
+		spielfeld[a][b]=new Extrasfeld(3);		
 		
 		/*
 		int art = 1;
