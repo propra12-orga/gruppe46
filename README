@@ -1,16 +1,18 @@
 README
 
-Um diese Programm zum Laufen zu bringen, einfach die Main-Klasse starten. Wenn das Programm nicht direkt läuft,
+Um dieses Programm zum Laufen zu bringen, einfach die Main-Klasse starten. Wenn das Programm nicht direkt läuft,
 die Bilder aus dem src-Ordner rauskopieren und einen Ordner davor wieder einfügen.
 
 Steuerung:
   Spieler 1:
   Bewegen - Pfeiltasten
   Bomben  - Leertaste
+  SpFert. - E
 
   Spieler 2:
   Bewegen - WASD
   Bombem  - F
+  SpFert. - Rechte Alt-Taste
 
 Viel Spaß beim Spielen von Bomberman.
 
