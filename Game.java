@@ -365,19 +365,35 @@ public class Game implements Runnable {
 		while(spielfeld[a][b] instanceof Steinfeld);
 
 		spielfeld[a][b]=new Exitfeld();
-		a = 1;
-		b = 1;
+		
+		
+		//Powerups generieren
+		int powerzahl=8; //Anzahl Powerups je nach map einstellen?
+		int art=0;	//Art der Powerups
+		int n=0; 
+		
+		for (int i=0; i<powerzahl;i++){
 		do {
 			a = (int) ((Math.random()*100)%(breit-2))+1;
 			b = (int) ((Math.random()*100)%(hoch-2))+1;
+			n++;//falls es keine Mauerfelder gibt, gibts auch keine extras
 		}
-		while(spielfeld[a][b] instanceof Steinfeld || spielfeld[a][b] instanceof Exitfeld || spielfeld[a][b] instanceof Extrasfeld);
-		
-//powerupfeldtest
-		a=4;b=1;
-		spielfeld[a][b]=new Extrasfeld(3);
-		a=3;b=4;
-		spielfeld[a][b]=new Extrasfeld(3);		
+		while((spielfeld[a][b] instanceof Steinfeld || spielfeld[a][b] instanceof Exitfeld || spielfeld[a][b] instanceof Extrasfeld || spielfeld[a][b] instanceof Leerfeld) && n<100);
+		if (n<100){
+			int zahl= (int) (Math.random()*100)+1;
+			if(zahl>=1 && zahl<20) art=1;
+			if(zahl>=20 && zahl<40) art=2;
+			if(zahl>=40 && zahl<50) art=3;
+			if(zahl>=50 && zahl<60) art=4;
+			if(zahl>=60 && zahl<70) art=5;
+			if(zahl>=70 && zahl<80) art=6;
+			if(zahl>=80 && zahl<85) art=7;
+			if(zahl>=85 && zahl<90) art=8;
+			if(zahl>=90 && zahl<95) art=9;
+			if(zahl>=95 && zahl<=100) art=10;
+			spielfeld[a][b]=new Extrasfeld(art);
+			}
+		}//for
 		
 		/*
 		int art = 1;
