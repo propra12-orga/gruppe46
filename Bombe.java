@@ -154,8 +154,18 @@ class Bombe extends Thread{
 			while (!((exploded )||(i==24)))
 			{try {
 				TimeUnit.MILLISECONDS.sleep(125);
-				
+				heaven:
 				if (kickedUp == true){
+					
+					if ( ((Game.getPlayer("One")).getx()==x) && ((Game.getPlayer("One")).gety()==(y-1)) ){
+						kickedUp=false;
+						break heaven;
+					}
+					if ( ((Game.getPlayer("Two")).getx()==x) && ((Game.getPlayer("Two")).gety()==(y-1)) ){		
+						kickedUp=false;
+						break heaven;
+					}
+					
 					if (Game.spielfeld[x][y-1] instanceof Leerfeld){
 						Game.spielfeld[x][y]= new Leerfeld();
 						y=y-1;
@@ -170,8 +180,17 @@ class Bombe extends Thread{
 						exploded=true;
 					}
 				}
-				
+				hell:
 				if (kickedDown == true){
+					
+					if ( ((Game.getPlayer("One")).getx()==x) && ((Game.getPlayer("One")).gety()==(y+1)) ){
+						kickedDown=false;
+						break hell;
+					}
+					if ( ((Game.getPlayer("Two")).getx()==x) && ((Game.getPlayer("Two")).gety()==(y+1)) ){		
+						kickedDown=false;
+						break hell;
+					}
 					if (Game.spielfeld[x][y+1] instanceof Leerfeld){
 						Game.spielfeld[x][y]= new Leerfeld();
 						y=y+1;
@@ -187,7 +206,16 @@ class Bombe extends Thread{
 					}
 				}
 				
+				america:
 				if (kickedLeft == true){
+					if ( ((Game.getPlayer("One")).getx()==x-1) && ((Game.getPlayer("One")).gety()==(y)) ){
+						kickedLeft=false;
+						break america;
+					}
+					if ( ((Game.getPlayer("Two")).getx()==x-1) && ((Game.getPlayer("Two")).gety()==(y)) ){		
+						kickedLeft=false;
+						break america;
+					}
 					if (Game.spielfeld[x-1][y] instanceof Leerfeld){
 						Game.spielfeld[x][y]= new Leerfeld();
 						x=x-1;
@@ -202,8 +230,16 @@ class Bombe extends Thread{
 						exploded=true;
 					}
 				}
-				
+				asia:
 				if (kickedRight == true){
+					if ( ((Game.getPlayer("One")).getx()==x+1) && ((Game.getPlayer("One")).gety()==(y)) ){
+						kickedRight=false;
+						break asia;
+					}
+					if ( ((Game.getPlayer("Two")).getx()==x+1) && ((Game.getPlayer("Two")).gety()==(y)) ){		
+						kickedRight=false;
+						break asia;
+					}
 					if (Game.spielfeld[x+1][y] instanceof Leerfeld){
 						Game.spielfeld[x][y]= new Leerfeld();
 						x=x+1;

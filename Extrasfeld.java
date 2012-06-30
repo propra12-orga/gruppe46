@@ -36,9 +36,7 @@ public class Extrasfeld extends Feld
 	}
 		
 		public void setUncovered(){
-			System.out.println(covered);
 			covered=false;
-			System.out.println(covered);
 		}
 		
 		public boolean isCovered(){

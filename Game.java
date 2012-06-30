@@ -20,6 +20,7 @@ public class Game implements Runnable {
 	public static Feld[][] spielfeld;
 	//public Player one, two;
 	public final List<Player> players = new ArrayList<Player>();
+	public final static List<Player> playersStatic = new ArrayList<Player>();
 	static Lock lock1 = new ReentrantLock();
 	private LWJGL_Font lucida;
 	private boolean[] arr;
@@ -159,6 +160,13 @@ public class Game implements Runnable {
 				p.setPress_bomb(false);
 			  }
 			
+			if (Keyboard.isKeyDown(p.getKeySpecial()) ) {
+				int item=p.getItem();
+				switch(item){
+				case 4: {p.setInvisible();p.delItem();break;}	
+			}
+			}
+			
 	} //ende if
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
@@ -202,9 +210,9 @@ public class Game implements Runnable {
     		p.setBombs(Main.m.getBombs());
     		
     		if(i == 0) {
-    			p.setKeys(Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN, Keyboard.KEY_SPACE);
+    			p.setKeys(Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN, Keyboard.KEY_SPACE, Keyboard.KEY_RMENU);
     		} else {
-    			p.setKeys(Keyboard.KEY_A, Keyboard.KEY_D, Keyboard.KEY_W, Keyboard.KEY_S, Keyboard.KEY_F);
+    			p.setKeys(Keyboard.KEY_A, Keyboard.KEY_D, Keyboard.KEY_W, Keyboard.KEY_S, Keyboard.KEY_F, Keyboard.KEY_E);
     		}
 		}
     	
@@ -230,7 +238,9 @@ public class Game implements Runnable {
 			for(int i = 0; i < players.size(); i++) {
 				Player p = players.get(i);
 				if(p.isAlive()) p.draw();
-				lucida.print((int)(p.getx()*Feld.getSize()),(int)(p.gety()*Feld.getSize()) - 6, p.getName());
+				if (p.getInvisible()==false){
+					lucida.print((int)(p.getx()*Feld.getSize()),(int)(p.gety()*Feld.getSize()) - 6, p.getName());
+				}
 			}
 			
 			lucida.setScale(0.50f);
@@ -295,6 +305,16 @@ public class Game implements Runnable {
     	}	
     	return true;
     }
+     
+	public static Player getPlayer(String playername) {
+		Player personOfInterest= new Player("test",0,0);
+		for(int i = 0; i < playersStatic.size(); i++){
+			if(playersStatic.get(i).getName()==playername){
+				personOfInterest=playersStatic.get(i);
+			}
+	} 
+		return personOfInterest;
+	}
 
 /**
  * Laed das gewuenschte Level
@@ -330,10 +350,13 @@ public class Game implements Runnable {
 		        		
 		        		if(spielerzahl==1) {
 		        			players.add(new Player("One",x1,y1));
+		        			playersStatic.add(players.get(0));
 		        		}
 		        		if(spielerzahl==2) {
 		        			players.add(new Player("One",x1,y1));
 		        			players.add(new Player("Two",x2,y2));
+		        			playersStatic.add(players.get(0));
+		        			playersStatic.add(players.get(1));
 		        		}
 		        	} else if(parser.getLocalName().startsWith("Zeile")){
 		        		y++;
@@ -366,6 +389,10 @@ public class Game implements Runnable {
 
 		spielfeld[a][b]=new Exitfeld();
 		
+//kickerTest
+		 a = 2;
+		 b = 4;
+		spielfeld[a][b]=new Extrasfeld(3);
 		
 		//Powerups generieren
 		int powerzahl=8; //Anzahl Powerups je nach map einstellen?

@@ -6,11 +6,14 @@ public class Player{
 	private int Bombs;
 	protected int lives;
 	private Bombe last_hit_by;	
-	private int key_left, key_right, key_up, key_down, key_bomb;
+	private int key_left, key_right, key_up, key_down, key_bomb, key_special;
 	private boolean press_bomb;	
 	private LWJGL_Sprite Sprite;
 	private long lastMove;
+	private long invisibleTimer;
 	public boolean kicker=false;
+	private boolean invisible=false;
+	private int item=0;
 	
 	public Player (String name, int x, int y){
 		this.name=name;
@@ -49,8 +52,7 @@ public class Player{
 	}
 	
 	public void move(int addx, int addy){
-		if((GameTime.getTime() - lastMove) > 300)
-		{
+		if((GameTime.getTime() - lastMove) > 300){
 			posx+=addx;
 			posy+=addy;
 			lastMove = GameTime.getTime();
@@ -60,10 +62,10 @@ public class Player{
 	public void collect(Extrasfeld field){
 		int art=field.art;
 		switch(art){
-			case 1: {this.lives++;}//Dieses Feld generiert ein zusätzliches Leben um einen Bombentreffer zu überleben}
-			case 2: {this.Bombs++;}//Dieses Feld generiert ein Upgrade, um die Anzahl der Bomben, die man gleichzeitig legen kann, um 1 zu erhöhen
-			case 3: {this.kicker=true;}//Dieses Feld generiert ein Upgrade, wodurch der Spieler dazu befaehigt wird, die Bomben linear zu treten
-			case 4: {}//Dieses Feld generiert ein Upgrade um (fuer die naechste Bombe) eine Super-Bombe anstatt einer normalen Bombe zu legen. Die Super-Bombe hat <spezifikation>
+			case 1: {this.lives++;break;}//Dieses Feld generiert ein zusätzliches Leben um einen Bombentreffer zu überleben}
+			case 2: {this.Bombs++;break;}//Dieses Feld generiert ein Upgrade, um die Anzahl der Bomben, die man gleichzeitig legen kann, um 1 zu erhöhen
+			case 3: {this.kicker=true;break;}//Dieses Feld generiert ein Upgrade, wodurch der Spieler dazu befaehigt wird, die Bomben linear zu treten
+			case 4: {this.item=4;break;}//Dieses Feld generiert ein Upgrade um (fuer die naechste Bombe) eine Super-Bombe anstatt einer normalen Bombe zu legen. Die Super-Bombe hat <spezifikation>
 			case 5: {}//Dieses Feld generiert eine temporäre Steuerungsbehinderung für alle feindlichen/anderen Spieler. Alle außer der Spieler, der das Feld betritt, unterliegen einer umgekehrten Steuerung (Ausnahme: Bombe legen)
 			case 6: {}//Dieses Feld generiert ein Teleportationsfeld. Der Spieler der auf dieses Feld tritt wird mit sofortiger Wirkung zum entsprechenden Feld teleportiert
 			case 7: {}//Dieses Feld generiert ein Upgrade, welches einen temporären Geschwindigkeitsbonus für den Spieler gibt, der es aufsammelt
@@ -85,7 +87,12 @@ public class Player{
 	}
 	
 	public void draw(){
-		Sprite.draw(posx * Feld.getSize(), posy * Feld.getSize());
+		if (invisible==false) {
+			Sprite.draw(posx * Feld.getSize(), posy * Feld.getSize());
+		}
+		if((GameTime.getTime() - invisibleTimer) > 3000){
+			this.invisible=false;
+		}
 	}
 	
 	public void setBombs(int n) {
@@ -96,12 +103,13 @@ public class Player{
 		return Bombs;
 	}
 	
-	public void setKeys(int l, int r, int u, int d, int b) {
+	public void setKeys(int l, int r, int u, int d, int b, int s) {
 		key_left = l;
 		key_right = r;
 		key_down = d;
 		key_up = u;
 		key_bomb = b;
+		key_special= s;
 	}
 	
 	public int getKeyUp() {
@@ -123,6 +131,11 @@ public class Player{
 	public int getKeyBomb() {
 		return key_bomb;
 	}
+	
+	public int getKeySpecial(){
+		return key_special;
+	}
+	
 
 	public boolean isPress_bomb() {
 		return press_bomb;
@@ -146,6 +159,23 @@ public class Player{
 	
 	public void setKicker(){
 		this.kicker=true;
+	}
+	
+	public void setInvisible(){
+		this.invisible=true;
+		invisibleTimer = GameTime.getTime();
+	}
+	
+	public boolean getInvisible(){
+		return invisible;
+	}
+	
+	public int getItem(){
+		return item;
+	}
+	
+	public void delItem(){
+		item=0;
 	}
 	
 	
