@@ -14,6 +14,8 @@ public class Player{
 	public boolean kicker=false;
 	private boolean invisible=false;
 	private int item=0;
+	private int latency=300;
+	private long trapTimer;
 	
 	public Player (String name, int x, int y){
 		this.name=name;
@@ -52,7 +54,7 @@ public class Player{
 	}
 	
 	public void move(int addx, int addy){
-		if((GameTime.getTime() - lastMove) > 300){
+		if((GameTime.getTime() - lastMove) > latency){
 			posx+=addx;
 			posy+=addy;
 			lastMove = GameTime.getTime();
@@ -62,11 +64,11 @@ public class Player{
 	public void collect(Extrasfeld field){
 		int art=field.art;
 		switch(art){
-			case 1: {this.lives++;break;}//Dieses Feld generiert ein zusätzliches Leben um einen Bombentreffer zu überleben}
-			case 2: {this.Bombs++;break;}//Dieses Feld generiert ein Upgrade, um die Anzahl der Bomben, die man gleichzeitig legen kann, um 1 zu erhöhen
-			case 3: {this.kicker=true;break;}//Dieses Feld generiert ein Upgrade, wodurch der Spieler dazu befaehigt wird, die Bomben linear zu treten
-			case 4: {this.item=4;break;}//Dieses Feld generiert ein Upgrade um (fuer die naechste Bombe) eine Super-Bombe anstatt einer normalen Bombe zu legen. Die Super-Bombe hat <spezifikation>
-			case 5: {}//Dieses Feld generiert eine temporäre Steuerungsbehinderung für alle feindlichen/anderen Spieler. Alle außer der Spieler, der das Feld betritt, unterliegen einer umgekehrten Steuerung (Ausnahme: Bombe legen)
+			case 1: {lives++;break;}//Dieses Feld generiert ein zusätzliches Leben um einen Bombentreffer zu überleben}
+			case 2: {Bombs++;break;}//Dieses Feld generiert ein Upgrade, um die Anzahl der Bomben, die man gleichzeitig legen kann, um 1 zu erhöhen
+			case 3: {kicker=true;break;}//Dieses Feld generiert ein Upgrade, wodurch der Spieler dazu befaehigt wird, die Bomben linear zu treten
+			case 4: {item=4;break;}//Dieses Feld generiert die einmalige Befähigung, sich für 3 Sekunden unsichtbar zu machen.
+			case 5: {item=5;break;}//Dieses Feld generiert eine temporäre Steuerungsbehinderung für alle feindlichen/anderen Spieler, in Form einer legbaren Falle.
 			case 6: {}//Dieses Feld generiert ein Teleportationsfeld. Der Spieler der auf dieses Feld tritt wird mit sofortiger Wirkung zum entsprechenden Feld teleportiert
 			case 7: {}//Dieses Feld generiert ein Upgrade, welches einen temporären Geschwindigkeitsbonus für den Spieler gibt, der es aufsammelt
 			case 8: {}//Dieses Feld generiert ein temporaere Spielerbehinderung. Alle gegnerischen/anderen Spieler sind nur noch 50-75% so schnell
@@ -91,8 +93,12 @@ public class Player{
 			Sprite.draw(posx * Feld.getSize(), posy * Feld.getSize());
 		}
 		if((GameTime.getTime() - invisibleTimer) > 3000){
-			this.invisible=false;
+			invisible=false;
 		}
+		if((GameTime.getTime() - trapTimer) > 3000){
+			latency=300;
+		}
+		
 	}
 	
 	public void setBombs(int n) {
@@ -176,6 +182,11 @@ public class Player{
 	
 	public void delItem(){
 		item=0;
+	}
+	
+	public void setLatency(int value){
+		latency=value;
+		trapTimer=GameTime.getTime();
 	}
 	
 	

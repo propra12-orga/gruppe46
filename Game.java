@@ -75,6 +75,14 @@ public class Game implements Runnable {
 				spielfeld[p.getx()][p.gety()]= new Leerfeld();
 			}
 			
+//Falle des Gegners auslösen
+			if (spielfeld[p.getx()][p.gety()] instanceof Fallenfeld){
+				if (!( ((Fallenfeld)spielfeld[p.getx()][p.gety()]).getFallensteller()==p.getName() )){
+					p.setLatency(450);
+					spielfeld[p.getx()][p.gety()]= new Leerfeld();					
+				}
+			}
+			
 			
 			if(!p.isAlive()) { continue; }
 					 
@@ -90,11 +98,12 @@ public class Game implements Runnable {
 					    		if (((Exitfeld)spielfeld[p.getx()+1][p.gety()]).isCovered() == false){ 
 					    			p.move(1,0);
 					    		}
-								} else {
-									if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
-										Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
+							   } else if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
+											Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
+									} else if (spielfeld[p.getx()+1][p.gety()] instanceof Fallenfeld) {
+										p.move(1,0);
 									}
-								  }
+								  
 			}
 			if (Keyboard.isKeyDown(p.getKeyLeft())) {
 				if (spielfeld[p.getx()-1][p.gety()] instanceof Leerfeld | 
@@ -108,11 +117,12 @@ public class Game implements Runnable {
 						if(((Exitfeld)spielfeld[p.getx()-1][p.gety()]).isCovered() == false){ 
 							p.move(-1,0);
 						}
-						   } else {
-							   if ((spielfeld[p.getx()-1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
-								   Bombe.Bombs.get(Bombe.getBomb(p.getx()-1, p.gety())).setkickedLeft();
-							   }
-						     }
+						   } else if ((spielfeld[p.getx()-1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
+							   			Bombe.Bombs.get(Bombe.getBomb(p.getx()-1, p.gety())).setkickedLeft();
+							   	  } else if (spielfeld[p.getx()-1][p.gety()] instanceof Fallenfeld) {
+							   		  		p.move(-1,0);
+							   	  		 }
+						     
 			}
 			if (Keyboard.isKeyDown(p.getKeyDown())) {
 				if (spielfeld[p.getx()][p.gety()+1] instanceof Leerfeld | 
@@ -126,11 +136,12 @@ public class Game implements Runnable {
 							if(((Exitfeld)spielfeld[p.getx()][p.gety()+1]).isCovered() == false){ 
 								p.move(0,1);
 							}
-							  } else {
-								  if ((spielfeld[p.getx()][p.gety()+1] instanceof Bombenfeld) && (p.getKicker())){
-									  Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()+1)).setkickedDown();
-								  }
-							  	}
+							  } else if ((spielfeld[p.getx()][p.gety()+1] instanceof Bombenfeld) && (p.getKicker())){
+								  		Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()+1)).setkickedDown();
+								     } else if (spielfeld[p.getx()][p.gety()+1] instanceof Fallenfeld) {
+								    	 		p.move(0,1);
+								     		}
+							  	
 			}
 			if (Keyboard.isKeyDown(p.getKeyUp())) {
 				if (spielfeld[p.getx()][p.gety()-1] instanceof Leerfeld | 
@@ -144,11 +155,12 @@ public class Game implements Runnable {
 								if(((Exitfeld)spielfeld[p.getx()][p.gety()-1]).isCovered() == false){ 
 									p.move(0,-1);
 								}
-								  } else {
-									  if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
+								  } else if ((spielfeld[p.getx()][p.gety()-1] instanceof Bombenfeld) && (p.getKicker())){
 										  Bombe.Bombs.get(Bombe.getBomb(p.getx(), p.gety()-1)).setkickedUp();
-									  }
-								  	}
+									  }  else if (spielfeld[p.getx()][p.gety()-1] instanceof Fallenfeld) {
+										  			p.move(0,-1);
+											  }
+								  	
 				}
 			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
 				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb()) && !(spielfeld[p.getx()][p.gety()] instanceof Bombenfeld)) {
@@ -163,8 +175,9 @@ public class Game implements Runnable {
 			if (Keyboard.isKeyDown(p.getKeySpecial()) ) {
 				int item=p.getItem();
 				switch(item){
-				case 4: {p.setInvisible();p.delItem();break;}	
-			}
+				case 4: {p.setInvisible();p.delItem();break;}
+				case 5: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName()); System.out.println("test");p.delItem();break;}
+				}
 			}
 			
 	} //ende if
@@ -389,10 +402,10 @@ public class Game implements Runnable {
 
 		spielfeld[a][b]=new Exitfeld();
 		
-//kickerTest
-		 a = 2;
+//trapTest
+		 a = 3;
 		 b = 4;
-		spielfeld[a][b]=new Extrasfeld(3);
+		spielfeld[a][b]=new Extrasfeld(5);
 		
 		//Powerups generieren
 		int powerzahl=8; //Anzahl Powerups je nach map einstellen?
