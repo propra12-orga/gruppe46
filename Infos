@@ -29,17 +29,18 @@ Simon:
 
 
 Moegliche Extras:
-  - kurze Zeit unsichtbar/Rauchbombe
+  - kurze Zeit unsichtbar/Rauchbombe (unsichtbarkeit auf knopfdruck ist implementiert)
   - Falle
   - Schutzschild
-  - Bombe kicken
+  - Bombe kicken (fertig)
   - Bombenreichweite
-  - Anzahl Bomben
-  - zusaetzliche Leben
+  - Anzahl Bomben (fertig)
+  - zusaetzliche Leben (fertig)
  
 Extras wie Schutzschild, Falle, etc sollen nach jetzigem Plan ueber eine zusaetzliche
-Taste ausgeloest werden. Welches Extra grade zur Verfuegung steht, wird neben der map
-angezeigt.
+Taste ausgeloest werden. 
+Welches Extra grade zur Verfuegung steht, wird neben der map
+angezeigt. (muss noch implementiert werden)
 
 Für die Audioausgabe wird es sich als nützlich erweisen die slick-util zu importieren.
 http://slick.cokeandcode.com/downloads/util/
