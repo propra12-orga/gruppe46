@@ -12,11 +12,25 @@ public class Renderer {
 	
 	private static int width, height, fps;
 	private static float clearR, clearG, clearB, clearA;
-	
+	/**
+	 * Grafik fuer leeres Feld
+	 */
 	public static final LWJGL_Sprite Tile_Empty = new LWJGL_Sprite("empty.png");
+	/**
+	 * Grafik fuer Mauer
+	 */
 	public static final LWJGL_Sprite Tile_Wall = new LWJGL_Sprite("wall.png");
+	/**
+	 * Grafik fuer Bombe
+	 */
 	public static final LWJGL_Sprite Tile_Bomb = new LWJGL_Sprite("bomb.png");
+	/**
+	 * Grafik fuer Explosion
+	 */
 	public static final LWJGL_Sprite Tile_Explosion = new LWJGL_Sprite("explosion.png");
+	/**
+	 * Grafik fuer teilweise zerstoerte Mauer
+	 */
 	public static final LWJGL_Sprite Tile_Break = new LWJGL_Sprite("breakable.png");
 	//public static Audio Theme;	
 	//public static Audio Bomb_Explode;

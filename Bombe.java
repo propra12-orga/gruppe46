@@ -3,22 +3,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Bombe extends Thread{
-		//private static int Bombs;
+		/**
+		 * Liste aller Bomben
+		 */
 		public static final List<Bombe> Bombs = new ArrayList<Bombe>();
-		
+		/**
+		 * x-Koordinate
+		 */
 		private int x;
+		/**
+		 * y-Koordinate
+		 */
 		private int y;
+		/**
+		 * Boolean zur Feststellung, ob gerade explodiert
+		 */
 		private boolean exploding;
+		/**
+		 * Variable zur Festellung, ob bereits explodiert
+		 */
 		private boolean exploded=false;
+		/**
+		 * Aktuelle Reichweite der Bomben
+		 */
 		protected int range;
+		/**
+		 * Name des Spielers
+		 */
 		private String player;
 		
+		/**
+		 * Bombe nach oben gekickt
+		 */
 		private boolean kickedUp=false;
+		/**
+		 * Bombe nach unten gekickt
+		 */
 		private boolean kickedDown=false;
+		/**
+		 * Bombe nach rechts gekickt
+		 */
 		private boolean kickedRight=false;
+		/**
+		 * Bombe nach links gekickt
+		 */
 		private boolean kickedLeft=false;
 		
-		
+		/**
+		 * Konstruktor
+		 * @param a: uebergebene x-Koordinate
+		 * @param b: uebergebene y-Koordinate
+		 * @param p: uebergebener Spieler
+		 */
 		public Bombe(int a, int b, String p){
 			x=a;
 			y=b;
@@ -28,11 +64,15 @@ class Bombe extends Thread{
 			range = 0;
 			player = p;
 		}
-		
+		/**
+		 * Legt fest, dass eine Bombe explodiert
+		 */
 	private void setExploded(){
 		this.exploded=true;
 	}
-		
+	/**
+	 * Grafische Zeichnung des Explosion	
+	 */
 	private void explosion(){
 		exploding = true;
 		Game.spielfeld[x][y]= new Explosionsfeld(this);
@@ -106,8 +146,10 @@ class Bombe extends Thread{
 		}
 	}
 		
-
-	private void clean(){ //macht aus den Explosionsfeldern Leerfelder
+/**
+ * Reinigung des Spielfelds
+ */
+	private void clean(){
 		if(Game.spielfeld[x][y] instanceof Explosionsfeld) {
 			if(((Explosionsfeld)(Game.spielfeld[x][y])).getBomb() == this) Game.spielfeld[x][y] = new Leerfeld();
 		}
@@ -177,7 +219,9 @@ class Bombe extends Thread{
 	}
 	
 		
-	
+	/**
+	 * Spiel weiterlaufen lassen
+	 */
 		public void run(){
 			int i=0;
 			while (!((exploded )||(i==24)))
@@ -301,23 +345,35 @@ class Bombe extends Thread{
 		} 
 		
 		
-		
+		/**
+		 * Nach oben gekickte Bombe ist wahr
+		 */
 		public void setkickedUp(){
 			this.kickedUp=true;
 		}
-		
+		/**
+		 * Nach unten gekickte Bombe ist wahr
+		 */
 		public void setkickedDown(){
 			this.kickedDown=true;
 		}
-		
+		/**
+		 * Nach rechts gekickte Bombe ist wahr
+		 */
 		public void setkickedRight(){
 			this.kickedRight=true;
 		}
-		
+		/**
+		 * Nach links gekickte Bombe ist wahr
+		 */
 		public void setkickedLeft(){
 			this.kickedLeft=true;
 		}
-		
+		/**
+		 * Gibt Anzahl der Bomben pro Spieler zurueck
+		 * @param p: Zu ueberpruefende Spieler
+		 * @return: Anzahl der Bomben
+		 */
 		public static int getBombs(String p) {
 			//return Bombs.size();
 			int n = 0;
@@ -327,7 +383,9 @@ class Bombe extends Thread{
 			}
 			return n;
 		}
-		
+		/**
+		 * Ueberpruefung der Bombe
+		 */
 		public static int getBomb(int x, int y) {
 			for(int i = 0; i < Bombs.size(); i++){
 				if((Bombs.get(i).x == x)&&(Bombs.get(i).y == y)&&(Bombs.get(i).exploding==false)) return i;

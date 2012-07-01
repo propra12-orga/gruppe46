@@ -4,8 +4,14 @@
  *
  */
 public class Explosionsfeld extends Feld {
+	/**
+	 * Erzeugt Bombe
+	 */
 	private Bombe Bomb;
-	
+	/**
+	 * Konstrukter eines Explosionsfelds
+	 * @param B: uebergebene Bombe
+	 */
 	public Explosionsfeld(Bombe B) {
 		Bomb = B;
 	}

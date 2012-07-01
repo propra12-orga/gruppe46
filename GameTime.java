@@ -3,48 +3,69 @@ import org.lwjgl.Sys;
 
 public class GameTime {
 	
-	/* time at last frame */ 
+	/**
+	 * time at last frame
+	 */
 	private static long lastFrame;
 	
-	/* frames per second  */
+	/**
+	 * frames per second
+	 */
 	private static int fps, frames;
 	
-	/* last fps time */
+	/**
+	 * last fps time
+	 */
 	private static long lastFPS;
 	
 	private static int delta;
 	
-	/* initialize delta time and frame time */
+	/**
+	 * initialize delta time and frame time
+	 */
 	public static void init() {
 		updateDelta();
 		lastFPS = getTime();
 	}
 	
-	/* update delta timer and FPS counter. Call once per loop. */
+	/**
+	 *  update delta timer and FPS counter. Call once per loop.
+	 */
 	public static void update() {
 		updateDelta();
 		updateFPS();
 	}
 	
-	/* returns current FPS value */
+	/**
+	 * returns current FPS value
+	 * @return: fps
+	 */
 	public static int getFPS() {
 		return fps;
 	}
 	
 	
-	/* Get the accurate system time */
+	/**
+	 * Get the accurate system time
+	 * @return: Zeit
+	 */
 	public static long getTime() {
 	    return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 	
 	
-	/* return the delta value for this frame */
+	/**
+	 * return the delta value for this frame
+	 * @return: delta
+	 */
 	public static int getDelta() {
 		return delta;
 	}
 	
 	
-	/* Calculate how many milliseconds have passed since last frame and update delta */
+	/**
+	 * Calculate how many milliseconds have passed since last frame and update delta
+	 */
 	private static void updateDelta() {
 	    long time = getTime();
 	    delta = (int) (time - lastFrame);
@@ -52,7 +73,9 @@ public class GameTime {
 	}
 	
 	
-	/* increment or reset FPS counter */
+	/**
+	 * increment or reset FPS counter
+	 */
 	private static void updateFPS() {
 		if (getTime() - lastFPS > 1000) {
 			fps = frames;

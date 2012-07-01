@@ -5,7 +5,9 @@
  */
 public class Steinfeld extends Feld{
 	
-	
+	/**
+	 * Zeichnen
+	 */
 	public void draw(int x, int y){
 		Renderer.Tile_Wall.draw(x*size, y*size);
 	}

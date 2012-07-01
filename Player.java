@@ -1,12 +1,36 @@
 
 public class Player{
+	/**
+	 * Name des Spielers
+	 */
 	private String name;
+	/**
+	 * Aktueller Lebenszustand
+	 */
 	private boolean alive;
+	/**
+	 * x- und y-Koordinate
+	 */
 	private int posx, posy;
+	/**
+	 * Bomben
+	 */
 	private int Bombs;
+	/**
+	 * Anzahl der Leben
+	 */
 	protected int lives;
+	/**
+	 * Letzter Treffer
+	 */
 	private Bombe last_hit_by;	
+	/**
+	 * Tasten fuer verschieden Aktionen
+	 */
 	private int key_left, key_right, key_up, key_down, key_bomb, key_special;
+	/**
+	 * Ist die Bomben-Taste gedrueckt?
+	 */
 	private boolean press_bomb;	
 	private LWJGL_Sprite Sprite;
 	private long lastMove;
@@ -16,7 +40,12 @@ public class Player{
 	private int item=0;
 	private int latency=300;
 	private long trapTimer;
-	
+	/**
+	 * Konstruktor
+	 * @param name: Name des Spieler
+	 * @param x: Start-x-Koordinate
+	 * @param y: Start-y-Koordinate
+	 */
 	public Player (String name, int x, int y){
 		this.name=name;
 		this.posx=x;
@@ -26,33 +55,55 @@ public class Player{
 		lives = Main.m.getLives();
 		Bombs = 1;
 	}
-	
+	/**
+	 * Lebt der Spieler?
+	 * @return: Lebenszustand
+	 */
 	public boolean isAlive(){
 		return alive; // ES LEEEEEEEBT!
 	}
-	
+	/**
+	 * Wurde ein Treffer erreicht?
+	 * @param Bomb: Bombe, die den Treffer verursacht hat
+	 */
 	public void hit(Bombe Bomb) {
 		if(last_hit_by == Bomb) { return; }
 		last_hit_by = Bomb;
 		lives--;
 		if(lives<=0) alive=false;
 	}
-	
+	/**
+	 * X-Koordinate
+	 * @return: x-Koordinate
+	 */
 	public int getx(){
 		return posx;
 	}
+	/**
+	 * Anzahl der Leben
+	 * @return: Anzahl der Leben
+	 */
 	public int getLives(){
 		return lives;
 	}
-	
+	/**
+	 * y-Koordinate
+	 * @return: y-Koordinate
+	 */
 	public int gety(){
 		return posy;
 	}
-	
+	/**
+	 * Laesst Spieler sterben
+	 */
 	public void die(){
 		alive=false;
 	}
-	
+	/**
+	 * Bewegung des Spielers
+	 * @param addx: neue x-Koordinate
+	 * @param addy: neue y-Koordinate
+	 */
 	public void move(int addx, int addy){
 		if((GameTime.getTime() - lastMove) > latency){
 			posx+=addx;
@@ -60,7 +111,10 @@ public class Player{
 			lastMove = GameTime.getTime();
 		}
 	}
-	
+	/**
+	 * Ueberpruefung der Art des Extras
+	 * @param field: Extrasfeld
+	 */
 	public void collect(Extrasfeld field){
 		int art=field.art;
 		switch(art){
@@ -87,7 +141,9 @@ public class Player{
 		Sprite.setScaleY(Feld.getSize()/(float)Sprite.getHeight());
 		
 	}
-	
+	/**
+	 * Zeichnen
+	 */
 	public void draw(){
 		if (invisible==false) {
 			Sprite.draw(posx * Feld.getSize(), posy * Feld.getSize());
@@ -100,15 +156,29 @@ public class Player{
 		}
 		
 	}
-	
+	/**
+	 * Setz neue Anzahl der Bomben
+	 * @param n: Neue Anzahl an Bomben
+	 */
 	public void setBombs(int n) {
 		Bombs = n;
 	}
-	
+	/**
+	 * Anzahl der Bomben
+	 * @return: Anzahl der Bomben
+	 */
 	public int getBombs() {
 		return Bombs;
 	}
-	
+	/**
+	 * Letzt Tasten zur Bewegung fest
+	 * @param l: Taste fuer Bewegung nach links
+	 * @param r: Taste fuer Bewegung nach rechts
+	 * @param u: Taste fuer Bewegung nach unten
+	 * @param d: Taste fuer Bewegung nach oben
+	 * @param b: Taste fuer Bewegung fuer Bombe
+	 * @param s: Taste fuer Bewegung fuer Extra
+	 */
 	public void setKeys(int l, int r, int u, int d, int b, int s) {
 		key_left = l;
 		key_right = r;
@@ -117,44 +187,74 @@ public class Player{
 		key_bomb = b;
 		key_special= s;
 	}
-	
+	/**
+	 * Taste fuer Bewegung nach oben
+	 * @return: Taste fuer Bewegung nach oben
+	 */
 	public int getKeyUp() {
 		return key_up;
 	}
-
+	/**
+	 * Taste fuer Bewegung nach unten
+	 * @return: Taste fuer Bewegung nach unten
+	 */
 	public int getKeyDown() {
 		return key_down;
 	}
-
+	/**
+	 * Taste fuer Bewegung nach links
+	 * @return: Taste fuer Bewegung nach links
+	 */
 	public int getKeyLeft() {
 		return key_left;
 	}
-
+	/**
+	 * Taste fuer Bewegung nach rechts
+	 * @return: Taste fuer Bewegung nach rechts
+	 */
 	public int getKeyRight() {
 		return key_right;
 	}
-
+	/**
+	 * Taste fuer Bewegung fuer Bomben
+	 * @return: Taste fuer Bewegung fuer Bombe
+	 */
 	public int getKeyBomb() {
 		return key_bomb;
 	}
-	
+	/**
+	 * Taste fuer Bewegung Extra
+	 * @return: Taste fuer Bewegung nach Extra
+	 */
 	public int getKeySpecial(){
 		return key_special;
 	}
 	
-
+	/**
+	 * Ist Bombe gedrueckt?
+	 * @return: Zustand
+	 */
 	public boolean isPress_bomb() {
 		return press_bomb;
 	}
-
+	/**
+	 * Setzt Bombe press als gedrueckt
+	 * @param press: gedrueckte Bombe
+	 */
 	public void setPress_bomb(boolean press) {
 		press_bomb = press;
 	}
-
+	/**
+	 * Gibt Name zurueckt
+	 * @return: Name
+	 */
 	public String getName() {
 		return name;
 	}
-
+	/**
+	 * Setzt Name des Spieler mit name
+	 * @param name: Name des Spielers
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}

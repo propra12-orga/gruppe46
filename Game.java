@@ -16,15 +16,32 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 public class Game implements Runnable {
-
+	/**
+	 * 2D-Array als Spielfeld
+	 */
 	public static Feld[][] spielfeld;
 	//public Player one, two;
+	/**
+	 * Liste des Spieler
+	 */
 	public final List<Player> players = new ArrayList<Player>();
 	public final static List<Player> playersStatic = new ArrayList<Player>();
+	/**
+	 * Unterbrechungsschluessel fuer Thread
+	 */
 	static Lock lock1 = new ReentrantLock();
+	/**
+	 * Graphische Eingabeflaeche
+	 */
 	private LWJGL_Font lucida;
+	/**
+	 * Ist es ein Extra?
+	 */
 	private boolean[] arr;
-	
+	/**
+	 * Spiel wird geladen
+	 * @param spielerzahl: anzahl des Spieler
+	 */
 	public Game(int spielerzahl) {
 		//Spielfeld laden
 		try {
@@ -50,7 +67,9 @@ public class Game implements Runnable {
 			
 		}
 	}
-	
+	/**
+	 * Zeichnung wird gestellt
+	 */
 	public void pollInput(){
 		lock1.lock();
 		
@@ -318,7 +337,11 @@ public class Game implements Runnable {
     	}	
     	return true;
     }
-     
+    /**
+     *  Aktueller Spieler
+     * @param playername: Name des Spielers
+     * @return: Aktueller Spieler
+     */
 	public static Player getPlayer(String playername) {
 		Player personOfInterest= new Player("test",0,0);
 		for(int i = 0; i < playersStatic.size(); i++){

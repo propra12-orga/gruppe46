@@ -1,8 +1,12 @@
 
 public class Exitfeld extends Feld{
-	
+	/**
+	 * Gibt an, ob der Ausgang versteckt ist
+	 */
 	private boolean covered=true;
-
+	/**
+	 * Zeichnet die Grafik
+	 */
 	public void draw  (int x, int y){
 		if (covered==true){
 			Renderer.Tile_Break.draw(x*size, y*size);
