@@ -5,11 +5,17 @@ public class Fallenfeld extends Feld{
 	 */
 	private String fallensteller="";
 	/**
+	 * Art der Falle
+	 */
+	private int art=0;
+	/**
 	 * Konstrukor
 	 * @param name: Name des Fallenstellers
+	 * @param art: Art der Falle
 	 */
-	public Fallenfeld(String name){
+	public Fallenfeld(String name, int value){
 		fallensteller=name;
+		this.art=value;
 	}
 	
 	public Fallenfeld(){
@@ -27,5 +33,10 @@ public class Fallenfeld extends Feld{
 	public String getFallensteller(){
 		return fallensteller;
 	}
+	
+	public int getArt(){
+		return art;
+	}
+	
 	
 }

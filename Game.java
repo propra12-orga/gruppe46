@@ -70,6 +70,8 @@ public class Game implements Runnable {
 	/**
 	 * Zeichnung wird gestellt
 	 */
+	
+	
 	public void pollInput(){
 		lock1.lock();
 		
@@ -97,8 +99,13 @@ public class Game implements Runnable {
 //Falle des Gegners auslösen
 			if (spielfeld[p.getx()][p.gety()] instanceof Fallenfeld){
 				if (!( ((Fallenfeld)spielfeld[p.getx()][p.gety()]).getFallensteller()==p.getName() )){
-					p.setLatency(450);
-					spielfeld[p.getx()][p.gety()]= new Leerfeld();					
+					if (((Fallenfeld)spielfeld[p.getx()][p.gety()]).getArt()==5){
+						p.setLatency(450);spielfeld[p.getx()][p.gety()]= new Leerfeld();
+					}
+					if (((Fallenfeld)spielfeld[p.getx()][p.gety()]).getArt()==8){
+						p.confuse(); System.out.println("test3");
+						spielfeld[p.getx()][p.gety()]= new Leerfeld();
+					}										
 				}
 			}
 			
@@ -195,7 +202,8 @@ public class Game implements Runnable {
 				int item=p.getItem();
 				switch(item){
 				case 4: {p.setInvisible();p.delItem();break;}
-				case 5: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName()); System.out.println("test");p.delItem();break;}
+				case 5: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName(),5);p.delItem();break;}
+				case 8: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName(),8);p.delItem();break;}
 				}
 			}
 			
@@ -426,9 +434,9 @@ public class Game implements Runnable {
 		spielfeld[a][b]=new Exitfeld();
 		
 //trapTest
-		 a = 3;
-		 b = 4;
-		spielfeld[a][b]=new Extrasfeld(5);
+		 a = 10;
+		 b = 10;
+		spielfeld[a][b]=new Extrasfeld(8);
 		
 		//Powerups generieren
 		int powerzahl=8; //Anzahl Powerups je nach map einstellen?

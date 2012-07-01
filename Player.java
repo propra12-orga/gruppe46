@@ -1,3 +1,5 @@
+import org.lwjgl.input.Keyboard;
+
 
 public class Player{
 	/**
@@ -40,6 +42,7 @@ public class Player{
 	private int item=0;
 	private int latency=300;
 	private long trapTimer;
+	private long trapTimer2;
 	/**
 	 * Konstruktor
 	 * @param name: Name des Spieler
@@ -122,10 +125,10 @@ public class Player{
 			case 2: {Bombs++;break;}//Dieses Feld generiert ein Upgrade, um die Anzahl der Bomben, die man gleichzeitig legen kann, um 1 zu erhöhen
 			case 3: {kicker=true;break;}//Dieses Feld generiert ein Upgrade, wodurch der Spieler dazu befaehigt wird, die Bomben linear zu treten
 			case 4: {item=4;break;}//Dieses Feld generiert die einmalige Befähigung, sich für 3 Sekunden unsichtbar zu machen.
-			case 5: {item=5;break;}//Dieses Feld generiert eine temporäre Steuerungsbehinderung für alle feindlichen/anderen Spieler, in Form einer legbaren Falle.
+			case 5: {item=5;break;}//Dieses Feld generiert ein temporaere Spielerbehinderung, in Form einer Falle. Der Gegner wird langsamer.
 			case 6: {}//Dieses Feld generiert ein Teleportationsfeld. Der Spieler der auf dieses Feld tritt wird mit sofortiger Wirkung zum entsprechenden Feld teleportiert
 			case 7: {}//Dieses Feld generiert ein Upgrade, welches einen temporären Geschwindigkeitsbonus für den Spieler gibt, der es aufsammelt
-			case 8: {}//Dieses Feld generiert ein temporaere Spielerbehinderung. Alle gegnerischen/anderen Spieler sind nur noch 50-75% so schnell
+			case 8: {item=8;break;}//Dieses Feld generiert eine temporäre Steuerungsbehinderung für alle feindlichen/anderen Spieler, in Form einer legbaren Falle.
 			case 9: {}//Dieses Feld generiert bei Kontakt auf dem gesammten Spielfeld Bomben (5-10 Bomben? [Abhaengig davon, wie viele freie Felder es gibt]
 			case 10: {}//Dieses Feld generiert ein Loch. Der Spieler, der dieses Loch betritt faellt darin hinein und stirbt (egal wie viele Leben dieser noch hatte = Instant Death). Weitere Spieler können dieses Feld gefahrlos ueberqueren
 			case 11: {}//Dieses Feld generiert ein Uprade, welches temporaere Unverwundbarkeit verleiht. Dem Spieler wird kein Bombentreffer angerechnet. Fraglich: Würde er bei ART == 10 sterben?
@@ -154,8 +157,29 @@ public class Player{
 		if((GameTime.getTime() - trapTimer) > 3000){
 			latency=300;
 		}
+		if((GameTime.getTime() - trapTimer2) > 3000){
+    		if(name=="One") {
+    			setKeys(Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN, Keyboard.KEY_SPACE, Keyboard.KEY_RMENU);
+    		} else if (name=="Two") {
+    			setKeys(Keyboard.KEY_A, Keyboard.KEY_D, Keyboard.KEY_W, Keyboard.KEY_S, Keyboard.KEY_F, Keyboard.KEY_E);
+    		}
+		}
 		
 	}
+	
+	public void confuse(){
+		System.out.println(name);
+		if (name=="One"){
+			setKeys(Keyboard.KEY_RIGHT, Keyboard.KEY_LEFT, Keyboard.KEY_DOWN, Keyboard.KEY_UP, Keyboard.KEY_SPACE, Keyboard.KEY_RMENU);
+			System.out.println("test");
+		}
+		if (name=="Two"){
+			setKeys(Keyboard.KEY_D, Keyboard.KEY_E, Keyboard.KEY_S, Keyboard.KEY_W, Keyboard.KEY_F, Keyboard.KEY_E);
+			System.out.println("test2");
+		}
+		trapTimer2=GameTime.getTime();
+	}
+	
 	/**
 	 * Setz neue Anzahl der Bomben
 	 * @param n: Neue Anzahl an Bomben
