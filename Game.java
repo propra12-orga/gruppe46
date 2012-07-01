@@ -151,7 +151,7 @@ public class Game implements Runnable {
 								  	}
 				}
 			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
-				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb())) {
+				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb()) && !(spielfeld[p.getx()][p.gety()] instanceof Bombenfeld)) {
 					new Bombe(p.getx(),p.gety(), p.getName()).start();
 					spielfeld[p.getx()][p.gety()]= new Bombenfeld();
 				}

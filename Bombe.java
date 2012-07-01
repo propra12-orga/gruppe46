@@ -41,8 +41,16 @@ class Bombe extends Thread{
 				Bombs.get(Bombe.getBomb(x-i, y)).setExploded();
 			}
 			if (!(Game.spielfeld[x-i][y] instanceof Steinfeld)) {
-				if (!((Game.spielfeld[x-i][y] instanceof Exitfeld) || (Game.spielfeld[x-i][y] instanceof Extrasfeld))){
-					Game.spielfeld[x-i][y]= new Explosionsfeld(this);}}
+				if (!(Game.spielfeld[x-i][y] instanceof Exitfeld)){
+					if (!(Game.spielfeld[x-i][y] instanceof Extrasfeld)){
+						Game.spielfeld[x-i][y]= new Explosionsfeld(this);
+					} else{
+						if (((Extrasfeld)Game.spielfeld[x-i][y]).isCovered()==false){
+							Game.spielfeld[x-i][y]= new Explosionsfeld(this);
+						}
+					  }
+				}
+			}
 			else {break;}
 		}
 		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach rechts
@@ -50,9 +58,16 @@ class Bombe extends Thread{
 				Bombs.get(Bombe.getBomb(x+i, y)).setExploded();
 			}
 			if (!(Game.spielfeld[x+i][y] instanceof Steinfeld)) {
-				if (!((Game.spielfeld[x+i][y] instanceof Exitfeld) || (Game.spielfeld[x+i][y] instanceof Extrasfeld))){
-					Game.spielfeld[x+i][y]= new Explosionsfeld(this);}
+				if (!(Game.spielfeld[x+i][y] instanceof Exitfeld)){
+					if (!(Game.spielfeld[x+i][y] instanceof Extrasfeld)){
+						Game.spielfeld[x+i][y]= new Explosionsfeld(this);
+					} else{
+						if (((Extrasfeld)Game.spielfeld[x+i][y]).isCovered()==false){
+							Game.spielfeld[x+i][y]= new Explosionsfeld(this);
+						}
+					  }
 				}
+			}
 			else {break;}
 		}
 		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach oben
@@ -60,9 +75,16 @@ class Bombe extends Thread{
 				Bombs.get(Bombe.getBomb(x, y-i)).setExploded();
 			}
 			if (!(Game.spielfeld[x][y-i] instanceof Steinfeld)) {
-				if (!((Game.spielfeld[x][y-i] instanceof Exitfeld) || (Game.spielfeld[x][y-i] instanceof Extrasfeld))){
-					Game.spielfeld[x][y-i]= new Explosionsfeld(this);}
+				if (!(Game.spielfeld[x][y] instanceof Exitfeld)){
+					if (!(Game.spielfeld[x][y-i] instanceof Extrasfeld)){
+						Game.spielfeld[x][y-i]= new Explosionsfeld(this);
+					} else{
+						if (((Extrasfeld)Game.spielfeld[x][y-i]).isCovered()==false){
+							Game.spielfeld[x][y-i]= new Explosionsfeld(this);
+						}
+					  }
 				}
+			}
 			else {break;}
 		}
 		for (int i=1;i<(Main.m.getRange())+1;i++){		//Explosion nach unten
@@ -70,9 +92,16 @@ class Bombe extends Thread{
 				Bombs.get(Bombe.getBomb(x, y+i)).setExploded();
 			}
 			if (!(Game.spielfeld[x][y+i] instanceof Steinfeld)) {
-				if (!((Game.spielfeld[x][y+i] instanceof Exitfeld) || (Game.spielfeld[x][y+i] instanceof Extrasfeld))){
-					Game.spielfeld[x][y+i]= new Explosionsfeld(this);}
+				if (!(Game.spielfeld[x][y+i] instanceof Exitfeld)){
+					if (!(Game.spielfeld[x][y+i] instanceof Extrasfeld)){
+						Game.spielfeld[x][y+i]= new Explosionsfeld(this);
+					} else{
+						if (((Extrasfeld)Game.spielfeld[x][y+i]).isCovered()==false){
+							Game.spielfeld[x][y+i]= new Explosionsfeld(this);
+						}
+					  }
 				}
+			}
 			else {break;}
 		}
 	}
