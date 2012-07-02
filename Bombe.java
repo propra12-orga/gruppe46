@@ -55,13 +55,13 @@ class Bombe extends Thread{
 		 * @param b: uebergebene y-Koordinate
 		 * @param p: uebergebener Spieler
 		 */
-		public Bombe(int a, int b, String p){
+		public Bombe(int a, int b, String p, int range){
 			x=a;
 			y=b;
 			exploding = false;
 			//Bombs++;
 			Bombs.add(this);
-			range = 0;
+			this.range = range;
 			player = p;
 		}
 		/**
@@ -76,7 +76,7 @@ class Bombe extends Thread{
 	private void explosion(){
 		exploding = true;
 		Game.spielfeld[x][y]= new Explosionsfeld(this);
-		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach links
+		for (int i=1;i<(range+1);i++){		//Explosion nach links
 			if(Bombe.getBomb(x-i, y) != -1) {
 				Bombs.get(Bombe.getBomb(x-i, y)).setExploded();
 			}
@@ -95,7 +95,7 @@ class Bombe extends Thread{
 			}
 			else {break;}
 		}
-		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach rechts
+		for (int i=1;i<(range+1);i++){		//Explosion nach rechts
 			if(Bombe.getBomb(x+i, y) != -1) {
 				Bombs.get(Bombe.getBomb(x+i, y)).setExploded();
 			}
@@ -114,7 +114,7 @@ class Bombe extends Thread{
 			}
 			else {break;}
 		}
-		for (int i=1;i<(Main.m.getRange()+1);i++){		//Explosion nach oben
+		for (int i=1;i<(range+1);i++){		//Explosion nach oben
 			if(Bombe.getBomb(x, y-i) != -1) {
 				Bombs.get(Bombe.getBomb(x, y-i)).setExploded();
 			}
@@ -133,7 +133,7 @@ class Bombe extends Thread{
 			}
 			else {break;}
 		}
-		for (int i=1;i<(Main.m.getRange())+1;i++){		//Explosion nach unten
+		for (int i=1;i<(range+1);i++){		//Explosion nach unten
 			if(Bombe.getBomb(x, y+i) != -1) {
 				Bombs.get(Bombe.getBomb(x, y+i)).setExploded();
 			}
@@ -161,7 +161,7 @@ class Bombe extends Thread{
 			if(((Explosionsfeld)(Game.spielfeld[x][y])).getBomb() == this) Game.spielfeld[x][y] = new Leerfeld();
 		}
 		
-		for (int i=1;i<(Main.m.getRange()+1);i++){ //links
+		for (int i=1;i<(range+1);i++){ //links
 			if (!(Game.spielfeld[x-i][y] instanceof Explosionsfeld) && !(Game.spielfeld[x-i][y] instanceof Leerfeld)) {
 				if(!((Game.spielfeld[x-i][y] instanceof Exitfeld) || (Game.spielfeld[x-i][y] instanceof Extrasfeld) || (Game.spielfeld[x-i][y] instanceof Fallenfeld) )) break;
 			}
@@ -176,7 +176,7 @@ class Bombe extends Thread{
 			}			
 		}
 		
-		for (int i=1;i<(Main.m.getRange()+1);i++){ //rechts
+		for (int i=1;i<(range+1);i++){ //rechts
 			if (!(Game.spielfeld[x+i][y] instanceof Explosionsfeld) && !(Game.spielfeld[x+i][y] instanceof Leerfeld)) {
 				if (!((Game.spielfeld[x+i][y] instanceof Exitfeld) || (Game.spielfeld[x+i][y] instanceof Extrasfeld)|| (Game.spielfeld[x+i][y] instanceof Fallenfeld))) break;
 			}
@@ -191,9 +191,9 @@ class Bombe extends Thread{
 			}
 		}
 		
-		for (int i=1;i<(Main.m.getRange()+1);i++){ //oben
+		for (int i=1;i<(range+1);i++){ //oben
 			if (!(Game.spielfeld[x][y-i] instanceof Explosionsfeld) && !(Game.spielfeld[x][y-i] instanceof Leerfeld)) {
-				if (!((Game.spielfeld[x][y-i] instanceof Exitfeld) || (Game.spielfeld[x][y-i] instanceof Extrasfeld)|| (Game.spielfeld[x][y-i] instanceof Extrasfeld))) break;
+				if (!((Game.spielfeld[x][y-i] instanceof Exitfeld) || (Game.spielfeld[x][y-i] instanceof Extrasfeld)|| (Game.spielfeld[x][y-i] instanceof Fallenfeld))) break;
 			}
 			if (Game.spielfeld[x][y-i] instanceof Explosionsfeld) {
 				if(((Explosionsfeld)Game.spielfeld[x][y-i]).getBomb() == this) Game.spielfeld[x][y-i] = new Leerfeld();
@@ -206,9 +206,9 @@ class Bombe extends Thread{
 			}
 		}
 		
-		for (int i=1;i<(Main.m.getRange()+1);i++){ //unten
+		for (int i=1;i<(range+1);i++){ //unten
 			if (!(Game.spielfeld[x][y+i] instanceof Explosionsfeld) && !(Game.spielfeld[x][y+i] instanceof Leerfeld)) {
-				if (!((Game.spielfeld[x][y+i] instanceof Exitfeld) || (Game.spielfeld[x][y+i] instanceof Extrasfeld)|| (Game.spielfeld[x][y+i] instanceof Extrasfeld))) break;
+				if (!((Game.spielfeld[x][y+i] instanceof Exitfeld) || (Game.spielfeld[x][y+i] instanceof Extrasfeld)|| (Game.spielfeld[x][y+i] instanceof Fallenfeld))) break;
 			}
 			if (Game.spielfeld[x][y+i] instanceof Explosionsfeld) {
 				if(((Explosionsfeld)Game.spielfeld[x][y+i]).getBomb() == this) Game.spielfeld[x][y+i] = new Leerfeld();

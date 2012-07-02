@@ -19,6 +19,10 @@ public class Player{
 	 */
 	private int Bombs;
 	/**
+	 * individuelle Bombenreichweite
+	 */
+	private int bombsRange=Main.m.getRange();
+	/**
 	 * Anzahl der Leben
 	 */
 	protected int lives;
@@ -41,8 +45,10 @@ public class Player{
 	private boolean invisible=false;
 	private int item=0;
 	private int latency=300;
-	private long trapTimer;
-	private long trapTimer2;
+	private long trapTimer=0;
+	private long trapTimer2=0;
+	private boolean vulnerable=true;
+	private long shieldTimer;
 	/**
 	 * Konstruktor
 	 * @param name: Name des Spieler
@@ -72,7 +78,9 @@ public class Player{
 	public void hit(Bombe Bomb) {
 		if(last_hit_by == Bomb) { return; }
 		last_hit_by = Bomb;
-		lives--;
+		if (vulnerable==true){
+			lives--;
+		}
 		if(lives<=0) alive=false;
 	}
 	/**
@@ -126,14 +134,11 @@ public class Player{
 			case 3: {kicker=true;break;}//Dieses Feld generiert ein Upgrade, wodurch der Spieler dazu befaehigt wird, die Bomben linear zu treten
 			case 4: {item=4;break;}//Dieses Feld generiert die einmalige Befähigung, sich für 3 Sekunden unsichtbar zu machen.
 			case 5: {item=5;break;}//Dieses Feld generiert ein temporaere Spielerbehinderung, in Form einer Falle. Der Gegner wird langsamer.
-			case 6: {}//Dieses Feld generiert ein Teleportationsfeld. Der Spieler der auf dieses Feld tritt wird mit sofortiger Wirkung zum entsprechenden Feld teleportiert
-			case 7: {}//Dieses Feld generiert ein Upgrade, welches einen temporären Geschwindigkeitsbonus für den Spieler gibt, der es aufsammelt
+			case 6: {break;}//Dieses Feld generiert ein Teleportationsfeld. Der Spieler der auf dieses Feld tritt wird mit sofortiger Wirkung zum entsprechenden Feld teleportiert
+			case 7: {latency-=75;break;}//Dieses Feld generiert ein Upgrade, welches einen permanenten Geschwindigkeitsbonus für den Spieler gibt, der es aufsammelt.
 			case 8: {item=8;break;}//Dieses Feld generiert eine temporäre Steuerungsbehinderung für alle feindlichen/anderen Spieler, in Form einer legbaren Falle.
-			case 9: {}//Dieses Feld generiert bei Kontakt auf dem gesammten Spielfeld Bomben (5-10 Bomben? [Abhaengig davon, wie viele freie Felder es gibt]
-			case 10: {}//Dieses Feld generiert ein Loch. Der Spieler, der dieses Loch betritt faellt darin hinein und stirbt (egal wie viele Leben dieser noch hatte = Instant Death). Weitere Spieler können dieses Feld gefahrlos ueberqueren
-			case 11: {}//Dieses Feld generiert ein Uprade, welches temporaere Unverwundbarkeit verleiht. Dem Spieler wird kein Bombentreffer angerechnet. Fraglich: Würde er bei ART == 10 sterben?
-			case 12: {}//Dieses Feld generiert einen FROST-SCHOCK. Der Spieler der es aufsammelt, darf sich temporaer nicht bewegen. Wenn der Frost-Schock vorbei ist, erhält der Spieler seine komplette Bewegungsfreiheit.
-			case 13: {}//Dieses Feld generiert ein Upgrade zur Verbesserung der Bombenreichweite.
+			case 9: {item=9;break;}//Dieses Feld generiert einen auslösbaren Schild.
+			case 10: {bombsRange++;break;}//Dieses Feld generiert ein Upgrade zur Verbesserung der Bombenreichweite.
 		}
 	}
 	
@@ -164,20 +169,24 @@ public class Player{
     			setKeys(Keyboard.KEY_A, Keyboard.KEY_D, Keyboard.KEY_W, Keyboard.KEY_S, Keyboard.KEY_F, Keyboard.KEY_E);
     		}
 		}
-		
+		if((GameTime.getTime() - shieldTimer) > 3000){
+			vulnerable=true;
+		}
 	}
 	
 	public void confuse(){
-		System.out.println(name);
 		if (name=="One"){
 			setKeys(Keyboard.KEY_RIGHT, Keyboard.KEY_LEFT, Keyboard.KEY_DOWN, Keyboard.KEY_UP, Keyboard.KEY_SPACE, Keyboard.KEY_RMENU);
-			System.out.println("test");
 		}
 		if (name=="Two"){
 			setKeys(Keyboard.KEY_D, Keyboard.KEY_E, Keyboard.KEY_S, Keyboard.KEY_W, Keyboard.KEY_F, Keyboard.KEY_E);
-			System.out.println("test2");
 		}
 		trapTimer2=GameTime.getTime();
+	}
+	
+	public void shield(){
+		vulnerable=false;
+		shieldTimer=GameTime.getTime();
 	}
 	
 	/**
@@ -312,6 +321,11 @@ public class Player{
 		latency=value;
 		trapTimer=GameTime.getTime();
 	}
+	
+	public int getBombsRange(){
+		return bombsRange;
+	}
+	
 	
 	
 }

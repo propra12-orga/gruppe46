@@ -45,7 +45,7 @@ public class Game implements Runnable {
 	public Game(int spielerzahl) {
 		//Spielfeld laden
 		try {
-			initialfeld("Level1.xml", spielerzahl); 
+			initialfeld("Level2.xml", spielerzahl); 
 		} catch (FileNotFoundException e) {
 			// Level nicht gefunden
 			e.printStackTrace();
@@ -100,11 +100,11 @@ public class Game implements Runnable {
 			if (spielfeld[p.getx()][p.gety()] instanceof Fallenfeld){
 				if (!( ((Fallenfeld)spielfeld[p.getx()][p.gety()]).getFallensteller()==p.getName() )){
 					if (((Fallenfeld)spielfeld[p.getx()][p.gety()]).getArt()==5){
-						p.setLatency(450);spielfeld[p.getx()][p.gety()]= new Leerfeld();
+						p.setLatency(450);spielfeld[p.getx()][p.gety()]= new Leerfeld();break;
 					}
 					if (((Fallenfeld)spielfeld[p.getx()][p.gety()]).getArt()==8){
 						p.confuse(); System.out.println("test3");
-						spielfeld[p.getx()][p.gety()]= new Leerfeld();
+						spielfeld[p.getx()][p.gety()]= new Leerfeld();break;
 					}										
 				}
 			}
@@ -190,7 +190,7 @@ public class Game implements Runnable {
 				}
 			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
 				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb()) && !(spielfeld[p.getx()][p.gety()] instanceof Bombenfeld)) {
-					new Bombe(p.getx(),p.gety(), p.getName()).start();
+					new Bombe(p.getx(),p.gety(), p.getName(), p.getBombsRange()).start();
 					spielfeld[p.getx()][p.gety()]= new Bombenfeld();
 				}
 				p.setPress_bomb(true);
@@ -204,6 +204,7 @@ public class Game implements Runnable {
 				case 4: {p.setInvisible();p.delItem();break;}
 				case 5: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName(),5);p.delItem();break;}
 				case 8: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName(),8);p.delItem();break;}
+				case 9: {p.shield();p.delItem();break;}
 				}
 			}
 			
@@ -433,10 +434,10 @@ public class Game implements Runnable {
 
 		spielfeld[a][b]=new Exitfeld();
 		
-//trapTest
-		 a = 10;
-		 b = 10;
-		spielfeld[a][b]=new Extrasfeld(8);
+//rangeTest
+		 a = 3;
+		 b = 4;
+		spielfeld[a][b]=new Extrasfeld(10);
 		
 		//Powerups generieren
 		int powerzahl=8; //Anzahl Powerups je nach map einstellen?
