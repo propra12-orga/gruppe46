@@ -11,7 +11,13 @@ import org.lwjgl.opengl.Display;
 
 
 public class Leveleditor implements Runnable{
+	/**
+	 * Die verwendete Schriftart
+	 */
 	private static LWJGL_Font lucida;
+	/**
+	 * Art des ausgewaehlten Feldes
+	 */
 	private static int type = 1;
 //	protected static String name;
 //	protected static Integer width;
@@ -23,7 +29,10 @@ public class Leveleditor implements Runnable{
 		this.height = height;
 	} */
 	
-	//Main-Methode
+	//run-Methode
+	/**
+	 * Ausfuehrung des Leveleditors
+	 */
 	public void run(){
 		GameTime.init();
 		
@@ -57,9 +66,11 @@ public class Leveleditor implements Runnable{
 			}
 		}
 		boolean finish=false;
-		
+		/**
+		 * Solange das Fenster nicht geschlossen wird bzw. ESC gedrueckt wird, erstellt der Benutzer das Level, danach wird es gespeichert.
+		 */
         while (!Display.isCloseRequested() && !finish) {
-        	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
+        	
         	Renderer.clearGL();
         	if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) finish=true;//Beim druecken von esc wird ueberprueft ob LVL gueltig
         	pollInput();
@@ -216,7 +227,21 @@ public class Leveleditor implements Runnable{
 		return (Display.getHeight() - y)/Feld.getSize();
 	}
 
-	
+	/**
+	 * Abspeichern des erstellten Levels als .xml
+	 * @param spielfeld: Erstelltes Spielfeld
+	 * @param width: Breite des Spielfelds
+	 * @param height: Hoehe des Spielfelds
+	 * @param px: x-Teil der Startposition von Spieler 1
+	 * @param py: y-Teil der Startposition von Spieler 1
+	 * @param p2x: x-Teil der Startposition von Spieler 2
+	 * @param p2y: y-Teil der Startposition von Spieler 2
+	 * @param name: Name des Levels
+	 * @param exitx: x-Position des Ausgangs
+	 * @param exity: y-Position des Ausgangs
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
+	 */
 	private static void speichern(Feld[][] spielfeld, int width, int height, int px, int py, int p2x, int p2y, String name, int exitx, int exity) throws FileNotFoundException, XMLStreamException {
 		//erstellen der xml-Datei
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
@@ -272,7 +297,16 @@ public class Leveleditor implements Runnable{
 		}
 
 
-
+/**
+ * Ueberprueft, ob beide Spieler die gleiche Entfernung zu einer Ecke des Levels haben
+ * @param x1: x-Teil der Startposition von Spieler 1
+ * @param y1: y-Teil der Startposition von Spieler 1
+ * @param x2: x-Teil der Startposition von Spieler 2
+ * @param y2: y-Teil der Startposition von Spieler 2
+ * @param breit: Breite des Levels
+ * @param hoch: Hoehe des Levels
+ * @return: Gibt wahr zurueck, wenn Entfernung gleich
+ */
 	private static boolean startpruefung(int x1, int y1, int x2, int y2, int breit, int hoch) {
 		boolean gefunden=false; //Startposition von Spieler 2 gefunden
 		
@@ -292,7 +326,13 @@ public class Leveleditor implements Runnable{
 		
 	}
 
-
+/**
+ * Ueberprueft, ob der Rand des Spielfeldes aus Steinfeldern besteht
+ * @param spielfeld: 2D-Array des Spielfeldes
+ * @param breit: Breite des Spielfeldes
+ * @param hoch: Hoehe des Spielfeldes
+ * @return Gibt wahr zurueck, wenn der Rand aus Steinen besteht
+ */
 	private static boolean aufbaupruefung(Feld[][] spielfeld, int breit, int hoch) {	//testet ob die map aussen aus steinfeldern besteht
 		for (int i=0;i<breit;i++){		
 			if (!(spielfeld[i][0] instanceof Steinfeld)) return false;
