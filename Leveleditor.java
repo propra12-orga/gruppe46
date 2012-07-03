@@ -38,6 +38,7 @@ public class Leveleditor {
 				
 		int px = 0, py = 0;
 		int p2x = 1, p2y = 1;
+		int exitx=0, exity=0;
 		Feld[][] spielfeld = new Feld[width][height];
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
@@ -75,6 +76,8 @@ public class Leveleditor {
 		    		case 4: 
 		    			p2x = x; p2y = y;
 		    			 break;
+		    		case 5: exitx=x; exity=y;
+		    			 break;
 		    	}
 		    }
 		    
@@ -85,25 +88,30 @@ public class Leveleditor {
 	    	switch(type) {
 	    		case 1: 
 	    			Renderer.Tile_Wall.draw(Mouse.getX(), Display.getHeight() - Mouse.getY()); 
-	    			lucida.print(0, 0, "   LMB: Steinfeld setzen (1 = Mauer, 2 = P1, 3 = P2)");
+	    			lucida.print(0, 0, "   LMB: Steinfeld setzen (2 = Mauer, 3 = P1, 4 = P2, 5 = Ausgang)");
 	    			break;
 	    		case 2: 
 	    			Renderer.Tile_Break.draw(Mouse.getX(), Display.getHeight() - Mouse.getY());
-	    			lucida.print(0, 0, "   LMB: Mauer (zerstoerbar) setzen (0 = Steinfeld, 2 = P1, 3 = P2)");
+	    			lucida.print(0, 0, "   LMB: Mauer (zerstoerbar) setzen (1 = Steinfeld, 3 = P1, 4 = P2, 5 = Ausgang)");
 	    			 break;
 	    		case 3: 
 	    			lucida.print(Mouse.getX(), Display.getHeight() - Mouse.getY(), "P1");
-	    			lucida.print(0, 0, "   LMB: Player 1 setzen (0 = Steinfeld, 1 = Mauer, 3 = P2)");
+	    			lucida.print(0, 0, "   LMB: Player 1 setzen (1 = Steinfeld, 2 = Mauer, 4 = P2, 5 = Ausgang)");
 	    			 break;
 	    		case 4: 
 	    			lucida.print(Mouse.getX(), Display.getHeight() - Mouse.getY(), "P2");
-	    			lucida.print(0, 0, "   LMB: Player 2 setzen (0 = Steinfeld, 1 = Mauer, 2 = P1)");
+	    			lucida.print(0, 0, "   LMB: Player 2 setzen (1 = Steinfeld, 2 = Mauer, 3 = P1, 5 = Ausgang)");
 	    			 break;
+	    		case 5: 
+	    			lucida.print(Mouse.getX(), Display.getHeight() - Mouse.getY(), "EXIT");
+	    			lucida.print(0, 0, "   LMB: Ausgang setzen (1 = Steinfeld, 2 = Mauer, 3 = P1, 4 = P2)");
+   			 		 break;
 	    	}
 	    	lucida.print(0, (int)(lucida.getScale() * 24), "   RMB: Feld loeschen"); 
 	    			
 	    	lucida.print(Feld.getSize()*px, Feld.getSize()*py, "P1");
 	    	lucida.print(Feld.getSize()*p2x, Feld.getSize()*p2y, "P2");
+	    	lucida.print(Feld.getSize()*exitx, Feld.getSize()*exity, "EXIT");
 	    	
 	    	if (finish){
         	if (!startpruefung(px,py,p2x,p2y,width,height)){finish = false;}
@@ -120,7 +128,7 @@ public class Leveleditor {
         }
         //abspeichern
         try {
-			speichern(spielfeld,width,height,px,py,p2x,p2y,name);
+			speichern(spielfeld,width,height,px,py,p2x,p2y,name,exitx,exity);
 		} catch (FileNotFoundException | XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -144,13 +152,14 @@ public class Leveleditor {
 					case Keyboard.KEY_3: type = 3;
 						break;
 					case Keyboard.KEY_4: type = 4;
-					break;
-					
+						break;
+					case Keyboard.KEY_5: type = 5;
+						break;
 				}
 			}
 			Keyboard.next();
 		}
-		type = (type + Mouse.getDWheel()/120 - 1)%4 + 1;
+		type = (type + Mouse.getDWheel()/120 - 1)%5 + 1;
 	}
 	
 	private static String getInput(String label, String allowed) {
@@ -197,7 +206,7 @@ public class Leveleditor {
 	}
 
 	
-	private static void speichern(Feld[][] spielfeld, int width, int height, int px, int py, int p2x, int p2y, String name) throws FileNotFoundException, XMLStreamException {
+	private static void speichern(Feld[][] spielfeld, int width, int height, int px, int py, int p2x, int p2y, String name, int exitx, int exity) throws FileNotFoundException, XMLStreamException {
 		//erstellen der xml-Datei
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		XMLStreamWriter schreiber = factory.createXMLStreamWriter( new FileOutputStream(name));
@@ -227,13 +236,18 @@ public class Leveleditor {
 		
 		//festlegen der Startpositionen
 		schreiber.writeStartElement("Startpositionen");
-		
 			schreiber.writeAttribute("p1x", String.valueOf(px));
 			schreiber.writeAttribute("p1y", String.valueOf(py));
 			schreiber.writeAttribute("p2x", String.valueOf(p2x));
 			schreiber.writeAttribute("p2y", String.valueOf(p2y));
-		
 		schreiber.writeEndElement();
+		
+		//Ausgang festlegen
+		schreiber.writeStartElement("Ausgang");
+			schreiber.writeAttribute("exitx", String.valueOf(exitx));
+			schreiber.writeAttribute("exity", String.valueOf(exity));
+		schreiber.writeEndElement();
+		
 		schreiber.writeEndElement();
 		schreiber.writeEndDocument();
 		schreiber.close();

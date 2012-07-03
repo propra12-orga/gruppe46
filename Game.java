@@ -45,7 +45,7 @@ public class Game implements Runnable {
 	public Game(int spielerzahl) {
 		//Spielfeld laden
 		try {
-			initialfeld("Level2.xml", spielerzahl); 
+			initialfeld("Level3.xml", spielerzahl); 
 		} catch (FileNotFoundException e) {
 			// Level nicht gefunden
 			e.printStackTrace();
@@ -372,7 +372,7 @@ public class Game implements Runnable {
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		XMLStreamReader parser = factory.createXMLStreamReader(in);	
 		int breit=0, hoch=0;
-		int y = -1;		//2mal Start_Element bevor die Attribute kommen, somit y=0 beim ersten Attribut
+		int y = -1;		//y++ somit y=0 beim ersten Attribut
 		
 		while( parser.hasNext() ) {
 		    int event = parser.next();
@@ -412,7 +412,9 @@ public class Game implements Runnable {
 		            		else if (test.equals("M")){spielfeld[x][y]= new Mauerfeld();}
 		            		else if (test.equals("L")){spielfeld[x][y]= new Leerfeld();}
 		        		}//for
-		        	}//if 
+		        	} else if(parser.getLocalName().equals("Ausgang") && (spielerzahl == 1)){	//Im Einspieler-Modus wird der Ausgang erstellt
+		        		spielfeld[Integer.parseInt(parser.getAttributeValue(0))][Integer.parseInt(parser.getAttributeValue(1))]=new Exitfeld();
+		        	}//if
 		            break;
 		        
 		       
@@ -423,9 +425,11 @@ public class Game implements Runnable {
 		
 		
 
-		//Ausgangsfeld mit zufaelligen Variablen
+		
 		int a = 1;
 		int b = 1;
+		
+		/*Ausgangsfeld mit zufaelligen Variablen
 		do {
 			a = (int) ((Math.random()*100)%(breit-2))+1;
 			b = (int) ((Math.random()*100)%(hoch-2))+1;
@@ -433,14 +437,14 @@ public class Game implements Runnable {
 		while(spielfeld[a][b] instanceof Steinfeld);
 
 		spielfeld[a][b]=new Exitfeld();
-		
-//rangeTest
-		 a = 3;
-		 b = 4;
-		spielfeld[a][b]=new Extrasfeld(10);
+		*/
+		//rangeTest
+		 //a = 3;
+		 //b = 4;
+		 //spielfeld[a][b]=new Extrasfeld(10);
 		
 		//Powerups generieren
-		int powerzahl=8; //Anzahl Powerups je nach map einstellen?
+		int powerzahl=breit*hoch/12; //Anzahl Powerups je nach map einstellen?
 		int art=0;	//Art der Powerups
 		int n=0; 
 		
@@ -453,16 +457,16 @@ public class Game implements Runnable {
 		while((spielfeld[a][b] instanceof Steinfeld || spielfeld[a][b] instanceof Exitfeld || spielfeld[a][b] instanceof Extrasfeld || spielfeld[a][b] instanceof Leerfeld) && n<100);
 		if (n<100){
 			int zahl= (int) (Math.random()*100)+1;
-			if(zahl>=1 && zahl<20) art=1;
-			if(zahl>=20 && zahl<40) art=2;
-			if(zahl>=40 && zahl<50) art=3;
-			if(zahl>=50 && zahl<60) art=4;
-			if(zahl>=60 && zahl<70) art=5;
-			if(zahl>=70 && zahl<80) art=6;
-			if(zahl>=80 && zahl<85) art=7;
-			if(zahl>=85 && zahl<90) art=8;
-			if(zahl>=90 && zahl<95) art=9;
-			if(zahl>=95 && zahl<=100) art=10;
+			if(zahl>=1 && zahl<20) art=2;
+			if(zahl>=20 && zahl<40) art=10;
+			if(zahl>=40 && zahl<50) art=1;
+			if(zahl>=50 && zahl<60) art=3;
+			if(zahl>=60 && zahl<70) art=9;
+			if(zahl>=70 && zahl<80) art=8;
+			if(zahl>=80 && zahl<85) art=4;
+			if(zahl>=85 && zahl<90) art=5;
+			if(zahl>=90 && zahl<95) art=6;
+			if(zahl>=95 && zahl<=100) art=7;
 			spielfeld[a][b]=new Extrasfeld(art);
 			}
 		}//for
