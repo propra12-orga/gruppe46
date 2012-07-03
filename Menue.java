@@ -19,6 +19,7 @@ public class Menue extends Frame
 	protected JButton[] hauptButtons;
 	protected JButton[] spielButtons;
 	private JButton optionButton;
+	private JButton leveleditor;
 	private JButton[] multiButtons;
 	private String[] headlines;
 	private JTextField[] felder;
@@ -91,6 +92,13 @@ public class Menue extends Frame
 		optionButton.addActionListener(a);
 		optionButton.setVisible(false);
 		this.add(optionButton);
+		
+		leveleditor = new JButton("Leveleditor");
+		leveleditor.setBackground(Color.white);
+		leveleditor.setBounds(405, 435, 150, 50);
+		leveleditor.addActionListener(a);
+		leveleditor.setVisible(false);
+		this.add(leveleditor);
 		
 		multiButtons = new JButton[2];
 		for(int i=0;i<multiButtons.length;i++)
@@ -303,6 +311,7 @@ public class Menue extends Frame
 				{
 					boxen[i].setVisible(true);
 				}
+				leveleditor.setVisible(true);
 			}
 			if(e.getActionCommand().equals("Spiel beenden"))
 			{
@@ -379,6 +388,7 @@ public class Menue extends Frame
 						boxen[i].setVisible(false);
 					}
 				}
+				leveleditor.setVisible(false);
 			}
 			if(e.getActionCommand().equals("Am PC"))
 			{				
@@ -403,6 +413,11 @@ public class Menue extends Frame
 			if(e.getActionCommand().equals("Netzwerk"))
 			{
 				//Netzwerkfähigkeit.
+			}
+			if(e.getActionCommand().equals("Leveleditor"))
+			{
+				String[] s = new String[1];
+				Leveleditor.main(s);
 			}
 		}
 	}

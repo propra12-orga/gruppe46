@@ -13,6 +13,15 @@ import org.lwjgl.opengl.Display;
 public class Leveleditor {
 	private static LWJGL_Font lucida;
 	private static int type = 1;
+//	protected static String name;
+//	protected static Integer width;
+//	protected static Integer height;
+	
+/*	public Leveleditor(String name, int width, int height){
+		this.name = name;
+		this.width = width;
+		this.height = height;
+	} */
 	
 	//Main-Methode
 	public static void main(String[] args){
@@ -30,10 +39,12 @@ public class Leveleditor {
 			e1.printStackTrace();
 			System.exit(0);
 		}
-		
+//		name = getInput("Level Name: ", name);
 		String name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 		name = name + ".xml";
+//		width = Integer.parseInt(getInput("Level Width: ", width.toString()));
 		int width = Integer.parseInt(getInput("Level Width: ", "0123456789"));
+//		height = Integer.parseInt(getInput("Level Height: ", height.toString()));
 		int height = Integer.parseInt(getInput("Level Height: ", "0123456789"));
 				
 		int px = 0, py = 0;
@@ -116,7 +127,7 @@ public class Leveleditor {
 	    	if (finish){
         	if (!startpruefung(px,py,p2x,p2y,width,height)){finish = false;}
         	if (!aufbaupruefung(spielfeld, width, height)){ 
-        		lucida.print(0, 560, "Level ungueltig, da nicht nach außen abgeschlossen!");
+        		lucida.print(0, 560, "Level ungueltig, da nicht nach auï¿½en abgeschlossen!");
         		finish=false;
         		} else if (!sperrpruefung(spielfeld,width, height)) {
         			lucida.print(0, 560, "Spieler koennen sich nicht erreichen!");
@@ -127,12 +138,12 @@ public class Leveleditor {
 		    Renderer.sync();
         }
         //abspeichern
-        try {
+/*        try {
 			speichern(spielfeld,width,height,px,py,p2x,p2y,name,exitx,exity);
 		} catch (FileNotFoundException | XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} */
         Renderer.destroy();
 	}
 	
