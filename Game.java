@@ -39,6 +39,10 @@ public class Game implements Runnable {
 	 */
 	private boolean[] arr;
 	/**
+	 * Breite und Hoehe des Spielfeldes
+	 */
+	private int breit, hoch;
+	/**
 	 * Spiel wird geladen
 	 * @param spielerzahl: anzahl des Spieler
 	 */
@@ -233,7 +237,7 @@ public class Game implements Runnable {
 	
     public void run() {
 		GameTime.init();
-    	Renderer.initDisplay(800,600,60);
+    	Renderer.initDisplay(spielfeld[0][0].size*breit+100,spielfeld[0][0].size*hoch,60);
     	Renderer.initGL();
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
@@ -371,7 +375,7 @@ public class Game implements Runnable {
 		InputStream in = new FileInputStream(name);
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		XMLStreamReader parser = factory.createXMLStreamReader(in);	
-		int breit=0, hoch=0;
+		
 		int y = -1;		//y++ somit y=0 beim ersten Attribut
 		
 		while( parser.hasNext() ) {
