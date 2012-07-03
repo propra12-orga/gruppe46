@@ -93,12 +93,25 @@ public class Leveleditor implements Runnable{
 		    			spielfeld[x][y] = new Mauerfeld();
 		    			 break;
 		    		case 3: 
-		    			px = x; py = y;
+		    			if (!(spielfeld[x][y] instanceof Leerfeld)){
+		    				lucida.print(0, 580, "Spieler koennen nur auf Leerfeldern starten!");
+		    			} else {
+		    				px = x; py = y;
+		    			}
 		    			 break;
 		    		case 4: 
-		    			p2x = x; p2y = y;
+		    			if (!(spielfeld[x][y] instanceof Leerfeld)){
+		    				lucida.print(0, 580, "Spieler koennen nur auf Leerfeldern starten!");
+		    			} else {
+		    				p2x = x; p2y = y;
+		    			}
 		    			 break;
-		    		case 5: exitx=x; exity=y;
+		    		case 5: 
+		    			if ((spielfeld[x][y] instanceof Steinfeld)){
+		    				lucida.print(0, 580, "Den Ausgang nicht auf ein Steinfeld legen!");
+		    			} else {
+		    				exitx = x; exity = y;
+		    			}
 		    			 break;
 		    	}
 		    }
@@ -140,8 +153,8 @@ public class Leveleditor implements Runnable{
         	if (!aufbaupruefung(spielfeld, width, height)){ 
         		lucida.print(0, 560, "Level ungueltig, da nicht nach au�en abgeschlossen!");
         		finish=false;
-        		} else if (!sperrpruefung(spielfeld,width, height)) {
-        			lucida.print(0, 560, "Spieler koennen sich nicht erreichen!");
+        		} else if (!sperrpruefung(spielfeld,width, height, px, py, p2x, p2y, exitx, exity)) {
+        			lucida.print(0, 560, "Spieler koennen sich nicht erreichen oder Ausgang ist versperrt!");
         			finish=false;
         			}
         	}
@@ -292,9 +305,30 @@ public class Leveleditor implements Runnable{
 		
 		
 		//Konsistenzpruefungen
-	private static boolean sperrpruefung(Feld[][] spielfeld,int breit, int hoch) {
+	private static boolean sperrpruefung(Feld[][] spielfeld,int breit, int hoch, int x1, int y1, int x2, int y2, int exitx, int exity) {
+		Feld[][] kopie = spielfeld;
+		for (int i=0;i<breit;i++){
+			for (int j=0;j<hoch;j++){
+				if (!(kopie[i][j] instanceof Steinfeld)) kopie[i][j].sperrtest=false;
+			}
+		}
+		
+		kopie=rekursion(kopie, x1,y1);
+		if (kopie[x2][y2].sperrtest!=true) return false;
+		if (kopie[exitx][exity].sperrtest!=true) return false;
 		return true;
 		}
+
+
+private static Feld[][] rekursion(Feld[][] kopie, int x, int y) {
+	kopie[x][y].sperrtest=true;	
+		if ((!(kopie[x-1][y] instanceof Steinfeld)) && (kopie[x-1][y].sperrtest==false)) kopie=rekursion(kopie, x-1, y);
+		if ((!(kopie[x+1][y] instanceof Steinfeld)) && (kopie[x+1][y].sperrtest==false)) kopie=rekursion(kopie, x+1, y);
+		if ((!(kopie[x][y-1] instanceof Steinfeld)) && (kopie[x][y-1].sperrtest==false)) kopie=rekursion(kopie, x, y-1);
+		if ((!(kopie[x][y+1] instanceof Steinfeld)) && (kopie[x][y+1].sperrtest==false)) kopie=rekursion(kopie, x, y+1);
+	return kopie;	
+	}
+
 
 
 /**

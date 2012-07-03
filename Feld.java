@@ -8,6 +8,10 @@
  */
 public abstract class Feld {
 	/**
+	 * fuer die Konsistenzpruefung erforderlicher Boolean
+	 */
+	public boolean sperrtest;
+	/**
 	 * Legt Groesse des Feldes fest
 	 */
 	protected static int size = 40;
@@ -31,5 +35,6 @@ public abstract class Feld {
 	public static int getSize(){
 		return size;
 	}
+	
 	
 }
