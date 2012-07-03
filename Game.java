@@ -42,10 +42,10 @@ public class Game implements Runnable {
 	 * Spiel wird geladen
 	 * @param spielerzahl: anzahl des Spieler
 	 */
-	public Game(int spielerzahl) {
+	public Game(int spielerzahl, String level) {
 		//Spielfeld laden
 		try {
-			initialfeld("Level3.xml", spielerzahl); 
+			initialfeld(level, spielerzahl); 
 		} catch (FileNotFoundException e) {
 			// Level nicht gefunden
 			e.printStackTrace();

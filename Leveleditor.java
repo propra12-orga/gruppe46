@@ -10,7 +10,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 
-public class Leveleditor {
+public class Leveleditor implements Runnable{
 	private static LWJGL_Font lucida;
 	private static int type = 1;
 //	protected static String name;
@@ -24,7 +24,7 @@ public class Leveleditor {
 	} */
 	
 	//Main-Methode
-	public static void main(String[] args){
+	public void run(){
 		GameTime.init();
 		
     	Renderer.initDisplay(800,600,60);
@@ -138,12 +138,12 @@ public class Leveleditor {
 		    Renderer.sync();
         }
         //abspeichern
-/*        try {
+       try {
 			speichern(spielfeld,width,height,px,py,p2x,p2y,name,exitx,exity);
 		} catch (FileNotFoundException | XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} */
+		} 
         Renderer.destroy();
 	}
 	
