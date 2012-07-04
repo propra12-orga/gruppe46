@@ -34,15 +34,25 @@ public class Game implements Runnable {
 	 * Ist es ein Extra?
 	 */
 	private boolean[] arr;
+	
 	/**
 	 * Breite und Hoehe des Spielfeldes
 	 */
 	protected int breit, hoch;
+	
+	/**
+	 * ist es ein netzwerk-spiel?
+	 */
+	private boolean netzwerk = false;
+	
+	private Network net;
 	/**
 	 * Spiel wird geladen
-	 * @param spielerzahl: anzahl des Spieler
+	 * @param spielerzahl
+	 * @param level - Dateiname des Levels als xml
+	 * @param netzwerk - boolean wert fuer netzwerk spiel
 	 */
-	public Game(int spielerzahl, String level) {
+	public Game(int spielerzahl, String level, boolean netzwerk, boolean hosting) {
 		//Spielfeld laden
 		try {
 			initialfeld(level, spielerzahl); 
@@ -53,8 +63,10 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 		
-		//
-				
+		this.netzwerk = netzwerk;
+		if(netzwerk) {
+			net = new Network(hosting);
+		}
 	}
 	
 	/**
@@ -269,7 +281,7 @@ public class Game implements Runnable {
 	
     public void run() {
 		GameTime.init();
-    	Renderer.initDisplay(spielfeld[0][0].size*breit+100,spielfeld[0][0].size*hoch,60);
+    	Renderer.initDisplay(Feld.size*breit+100,Feld.size*hoch,60);
     	Renderer.initGL();
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
@@ -290,6 +302,14 @@ public class Game implements Runnable {
     	
     	//Hintergrund-Musik starten
     	//Renderer.Theme.playAsSoundEffect(1.0f, 1.0f, false);
+    	
+    	while(!Display.isCloseRequested() && (net.isConnected()==false)) {
+    		Renderer.clearGL();
+    		Renderer.print(5, 5, "waiting for connection...",0.5f);
+    		if(net.isHost()) net.pollConnect();
+		    GameTime.update();
+		    Renderer.sync();
+    	}
     	
     	
         while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
@@ -320,10 +340,20 @@ public class Game implements Runnable {
 				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... " + GameTime.getFPS(), 0.5f);
 			}
 			
+			if(netzwerk) {
+				Renderer.print(5, 25, "recv: " + net.recv(), 0.5f);
+				if(Keyboard.isKeyDown(Keyboard.KEY_1)) net.send(1);
+				if(Keyboard.isKeyDown(Keyboard.KEY_2)) net.send(2);
+			}
+			
 			SoundStore.get().poll(0);
 		    GameTime.update();
 		    Renderer.sync();
 		}   
+        
+        if(netzwerk) {
+        	net.destroy();
+        }
         
         for(int i = 0; i < players.size(); i++) {
         	if(players.get(i).isAlive() == false) Main.m.gameover.setText("Spieler "+players.get(i).getName()+" ist tot!" + " (" + players.get(0).getLives() + ")");
