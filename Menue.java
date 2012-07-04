@@ -11,6 +11,7 @@ import java.net.SocketException;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
 
@@ -34,6 +35,7 @@ public class Menue extends Frame
 	private JTextField lvlwahl;
 	private JButton starten;
 	private int spieler;
+	private JButton server, client;
 	
 	protected JTextField gameover;
 	/**
@@ -161,6 +163,20 @@ public class Menue extends Frame
 		starten.addActionListener(a);
 		starten.setVisible(false);
 		this.add(starten);
+		
+		server = new JButton("Server");
+		server.setBackground(Color.white);
+		server.setBounds(245, 160, 150, 50);
+		server.addActionListener(a);
+		server.setVisible(false);
+		this.add(server);
+		
+		client = new JButton("Client");
+		client.setBackground(Color.white);
+		client.setBounds(245, 220, 150, 50);
+		client.addActionListener(a);
+		client.setVisible(false);
+		this.add(client);
 		
 		//CheckBoxen
 		boxen = new JCheckBox[11];
@@ -425,7 +441,12 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Netzwerk"))
 			{
-				//Netzwerkfähigkeit.
+				for(int i=0;i<multiButtons.length;i++)
+				{
+					multiButtons[i].setVisible(false);
+				}
+				server.setVisible(true);
+				client.setVisible(true);
 			}
 			if(e.getActionCommand().equals("Leveleditor"))
 			{
@@ -458,7 +479,7 @@ public class Menue extends Frame
 					}
 				}
 			}
-			if(e.getActionCommand().equals("Hosten")){
+			if(e.getActionCommand().equals("Server")){
 				ServerSocket server;
 				try {
 				server = new ServerSocket(12345);
