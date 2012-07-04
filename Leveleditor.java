@@ -49,20 +49,34 @@ public class Leveleditor implements Runnable{
 			System.exit(0);
 		}
 //		name = getInput("Level Name: ", name);
-		String name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+		String name = "";
+		do{
+			name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+		}while(!isValidName(name));
+		
 		name = name + ".xml";
+		
 //		width = Integer.parseInt(getInput("Level Width: ", width.toString()));
-		int width = Integer.parseInt(getInput("Level Width: ", "0123456789"));
+		int width = 0;
+		int height = 0;
+		do{
+			width = Integer.parseInt(getInput("Level Width (5 - 15): ", "0123456789"));
+		} while((width < 5)||(width > 15));
 //		height = Integer.parseInt(getInput("Level Height: ", height.toString()));
-		int height = Integer.parseInt(getInput("Level Height: ", "0123456789"));
-				
+		do{
+			height = Integer.parseInt(getInput("Level Height (5 - 15): ", "0123456789"));
+		} while((height < 5)||(height > 15));
 		int px = 0, py = 0;
 		int p2x = 1, p2y = 1;
 		int exitx=0, exity=0;
 		Feld[][] spielfeld = new Feld[width][height];
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
-				spielfeld[x][y] = new Leerfeld();
+				if((x < width-1) && (y < height-1) && (x > 0) && (y > 0)) {
+					spielfeld[x][y] = new Leerfeld();
+				} else {
+					spielfeld[x][y] = new Steinfeld();
+				}
 			}
 		}
 		boolean finish=false;
@@ -84,13 +98,17 @@ public class Leveleditor implements Runnable{
 		    int x = MouseFeldX(Mouse.getX());
 		    int y = MouseFeldY(Mouse.getY());
 		    
-		    if(Mouse.isButtonDown(0) && (x < width) && (y < height)) {
+		    if(Mouse.isButtonDown(0) && (x < width-1) && (y < height-1) && (x > 0) && (y > 0)) {
 		    	switch(type) {
 		    		case 1: 
-		    			spielfeld[x][y] = new Steinfeld();
+		    			if(((x!=px)||(y!=py))&&((x!=p2x)||(y!=p2y))&&((x!=exitx)||(y!=exity))) {
+		    				spielfeld[x][y] = new Steinfeld();
+		    			}
 		    			 break;
 		    		case 2: 
-		    			spielfeld[x][y] = new Mauerfeld();
+		    			if(((x!=px)||(y!=py))&&((x!=p2x)||(y!=p2y))) {
+		    				spielfeld[x][y] = new Mauerfeld();
+		    			}
 		    			 break;
 		    		case 3: 
 		    			if (!(spielfeld[x][y] instanceof Leerfeld)){
@@ -116,7 +134,7 @@ public class Leveleditor implements Runnable{
 		    	}
 		    }
 		    
-		    if(Mouse.isButtonDown(1) && (x < width) && (y < height)) {
+		    if(Mouse.isButtonDown(1) && (x < width-1) && (y < height-1) && (x > 0) && (y > 0)) {
 		    	spielfeld[x][y] = new Leerfeld();
 		    }
 		    
@@ -377,6 +395,12 @@ private static Feld[][] rekursion(Feld[][] kopie, int x, int y) {
 			if (!(spielfeld[breit-1][j] instanceof Steinfeld)) return false;
 		}
 		
+		return true;
+	}
+	
+	private static boolean isValidName(String name) {
+		if(name.equals("")) return false;
+		if(name.length()>20) return false;
 		return true;
 	}
 	

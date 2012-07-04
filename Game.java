@@ -24,16 +24,12 @@ public class Game implements Runnable {
 	/**
 	 * Liste des Spieler
 	 */
-	public final List<Player> players = new ArrayList<Player>();
-	public final static List<Player> playersStatic = new ArrayList<Player>();
+	public final static List<Player> players = new ArrayList<Player>();
 	/**
 	 * Unterbrechungsschluessel fuer Thread
 	 */
 	static Lock lock1 = new ReentrantLock();
-	/**
-	 * Graphische Eingabeflaeche
-	 */
-	private LWJGL_Font lucida;
+
 	/**
 	 * Ist es ein Extra?
 	 */
@@ -241,13 +237,6 @@ public class Game implements Runnable {
     	Renderer.initGL();
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
-		try {
-			lucida = new LWJGL_Font("lucida_console2.png");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.exit(0);
-		}
 		for(int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 			
@@ -279,21 +268,20 @@ public class Game implements Runnable {
 		    	}
 		    }
 		    
-		    lucida.setScale(0.33f);
+		    
 			for(int i = 0; i < players.size(); i++) {
 				Player p = players.get(i);
 				if(p.isAlive()) p.draw();
 				if (p.getInvisible()==false){
-					lucida.print((int)(p.getx()*Feld.getSize()),(int)(p.gety()*Feld.getSize()) - 6, p.getName());
+					Renderer.print((int)(p.getx()*Feld.getSize()),(int)(p.gety()*Feld.getSize()) - 6, p.getName(), 0.33f);
 				}
 			}
 			
-			lucida.setScale(0.50f);
 			if(players.size()==1) {
-				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead"));
+				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ")", 0.5f);
 			}
 			else {
-				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... (" + players.size() + ") " + GameTime.getFPS() + " ");
+				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... " + GameTime.getFPS(), 0.5f);
 			}
 			
 			SoundStore.get().poll(0);
@@ -355,14 +343,19 @@ public class Game implements Runnable {
      * @param playername: Name des Spielers
      * @return: Aktueller Spieler
      */
-	public static Player getPlayer(String playername) {
-		Player personOfInterest= new Player("test",0,0);
+	public static Player getPlayer(int num) {
+		/*Player personOfInterest= new Player("test",0,0);
 		for(int i = 0; i < playersStatic.size(); i++){
 			if(playersStatic.get(i).getName()==playername){
 				personOfInterest=playersStatic.get(i);
 			}
-	} 
-		return personOfInterest;
+			
+	} */
+		return players.get(num);
+	}
+	
+	public static boolean isMultiplayer() {
+		return (players.size()==2);
 	}
 
 /**
@@ -399,13 +392,13 @@ public class Game implements Runnable {
 		        		
 		        		if(spielerzahl==1) {
 		        			players.add(new Player("One",x1,y1));
-		        			playersStatic.add(players.get(0));
+		        			//playersStatic.add(players.get(0));
 		        		}
 		        		if(spielerzahl==2) {
 		        			players.add(new Player("One",x1,y1));
 		        			players.add(new Player("Two",x2,y2));
-		        			playersStatic.add(players.get(0));
-		        			playersStatic.add(players.get(1));
+		        			//playersStatic.add(players.get(0));
+		        			//playersStatic.add(players.get(1));
 		        		}
 		        	} else if(parser.getLocalName().startsWith("Zeile")){
 		        		y++;
