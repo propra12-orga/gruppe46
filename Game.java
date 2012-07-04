@@ -111,8 +111,12 @@ public class Game implements Runnable {
 			
 			
 			if(!p.isAlive()) { continue; }
+			
+			if (Keyboard.isKeyDown(p.getKeyRight())){
+				p.setRightMovement(true);
+			}
 					 
-			if (Keyboard.isKeyDown(p.getKeyRight())) {
+			if (p.isMovingRight()) {
 				if (spielfeld[p.getx()+1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()+1][p.gety()] instanceof Explosionsfeld){
 					 p.move(1,0);
@@ -127,11 +131,16 @@ public class Game implements Runnable {
 							   } else if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
 											Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
 									} else if (spielfeld[p.getx()+1][p.gety()] instanceof Fallenfeld) {
-										p.move(1,0);
+										p.move(1,0);;
 									}
-								  
+			p.setRightMovement(false); 
 			}
-			if (Keyboard.isKeyDown(p.getKeyLeft())) {
+			
+			if (Keyboard.isKeyDown(p.getKeyLeft())){
+				p.setLeftMovement(true);
+			}
+					 
+			if (p.isMovingLeft()) {
 				if (spielfeld[p.getx()-1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()-1][p.gety()] instanceof Explosionsfeld){
 					p.move(-1,0);
@@ -148,9 +157,14 @@ public class Game implements Runnable {
 							   	  } else if (spielfeld[p.getx()-1][p.gety()] instanceof Fallenfeld) {
 							   		  		p.move(-1,0);
 							   	  		 }
-						     
+			p.setLeftMovement(false);			     
 			}
-			if (Keyboard.isKeyDown(p.getKeyDown())) {
+			
+			if (Keyboard.isKeyDown(p.getKeyDown())){
+				p.setDownMovement(true);
+			}
+					 
+			if (p.isMovingDown()) {
 				if (spielfeld[p.getx()][p.gety()+1] instanceof Leerfeld | 
 					spielfeld[p.getx()][p.gety()+1] instanceof Explosionsfeld){
 						p.move(0,1);
@@ -167,9 +181,15 @@ public class Game implements Runnable {
 								     } else if (spielfeld[p.getx()][p.gety()+1] instanceof Fallenfeld) {
 								    	 		p.move(0,1);
 								     		}
-							  	
+			p.setDownMovement(false);				  	
 			}
-			if (Keyboard.isKeyDown(p.getKeyUp())) {
+			
+			
+			if (Keyboard.isKeyDown(p.getKeyUp())){
+				p.setUpMovement(true);
+			}
+					 
+			if (p.isMovingUp()){
 				if (spielfeld[p.getx()][p.gety()-1] instanceof Leerfeld | 
 						spielfeld[p.getx()][p.gety()-1] instanceof Explosionsfeld){
 							p.move(0,-1);
@@ -186,19 +206,33 @@ public class Game implements Runnable {
 									  }  else if (spielfeld[p.getx()][p.gety()-1] instanceof Fallenfeld) {
 										  			p.move(0,-1);
 											  }
-								  	
+				p.setUpMovement(false);	  	
 				}
-			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
+			
+			if (Keyboard.isKeyDown(p.getKeyBomb())){
+				p.setPlantingBomb(true);
+			}
+			
+			if (p.isPlantingBomb()) {
 				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb()) && !(spielfeld[p.getx()][p.gety()] instanceof Bombenfeld)) {
 					new Bombe(p.getx(),p.gety(), p.getName(), p.getBombsRange()).start();
 					spielfeld[p.getx()][p.gety()]= new Bombenfeld();
 				}
 				p.setPress_bomb(true);
+				p.setPlantingBomb(false);
 			} else {
 				p.setPress_bomb(false);
+				p.setPlantingBomb(false);
 			  }
 			
-			if (Keyboard.isKeyDown(p.getKeySpecial()) ) {
+			
+			
+			
+			if (Keyboard.isKeyDown(p.getKeySpecial()) ){
+				p.setUsingSpecials(true);
+			}
+			
+			if (p.isUsingSpecials()) {
 				int item=p.getItem();
 				switch(item){
 				case 4: {p.setInvisible();p.delItem();break;}
@@ -206,10 +240,12 @@ public class Game implements Runnable {
 				case 8: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName(),8);p.delItem();break;}
 				case 9: {p.shield();p.delItem();break;}
 				}
+				p.setUsingSpecials(false);
 			}
 			
-	} //ende if
+		} //ende for
 		
+			
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			for(int i = 0; i < 4; i++){
 				Main.m.hauptButtons[i].setVisible(false);

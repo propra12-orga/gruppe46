@@ -50,6 +50,18 @@ public class Player{
 	private boolean vulnerable=true;
 	private long shieldTimer;
 	private boolean confused = false;
+	
+//SteuerungsAnpassung fuer Netzwerkfaehigkeit
+	private boolean movingRight=false;
+	private boolean movingLeft=false;
+	private boolean movingUp=false;
+	private boolean movingDown=false;
+	private boolean plantingBomb=false;
+	private boolean usingSpecials=false;
+	
+	
+	
+	
 	/**
 	 * Konstruktor
 	 * @param name: Name des Spieler
@@ -330,7 +342,53 @@ public class Player{
 		return bombsRange;
 	}
 	
+	public void setRightMovement(boolean value){
+		movingRight=value;
+	}
 	
+	public void setLeftMovement(boolean value){
+		movingLeft=value;
+	}
+	
+	public void setUpMovement(boolean value){
+		movingUp=value;
+	}
+	
+	public void setDownMovement(boolean value){
+		movingDown=value;
+	}
+	
+	public void setPlantingBomb(boolean value){
+		plantingBomb=value;
+	}
+	
+	public void setUsingSpecials(boolean value){
+		usingSpecials=value;
+	}
+	
+	public boolean isMovingRight(){
+		return movingRight;
+	}
+	
+	public boolean isMovingLeft(){
+		return movingLeft;
+	}
+	
+	public boolean isMovingUp(){
+		return movingUp;
+	}
+	
+	public boolean isMovingDown(){
+		return movingDown;
+	}
+	
+	public boolean isPlantingBomb(){
+		return plantingBomb;
+	}
+	
+	public boolean isUsingSpecials(){
+		return usingSpecials;
+	}
 	
 }
  

@@ -33,18 +33,18 @@ Socket client;
 				do{}
 				while(!in.nextLine().equals("ready"));
 				
-				//Schleife läuft solange der Thread von Game lebt
+				//Schleife laeuft solange der Thread von Game lebt
 				try {
 										
 					while (Main.t1.isAlive()){
 					String input = in.nextLine();
 					
-					if (input.equals("rechts")) p.ismovingright=true; 
-					else if (input.equals("links")) p.ismovingright=true;
-					else if (input.equals("oben")) p.ismovingup=true;
-					else if (input.equals("unten")) p.ismovingdown=true;
-					else if (input.equals("bombe")) p.isplantingbomb=true;
-					else if (input.equals("extra")) p.isusingextra=true;
+					if (input.equals("rechts")) p.setRightMovement(true); 
+					else if (input.equals("links")) p.setLeftMovement(true);
+					else if (input.equals("oben")) p.setUpMovement(true);
+					else if (input.equals("unten")) p.setDownMovement(true);
+					else if (input.equals("bombe")) p.setPlantingBomb(true);
+					else if (input.equals("extra")) p.setUsingSpecials(true);
 					
 					Game.lock1.lock();
 					oos.writeObject(Game.spielfeld);
