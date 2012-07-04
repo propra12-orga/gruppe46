@@ -39,16 +39,6 @@ public class Leveleditor implements Runnable{
 			e1.printStackTrace();
 			System.exit(0);
 		}
-<<<<<<< HEAD
-		String name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-		name = name + ".xml";
-		int width = Integer.parseInt(getInput("Level Width: ", "0123456789"));
-		int height = Integer.parseInt(getInput("Level Height: ", "0123456789"));
-				
-		int px = 0, py = 0;
-		int p2x = 1, p2y = 1;
-		int exitx=0, exity=0;
-=======
 //		name = getInput("Level Name: ", name);
 		String name = "";
 		do{
@@ -70,7 +60,6 @@ public class Leveleditor implements Runnable{
 		int px = 1, py = 1;
 		int p2x = 1, p2y = 2;
 		int exitx=1, exity=3;
->>>>>>> 80e86013b3fed8f43a29e8a1c66cf167b01045ff
 		Feld[][] spielfeld = new Feld[width][height];
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
