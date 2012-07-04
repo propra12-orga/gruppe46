@@ -1,6 +1,13 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
@@ -24,6 +31,9 @@ public class Menue extends Frame
 	private String[] headlines;
 	private JTextField[] felder;
 	private JCheckBox[] boxen;
+	private JTextField lvlwahl;
+	private JButton starten;
+	private int spieler;
 	
 	protected JTextField gameover;
 	/**
@@ -136,6 +146,21 @@ public class Menue extends Frame
 		gameover.setBounds(55, 420, 500, 50);
 		gameover.setEditable(false);
 		this.add(gameover);
+		
+		lvlwahl = new JTextField();
+		lvlwahl.setBounds(245,200,150,20);
+		lvlwahl.setHorizontalAlignment(JTextField.CENTER);
+		lvlwahl.setText("Level1");
+		lvlwahl.setEditable(true);
+		lvlwahl.setVisible(false);
+		this.add(lvlwahl);
+		
+		starten = new JButton("Spiel starten!");
+		starten.setBackground(Color.white);
+		starten.setBounds(245, 240, 150, 50);
+		starten.addActionListener(a);
+		starten.setVisible(false);
+		this.add(starten);
 		
 		//CheckBoxen
 		boxen = new JCheckBox[11];
@@ -266,21 +291,10 @@ public class Menue extends Frame
 					hauptButtons[i].setVisible(false);
 				}
 				gameover.setVisible(false);
+				lvlwahl.setVisible(true);
+				starten.setVisible(true);
+				spieler =1;
 				
-				Menue.this.setVisible(false);
-				
-				Main.t1 = new Thread(new Game(1));
-				Main.t1.start();
-				
-				for(int i=0;i<hauptButtons.length;i++)
-				{
-					hauptButtons[i].setVisible(true);
-					if(i!=2)
-					{
-						spielButtons[i].setVisible(false);
-					}
-					gameover.setVisible(true);
-				}
 			}
 			if(e.getActionCommand().equals("Mehrspieler"))
 			{
@@ -392,14 +406,13 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Am PC"))
 			{				
-				Menue.this.setVisible(false);
-				
-				Main.t1 = new Thread(new Game(2));
-				Main.t1.start();
+				lvlwahl.setVisible(true);
+				starten.setVisible(true);
+				spieler =2;
 				
 				for(int i=0;i<hauptButtons.length;i++)
 				{
-					hauptButtons[i].setVisible(true);
+					
 					if(i!=2)
 					{
 						spielButtons[i].setVisible(false);
@@ -416,9 +429,61 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Leveleditor"))
 			{
-				String[] s = new String[1];
-				Leveleditor.main(s);
+				Thread lvl = new Thread(new Leveleditor());
+				lvl.start();
 			}
+			if(e.getActionCommand().equals("Spiel starten!"))
+			{	
+				String name = lvlwahl.getText();
+				name += ".xml";
+				File test = new File(name);
+				if (!test.exists()) lvlwahl.setText("Level nicht gefunden!"); 
+				else {
+				
+				lvlwahl.setVisible(false);
+				starten.setVisible(false);
+				Menue.this.setVisible(false);
+				
+				Main.t1 = new Thread(new Game(spieler,name));
+				Main.t1.start();
+				
+				for(int i=0;i<hauptButtons.length;i++)
+					{
+					hauptButtons[i].setVisible(true);
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
+					gameover.setVisible(true);
+					}
+				}
+			}
+			if(e.getActionCommand().equals("Hosten")){
+				ServerSocket server;
+				try {
+				server = new ServerSocket(12345);
+				server.setSoTimeout(60000); //wartet eine Minute auf eingehende Verbindung
+				Socket client = server.accept();
+				new Thread(new Hosting(client)).start();
+				
+				} catch ( InterruptedIOException e1 ) {
+					  //konnte keine Verbindung hergestellt werden
+				} catch (SocketException e2) {
+				} catch (IOException e3) {
+				}
+
+			}
+			if(e.getActionCommand().equals("Client")){
+				/*
+				try {
+					new Thread(new Client(ip)).start();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+			}
+				
+			
 		}
 	}
 }

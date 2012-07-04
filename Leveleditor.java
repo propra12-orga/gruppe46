@@ -10,12 +10,21 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 
-public class Leveleditor {
+public class Leveleditor implements Runnable{
+	/**
+	 * Die verwendete Schriftart
+	 */
 	private static LWJGL_Font lucida;
+	/**
+	 * Art des ausgewaehlten Feldes
+	 */
 	private static int type = 1;
 	
-	//Main-Methode
-	public static void main(String[] args){
+	//run-Methode
+	/**
+	 * Ausfuehrung des Leveleditors
+	 */
+	public void run(){
 		GameTime.init();
 		
     	Renderer.initDisplay(800,600,60);
@@ -30,6 +39,7 @@ public class Leveleditor {
 			e1.printStackTrace();
 			System.exit(0);
 		}
+<<<<<<< HEAD
 		String name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 		name = name + ".xml";
 		int width = Integer.parseInt(getInput("Level Width: ", "0123456789"));
@@ -38,16 +48,45 @@ public class Leveleditor {
 		int px = 0, py = 0;
 		int p2x = 1, p2y = 1;
 		int exitx=0, exity=0;
+=======
+//		name = getInput("Level Name: ", name);
+		String name = "";
+		do{
+			name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+		}while(!isValidName(name));
+		
+		name = name + ".xml";
+		
+//		width = Integer.parseInt(getInput("Level Width: ", width.toString()));
+		int width = 0;
+		int height = 0;
+		do{
+			width = Integer.parseInt(getInput("Level Width (5 - 15): ", "0123456789"));
+		} while((width < 5)||(width > 15));
+//		height = Integer.parseInt(getInput("Level Height: ", height.toString()));
+		do{
+			height = Integer.parseInt(getInput("Level Height (5 - 15): ", "0123456789"));
+		} while((height < 5)||(height > 15));
+		int px = 1, py = 1;
+		int p2x = 1, p2y = 2;
+		int exitx=1, exity=3;
+>>>>>>> 80e86013b3fed8f43a29e8a1c66cf167b01045ff
 		Feld[][] spielfeld = new Feld[width][height];
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
-				spielfeld[x][y] = new Leerfeld();
+				if((x < width-1) && (y < height-1) && (x > 0) && (y > 0)) {
+					spielfeld[x][y] = new Leerfeld();
+				} else {
+					spielfeld[x][y] = new Steinfeld();
+				}
 			}
 		}
 		boolean finish=false;
-		
+		/**
+		 * Solange das Fenster nicht geschlossen wird bzw. ESC gedrueckt wird, erstellt der Benutzer das Level, danach wird es gespeichert.
+		 */
         while (!Display.isCloseRequested() && !finish) {
-        	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
+        	
         	Renderer.clearGL();
         	if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) finish=true;//Beim druecken von esc wird ueberprueft ob LVL gueltig
         	pollInput();
@@ -61,26 +100,43 @@ public class Leveleditor {
 		    int x = MouseFeldX(Mouse.getX());
 		    int y = MouseFeldY(Mouse.getY());
 		    
-		    if(Mouse.isButtonDown(0) && (x < width) && (y < height)) {
+		    if(Mouse.isButtonDown(0) && (x < width-1) && (y < height-1) && (x > 0) && (y > 0)) {
 		    	switch(type) {
 		    		case 1: 
-		    			spielfeld[x][y] = new Steinfeld();
+		    			if(((x!=px)||(y!=py))&&((x!=p2x)||(y!=p2y))&&((x!=exitx)||(y!=exity))) {
+		    				spielfeld[x][y] = new Steinfeld();
+		    			}
 		    			 break;
 		    		case 2: 
-		    			spielfeld[x][y] = new Mauerfeld();
+		    			if(((x!=px)||(y!=py))&&((x!=p2x)||(y!=p2y))) {
+		    				spielfeld[x][y] = new Mauerfeld();
+		    			}
 		    			 break;
 		    		case 3: 
-		    			px = x; py = y;
+		    			if (!(spielfeld[x][y] instanceof Leerfeld)){
+		    				lucida.print(0, 580, "Spieler koennen nur auf Leerfeldern starten!");
+		    			} else {
+		    				px = x; py = y;
+		    			}
 		    			 break;
 		    		case 4: 
-		    			p2x = x; p2y = y;
+		    			if (!(spielfeld[x][y] instanceof Leerfeld)){
+		    				lucida.print(0, 580, "Spieler koennen nur auf Leerfeldern starten!");
+		    			} else {
+		    				p2x = x; p2y = y;
+		    			}
 		    			 break;
-		    		case 5: exitx=x; exity=y;
+		    		case 5: 
+		    			if ((spielfeld[x][y] instanceof Steinfeld)){
+		    				lucida.print(0, 580, "Den Ausgang nicht auf ein Steinfeld legen!");
+		    			} else {
+		    				exitx = x; exity = y;
+		    			}
 		    			 break;
 		    	}
 		    }
 		    
-		    if(Mouse.isButtonDown(1) && (x < width) && (y < height)) {
+		    if(Mouse.isButtonDown(1) && (x < width-1) && (y < height-1) && (x > 0) && (y > 0)) {
 		    	spielfeld[x][y] = new Leerfeld();
 		    }
 		    
@@ -117,8 +173,8 @@ public class Leveleditor {
         	if (!aufbaupruefung(spielfeld, width, height)){ 
         		lucida.print(0, 560, "Level ungueltig, da nicht nach au�en abgeschlossen!");
         		finish=false;
-        		} else if (!sperrpruefung(spielfeld,width, height)) {
-        			lucida.print(0, 560, "Spieler koennen sich nicht erreichen!");
+        		} else if (!sperrpruefung(spielfeld,width, height, px, py, p2x, p2y, exitx, exity)) {
+        			lucida.print(0, 560, "Spieler koennen sich nicht erreichen oder Ausgang ist versperrt!");
         			finish=false;
         			}
         	}
@@ -126,12 +182,12 @@ public class Leveleditor {
 		    Renderer.sync();
         }
         //abspeichern
-/*        try {
+       try {
 			speichern(spielfeld,width,height,px,py,p2x,p2y,name,exitx,exity);
 		} catch (FileNotFoundException | XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} */
+		} 
         Renderer.destroy();
 	}
 	
@@ -179,7 +235,7 @@ public class Leveleditor {
 					
 					switch(Keyboard.getEventKey()) {
 						case Keyboard.KEY_BACK:
-							input = input.length() > 0 ? "" : input.substring(0, input.length()-1);
+							input = input.length() > 0 ? input.substring(0, input.length()-1) : "";
 							break;
 						case Keyboard.KEY_RETURN: 
 							done = true;
@@ -204,7 +260,21 @@ public class Leveleditor {
 		return (Display.getHeight() - y)/Feld.getSize();
 	}
 
-	
+	/**
+	 * Abspeichern des erstellten Levels als .xml
+	 * @param spielfeld: Erstelltes Spielfeld
+	 * @param width: Breite des Spielfelds
+	 * @param height: Hoehe des Spielfelds
+	 * @param px: x-Teil der Startposition von Spieler 1
+	 * @param py: y-Teil der Startposition von Spieler 1
+	 * @param p2x: x-Teil der Startposition von Spieler 2
+	 * @param p2y: y-Teil der Startposition von Spieler 2
+	 * @param name: Name des Levels
+	 * @param exitx: x-Position des Ausgangs
+	 * @param exity: y-Position des Ausgangs
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
+	 */
 	private static void speichern(Feld[][] spielfeld, int width, int height, int px, int py, int p2x, int p2y, String name, int exitx, int exity) throws FileNotFoundException, XMLStreamException {
 		//erstellen der xml-Datei
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
@@ -255,12 +325,42 @@ public class Leveleditor {
 		
 		
 		//Konsistenzpruefungen
-	private static boolean sperrpruefung(Feld[][] spielfeld,int breit, int hoch) {
+	private static boolean sperrpruefung(Feld[][] spielfeld,int breit, int hoch, int x1, int y1, int x2, int y2, int exitx, int exity) {
+		Feld[][] kopie = spielfeld;
+		for (int i=0;i<breit;i++){
+			for (int j=0;j<hoch;j++){
+				if (!(kopie[i][j] instanceof Steinfeld)) kopie[i][j].sperrtest=false;
+			}
+		}
+		
+		kopie=rekursion(kopie, x1,y1);
+		if (kopie[x2][y2].sperrtest!=true) return false;
+		if (kopie[exitx][exity].sperrtest!=true) return false;
 		return true;
 		}
 
 
+private static Feld[][] rekursion(Feld[][] kopie, int x, int y) {
+	kopie[x][y].sperrtest=true;	
+		if ((!(kopie[x-1][y] instanceof Steinfeld)) && (kopie[x-1][y].sperrtest==false)) kopie=rekursion(kopie, x-1, y);
+		if ((!(kopie[x+1][y] instanceof Steinfeld)) && (kopie[x+1][y].sperrtest==false)) kopie=rekursion(kopie, x+1, y);
+		if ((!(kopie[x][y-1] instanceof Steinfeld)) && (kopie[x][y-1].sperrtest==false)) kopie=rekursion(kopie, x, y-1);
+		if ((!(kopie[x][y+1] instanceof Steinfeld)) && (kopie[x][y+1].sperrtest==false)) kopie=rekursion(kopie, x, y+1);
+	return kopie;	
+	}
 
+
+
+/**
+ * Ueberprueft, ob beide Spieler die gleiche Entfernung zu einer Ecke des Levels haben
+ * @param x1: x-Teil der Startposition von Spieler 1
+ * @param y1: y-Teil der Startposition von Spieler 1
+ * @param x2: x-Teil der Startposition von Spieler 2
+ * @param y2: y-Teil der Startposition von Spieler 2
+ * @param breit: Breite des Levels
+ * @param hoch: Hoehe des Levels
+ * @return: Gibt wahr zurueck, wenn Entfernung gleich
+ */
 	private static boolean startpruefung(int x1, int y1, int x2, int y2, int breit, int hoch) {
 		boolean gefunden=false; //Startposition von Spieler 2 gefunden
 		
@@ -280,7 +380,13 @@ public class Leveleditor {
 		
 	}
 
-
+/**
+ * Ueberprueft, ob der Rand des Spielfeldes aus Steinfeldern besteht
+ * @param spielfeld: 2D-Array des Spielfeldes
+ * @param breit: Breite des Spielfeldes
+ * @param hoch: Hoehe des Spielfeldes
+ * @return Gibt wahr zurueck, wenn der Rand aus Steinen besteht
+ */
 	private static boolean aufbaupruefung(Feld[][] spielfeld, int breit, int hoch) {	//testet ob die map aussen aus steinfeldern besteht
 		for (int i=0;i<breit;i++){		
 			if (!(spielfeld[i][0] instanceof Steinfeld)) return false;
@@ -291,6 +397,12 @@ public class Leveleditor {
 			if (!(spielfeld[breit-1][j] instanceof Steinfeld)) return false;
 		}
 		
+		return true;
+	}
+	
+	private static boolean isValidName(String name) {
+		if(name.equals("")) return false;
+		if(name.length()>20) return false;
 		return true;
 	}
 	

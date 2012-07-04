@@ -32,6 +32,40 @@ public class Renderer {
 	 * Grafik fuer teilweise zerstoerte Mauer
 	 */
 	public static final LWJGL_Sprite Tile_Break = new LWJGL_Sprite("breakable.png");
+	/**
+	 * Grafik fuer Extrafeld 1 (extra Leben)
+	 */
+	public static final LWJGL_Sprite Tile_Health = new LWJGL_Sprite("health.png");
+	/**
+	 * Grafik fuer Extrafeld 2 (extra Bombe)
+	 */
+	public static final LWJGL_Sprite Tile_addbomb = new LWJGL_Sprite("extrabomb.png");
+	/**
+	 * Grafik fuer Extrafeld 2 (extra Bombe)
+	 */
+	public static final LWJGL_Sprite Tile_kick = new LWJGL_Sprite("kick.png");
+	/**
+	 * Grafik fuer Extrafeld 5 (steuerungstausch)
+	 */
+	public static final LWJGL_Sprite Tile_confuse = new LWJGL_Sprite("confuse.png");
+	/**
+	 * Grafik fuer Extrafeld 6 (Teleport)
+	 */
+	public static final LWJGL_Sprite Tile_teleport = new LWJGL_Sprite("teleport.png");
+	/**
+	 * Grafik fuer Extrafeld 7 (speedup)
+	 */
+	public static final LWJGL_Sprite Tile_speed = new LWJGL_Sprite("speed.png");
+	/**
+	 * Grafik fuer Extrafeld 8 (slowdown)
+	 */
+	public static final LWJGL_Sprite Tile_slow = new LWJGL_Sprite("slow.png");
+	
+	/**
+	 * Font Object zur Textausgabe
+	 */
+	private static LWJGL_Font lucida;
+	
 	//public static Audio Theme;	
 	//public static Audio Bomb_Explode;
 	public static void initDisplay() {
@@ -93,7 +127,29 @@ public class Renderer {
         Tile_Explosion.setScaleX(Feld.getSize()/(float)Tile_Explosion.getWidth()); Tile_Explosion.setScaleY(Feld.getSize()/(float)Tile_Explosion.getHeight());
         Tile_Break.init();
         Tile_Break.setScaleX(Feld.getSize()/(float)Tile_Break.getWidth()); Tile_Break.setScaleY(Feld.getSize()/(float)Tile_Break.getHeight());
+        Tile_Health.init();
+        Tile_Health.setScaleX(Feld.getSize()/(float)Tile_Health.getWidth()); Tile_Health.setScaleY(Feld.getSize()/(float)Tile_Health.getHeight());
+        Tile_addbomb.init();
+        Tile_addbomb.setScaleX(Feld.getSize()/(float)Tile_addbomb.getWidth()); Tile_addbomb.setScaleY(Feld.getSize()/(float)Tile_addbomb.getHeight());
+        Tile_kick.init();
+        Tile_kick.setScaleX(Feld.getSize()/(float)Tile_kick.getWidth()); Tile_kick.setScaleY(Feld.getSize()/(float)Tile_kick.getHeight());
+        Tile_confuse.init();
+        Tile_confuse.setScaleX(Feld.getSize()/(float)Tile_confuse.getWidth()); Tile_confuse.setScaleY(Feld.getSize()/(float)Tile_confuse.getHeight());
+        Tile_teleport.init();
+        Tile_teleport.setScaleX(Feld.getSize()/(float)Tile_teleport.getWidth()); Tile_teleport.setScaleY(Feld.getSize()/(float)Tile_teleport.getHeight());
+        Tile_speed.init();
+        Tile_speed.setScaleX(Feld.getSize()/(float)Tile_speed.getWidth()); Tile_speed.setScaleY(Feld.getSize()/(float)Tile_speed.getHeight());
+        Tile_slow.init();
+        Tile_slow.setScaleX(Feld.getSize()/(float)Tile_slow.getWidth()); Tile_slow.setScaleY(Feld.getSize()/(float)Tile_slow.getHeight());
         
+		try {
+			lucida = new LWJGL_Font("lucida_console2.png");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(0);
+		}
+		
         //Musik und Sounds laden. 
         /*try {
 			Theme = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("theme.wav"));
@@ -124,5 +180,10 @@ public class Renderer {
 	
 	public static void destroy() {
 		Display.destroy();
+	}
+	
+	public static void print(int x, int y, String text, float scale){
+		lucida.setScale(scale);
+		lucida.print(x, y, text);
 	}
 }

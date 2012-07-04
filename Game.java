@@ -24,28 +24,28 @@ public class Game implements Runnable {
 	/**
 	 * Liste des Spieler
 	 */
-	public final List<Player> players = new ArrayList<Player>();
-	public final static List<Player> playersStatic = new ArrayList<Player>();
+	public final static List<Player> players = new ArrayList<Player>();
 	/**
 	 * Unterbrechungsschluessel fuer Thread
 	 */
 	static Lock lock1 = new ReentrantLock();
-	/**
-	 * Graphische Eingabeflaeche
-	 */
-	private LWJGL_Font lucida;
+
 	/**
 	 * Ist es ein Extra?
 	 */
 	private boolean[] arr;
 	/**
+	 * Breite und Hoehe des Spielfeldes
+	 */
+	protected int breit, hoch;
+	/**
 	 * Spiel wird geladen
 	 * @param spielerzahl: anzahl des Spieler
 	 */
-	public Game(int spielerzahl) {
+	public Game(int spielerzahl, String level) {
 		//Spielfeld laden
 		try {
-			initialfeld("Level3.xml", spielerzahl); 
+			initialfeld(level, spielerzahl); 
 		} catch (FileNotFoundException e) {
 			// Level nicht gefunden
 			e.printStackTrace();
@@ -111,8 +111,12 @@ public class Game implements Runnable {
 			
 			
 			if(!p.isAlive()) { continue; }
+			
+			if (Keyboard.isKeyDown(p.getKeyRight())){
+				p.setRightMovement(true);
+			}
 					 
-			if (Keyboard.isKeyDown(p.getKeyRight())) {
+			if (p.isMovingRight()) {
 				if (spielfeld[p.getx()+1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()+1][p.gety()] instanceof Explosionsfeld){
 					 p.move(1,0);
@@ -127,11 +131,16 @@ public class Game implements Runnable {
 							   } else if ((spielfeld[p.getx()+1][p.gety()] instanceof Bombenfeld) && (p.getKicker())){
 											Bombe.Bombs.get(Bombe.getBomb(p.getx()+1, p.gety())).setkickedRight();	
 									} else if (spielfeld[p.getx()+1][p.gety()] instanceof Fallenfeld) {
-										p.move(1,0);
+										p.move(1,0);;
 									}
-								  
+			p.setRightMovement(false); 
 			}
-			if (Keyboard.isKeyDown(p.getKeyLeft())) {
+			
+			if (Keyboard.isKeyDown(p.getKeyLeft())){
+				p.setLeftMovement(true);
+			}
+					 
+			if (p.isMovingLeft()) {
 				if (spielfeld[p.getx()-1][p.gety()] instanceof Leerfeld | 
 					spielfeld[p.getx()-1][p.gety()] instanceof Explosionsfeld){
 					p.move(-1,0);
@@ -148,9 +157,14 @@ public class Game implements Runnable {
 							   	  } else if (spielfeld[p.getx()-1][p.gety()] instanceof Fallenfeld) {
 							   		  		p.move(-1,0);
 							   	  		 }
-						     
+			p.setLeftMovement(false);			     
 			}
-			if (Keyboard.isKeyDown(p.getKeyDown())) {
+			
+			if (Keyboard.isKeyDown(p.getKeyDown())){
+				p.setDownMovement(true);
+			}
+					 
+			if (p.isMovingDown()) {
 				if (spielfeld[p.getx()][p.gety()+1] instanceof Leerfeld | 
 					spielfeld[p.getx()][p.gety()+1] instanceof Explosionsfeld){
 						p.move(0,1);
@@ -167,9 +181,15 @@ public class Game implements Runnable {
 								     } else if (spielfeld[p.getx()][p.gety()+1] instanceof Fallenfeld) {
 								    	 		p.move(0,1);
 								     		}
-							  	
+			p.setDownMovement(false);				  	
 			}
-			if (Keyboard.isKeyDown(p.getKeyUp())) {
+			
+			
+			if (Keyboard.isKeyDown(p.getKeyUp())){
+				p.setUpMovement(true);
+			}
+					 
+			if (p.isMovingUp()){
 				if (spielfeld[p.getx()][p.gety()-1] instanceof Leerfeld | 
 						spielfeld[p.getx()][p.gety()-1] instanceof Explosionsfeld){
 							p.move(0,-1);
@@ -186,19 +206,33 @@ public class Game implements Runnable {
 									  }  else if (spielfeld[p.getx()][p.gety()-1] instanceof Fallenfeld) {
 										  			p.move(0,-1);
 											  }
-								  	
+				p.setUpMovement(false);	  	
 				}
-			if (Keyboard.isKeyDown(p.getKeyBomb()) ) {
+			
+			if (Keyboard.isKeyDown(p.getKeyBomb())){
+				p.setPlantingBomb(true);
+			}
+			
+			if (p.isPlantingBomb()) {
 				if((Bombe.getBombs(p.getName()) < p.getBombs()) && (!p.isPress_bomb()) && !(spielfeld[p.getx()][p.gety()] instanceof Bombenfeld)) {
 					new Bombe(p.getx(),p.gety(), p.getName(), p.getBombsRange()).start();
 					spielfeld[p.getx()][p.gety()]= new Bombenfeld();
 				}
 				p.setPress_bomb(true);
+				p.setPlantingBomb(false);
 			} else {
 				p.setPress_bomb(false);
+				p.setPlantingBomb(false);
 			  }
 			
-			if (Keyboard.isKeyDown(p.getKeySpecial()) ) {
+			
+			
+			
+			if (Keyboard.isKeyDown(p.getKeySpecial()) ){
+				p.setUsingSpecials(true);
+			}
+			
+			if (p.isUsingSpecials()) {
 				int item=p.getItem();
 				switch(item){
 				case 4: {p.setInvisible();p.delItem();break;}
@@ -206,10 +240,12 @@ public class Game implements Runnable {
 				case 8: {spielfeld[p.getx()][p.gety()]= new Fallenfeld(p.getName(),8);p.delItem();break;}
 				case 9: {p.shield();p.delItem();break;}
 				}
+				p.setUsingSpecials(false);
 			}
 			
-	} //ende if
+		} //ende for
 		
+			
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			for(int i = 0; i < 4; i++){
 				Main.m.hauptButtons[i].setVisible(false);
@@ -233,17 +269,10 @@ public class Game implements Runnable {
 	
     public void run() {
 		GameTime.init();
-    	Renderer.initDisplay(800,600,60);
+    	Renderer.initDisplay(spielfeld[0][0].size*breit+100,spielfeld[0][0].size*hoch,60);
     	Renderer.initGL();
     	Renderer.setClearColor(1.0f, 1.0f, 1.0f, 1.0f); //white
     	
-		try {
-			lucida = new LWJGL_Font("lucida_console2.png");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.exit(0);
-		}
 		for(int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 			
@@ -275,21 +304,20 @@ public class Game implements Runnable {
 		    	}
 		    }
 		    
-		    lucida.setScale(0.33f);
+		    
 			for(int i = 0; i < players.size(); i++) {
 				Player p = players.get(i);
 				if(p.isAlive()) p.draw();
 				if (p.getInvisible()==false){
-					lucida.print((int)(p.getx()*Feld.getSize()),(int)(p.gety()*Feld.getSize()) - 6, p.getName());
+					Renderer.print((int)(p.getx()*Feld.getSize()),(int)(p.gety()*Feld.getSize()) - 6, p.getName(), 0.33f);
 				}
 			}
 			
-			lucida.setScale(0.50f);
 			if(players.size()==1) {
-				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead"));
+				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ")", 0.5f);
 			}
 			else {
-				lucida.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... (" + players.size() + ") " + GameTime.getFPS() + " ");
+				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... " + GameTime.getFPS(), 0.5f);
 			}
 			
 			SoundStore.get().poll(0);
@@ -351,14 +379,19 @@ public class Game implements Runnable {
      * @param playername: Name des Spielers
      * @return: Aktueller Spieler
      */
-	public static Player getPlayer(String playername) {
-		Player personOfInterest= new Player("test",0,0);
+	public static Player getPlayer(int num) {
+		/*Player personOfInterest= new Player("test",0,0);
 		for(int i = 0; i < playersStatic.size(); i++){
 			if(playersStatic.get(i).getName()==playername){
 				personOfInterest=playersStatic.get(i);
 			}
-	} 
-		return personOfInterest;
+			
+	} */
+		return players.get(num);
+	}
+	
+	public static boolean isMultiplayer() {
+		return (players.size()==2);
 	}
 
 /**
@@ -371,7 +404,7 @@ public class Game implements Runnable {
 		InputStream in = new FileInputStream(name);
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		XMLStreamReader parser = factory.createXMLStreamReader(in);	
-		int breit=0, hoch=0;
+		
 		int y = -1;		//y++ somit y=0 beim ersten Attribut
 		
 		while( parser.hasNext() ) {
@@ -395,13 +428,13 @@ public class Game implements Runnable {
 		        		
 		        		if(spielerzahl==1) {
 		        			players.add(new Player("One",x1,y1));
-		        			playersStatic.add(players.get(0));
+		        			//playersStatic.add(players.get(0));
 		        		}
 		        		if(spielerzahl==2) {
 		        			players.add(new Player("One",x1,y1));
 		        			players.add(new Player("Two",x2,y2));
-		        			playersStatic.add(players.get(0));
-		        			playersStatic.add(players.get(1));
+		        			//playersStatic.add(players.get(0));
+		        			//playersStatic.add(players.get(1));
 		        		}
 		        	} else if(parser.getLocalName().startsWith("Zeile")){
 		        		y++;

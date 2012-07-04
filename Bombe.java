@@ -245,11 +245,11 @@ class Bombe extends Thread{
 				heaven:
 				if (kickedUp == true){
 					
-					if ( ((Game.getPlayer("One")).getx()==x) && ((Game.getPlayer("One")).gety()==(y-1)) ){
+					if ( (Game.getPlayer(0).getx()==x) && ((Game.getPlayer(0)).gety()==(y-1)) ){
 						kickedUp=false;
 						break heaven;
 					}
-					if ( ((Game.getPlayer("Two")).getx()==x) && ((Game.getPlayer("Two")).gety()==(y-1)) ){		
+					if (Game.isMultiplayer() && (Game.getPlayer(1).getx()==x) && (Game.getPlayer(1).gety()==(y-1)) ){		
 						kickedUp=false;
 						break heaven;
 					}
@@ -271,11 +271,11 @@ class Bombe extends Thread{
 				hell:
 				if (kickedDown == true){
 					
-					if ( ((Game.getPlayer("One")).getx()==x) && ((Game.getPlayer("One")).gety()==(y+1)) ){
+					if ( ((Game.getPlayer(0)).getx()==x) && ((Game.getPlayer(0)).gety()==(y+1)) ){
 						kickedDown=false;
 						break hell;
 					}
-					if ( ((Game.getPlayer("Two")).getx()==x) && ((Game.getPlayer("Two")).gety()==(y+1)) ){		
+					if (Game.isMultiplayer() &&  ((Game.getPlayer(1)).getx()==x) && ((Game.getPlayer(1)).gety()==(y+1)) ){		
 						kickedDown=false;
 						break hell;
 					}
@@ -296,11 +296,11 @@ class Bombe extends Thread{
 				
 				america:
 				if (kickedLeft == true){
-					if ( ((Game.getPlayer("One")).getx()==x-1) && ((Game.getPlayer("One")).gety()==(y)) ){
+					if ( ((Game.getPlayer(0)).getx()==x-1) && ((Game.getPlayer(0)).gety()==(y)) ){
 						kickedLeft=false;
 						break america;
 					}
-					if ( ((Game.getPlayer("Two")).getx()==x-1) && ((Game.getPlayer("Two")).gety()==(y)) ){		
+					if (Game.isMultiplayer() &&  ((Game.getPlayer(1)).getx()==x-1) && ((Game.getPlayer(1)).gety()==(y)) ){		
 						kickedLeft=false;
 						break america;
 					}
@@ -320,11 +320,11 @@ class Bombe extends Thread{
 				}
 				asia:
 				if (kickedRight == true){
-					if ( ((Game.getPlayer("One")).getx()==x+1) && ((Game.getPlayer("One")).gety()==(y)) ){
+					if ( ((Game.getPlayer(0)).getx()==x+1) && ((Game.getPlayer(0)).gety()==(y)) ){
 						kickedRight=false;
 						break asia;
 					}
-					if ( ((Game.getPlayer("Two")).getx()==x+1) && ((Game.getPlayer("Two")).gety()==(y)) ){		
+					if (Game.isMultiplayer() &&  ((Game.getPlayer(1)).getx()==x+1) && ((Game.getPlayer(1)).gety()==(y)) ){		
 						kickedRight=false;
 						break asia;
 					}

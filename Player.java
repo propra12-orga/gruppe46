@@ -49,6 +49,19 @@ public class Player{
 	private long trapTimer2=0;
 	private boolean vulnerable=true;
 	private long shieldTimer;
+	private boolean confused = false;
+	
+//SteuerungsAnpassung fuer Netzwerkfaehigkeit
+	private boolean movingRight=false;
+	private boolean movingLeft=false;
+	private boolean movingUp=false;
+	private boolean movingDown=false;
+	private boolean plantingBomb=false;
+	private boolean usingSpecials=false;
+	
+	
+	
+	
 	/**
 	 * Konstruktor
 	 * @param name: Name des Spieler
@@ -117,8 +130,13 @@ public class Player{
 	 */
 	public void move(int addx, int addy){
 		if((GameTime.getTime() - lastMove) > latency){
-			posx+=addx;
-			posy+=addy;
+			if(!confused) {
+				posx+=addx;
+				posy+=addy;
+			} else {
+				posx-=addx;
+				posy-=addy;
+			}
 			lastMove = GameTime.getTime();
 		}
 	}
@@ -163,11 +181,14 @@ public class Player{
 			latency=300;
 		}
 		if((GameTime.getTime() - trapTimer2) > 3000){
+			/*
     		if(name=="One") {
     			setKeys(Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN, Keyboard.KEY_SPACE, Keyboard.KEY_RMENU);
     		} else if (name=="Two") {
     			setKeys(Keyboard.KEY_A, Keyboard.KEY_D, Keyboard.KEY_W, Keyboard.KEY_S, Keyboard.KEY_F, Keyboard.KEY_E);
     		}
+    		*/
+			confused = false;
 		}
 		if((GameTime.getTime() - shieldTimer) > 3000){
 			vulnerable=true;
@@ -175,12 +196,7 @@ public class Player{
 	}
 	
 	public void confuse(){
-		if (name=="One"){
-			setKeys(Keyboard.KEY_RIGHT, Keyboard.KEY_LEFT, Keyboard.KEY_DOWN, Keyboard.KEY_UP, Keyboard.KEY_SPACE, Keyboard.KEY_RMENU);
-		}
-		if (name=="Two"){
-			setKeys(Keyboard.KEY_D, Keyboard.KEY_E, Keyboard.KEY_S, Keyboard.KEY_W, Keyboard.KEY_F, Keyboard.KEY_E);
-		}
+		confused = true;
 		trapTimer2=GameTime.getTime();
 	}
 	
@@ -326,7 +342,53 @@ public class Player{
 		return bombsRange;
 	}
 	
+	public void setRightMovement(boolean value){
+		movingRight=value;
+	}
 	
+	public void setLeftMovement(boolean value){
+		movingLeft=value;
+	}
+	
+	public void setUpMovement(boolean value){
+		movingUp=value;
+	}
+	
+	public void setDownMovement(boolean value){
+		movingDown=value;
+	}
+	
+	public void setPlantingBomb(boolean value){
+		plantingBomb=value;
+	}
+	
+	public void setUsingSpecials(boolean value){
+		usingSpecials=value;
+	}
+	
+	public boolean isMovingRight(){
+		return movingRight;
+	}
+	
+	public boolean isMovingLeft(){
+		return movingLeft;
+	}
+	
+	public boolean isMovingUp(){
+		return movingUp;
+	}
+	
+	public boolean isMovingDown(){
+		return movingDown;
+	}
+	
+	public boolean isPlantingBomb(){
+		return plantingBomb;
+	}
+	
+	public boolean isUsingSpecials(){
+		return usingSpecials;
+	}
 	
 }
  
