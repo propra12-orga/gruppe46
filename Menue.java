@@ -539,6 +539,7 @@ public class Menue extends Frame
 				
 				lvlwahl.setVisible(false);
 				starten.setVisible(false);
+				optionButton.setVisible(false);
 				Menue.this.setVisible(false);
 				
 				Main.t1 = new Thread(new Game(spieler,name, false, false ));

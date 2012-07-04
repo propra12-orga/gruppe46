@@ -302,15 +302,15 @@ public class Game implements Runnable {
     	
     	//Hintergrund-Musik starten
     	//Renderer.Theme.playAsSoundEffect(1.0f, 1.0f, false);
-    	
-    	while(!Display.isCloseRequested() && (net.isConnected()==false)) {
-    		Renderer.clearGL();
-    		Renderer.print(5, 5, "waiting for connection...",0.5f);
-    		if(net.isHost()) net.pollConnect();
-		    GameTime.update();
-		    Renderer.sync();
+    	if(netzwerk) {
+	    	while(!Display.isCloseRequested() && (net.isConnected()==false)) {
+	    		Renderer.clearGL();
+	    		Renderer.print(5, 5, "waiting for connection...",0.5f);
+	    		if(net.isHost()) net.pollConnect();
+			    GameTime.update();
+			    Renderer.sync();
+	    	}
     	}
-    	
     	
         while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
