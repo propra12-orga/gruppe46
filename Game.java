@@ -329,6 +329,8 @@ public class Game implements Runnable {
         	if(players.get(i).isAlive() == false) Main.m.gameover.setText("Spieler "+players.get(i).getName()+" ist tot!" + " (" + players.get(0).getLives() + ")");
         }
         
+        players.clear();
+        
         try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {

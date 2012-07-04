@@ -39,7 +39,6 @@ public class Leveleditor implements Runnable{
 			e1.printStackTrace();
 			System.exit(0);
 		}
-//		name = getInput("Level Name: ", name);
 		String name = "";
 		do{
 			name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
@@ -47,13 +46,12 @@ public class Leveleditor implements Runnable{
 		
 		name = name + ".xml";
 		
-//		width = Integer.parseInt(getInput("Level Width: ", width.toString()));
 		int width = 0;
 		int height = 0;
 		do{
 			width = Integer.parseInt(getInput("Level Width (5 - 15): ", "0123456789"));
 		} while((width < 5)||(width > 15));
-//		height = Integer.parseInt(getInput("Level Height: ", height.toString()));
+		
 		do{
 			height = Integer.parseInt(getInput("Level Height (5 - 15): ", "0123456789"));
 		} while((height < 5)||(height > 15));
