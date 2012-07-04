@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
@@ -426,9 +427,13 @@ public class Menue extends Frame
 				lvl.start();
 			}
 			if(e.getActionCommand().equals("Spiel starten!"))
-			{
+			{	
 				String name = lvlwahl.getText();
 				name += ".xml";
+				File test = new File(name);
+				if (!test.exists()) lvlwahl.setText("Level nicht gefunden!"); 
+				else {
+				
 				lvlwahl.setVisible(false);
 				starten.setVisible(false);
 				Menue.this.setVisible(false);
@@ -437,14 +442,15 @@ public class Menue extends Frame
 				Main.t1.start();
 				
 				for(int i=0;i<hauptButtons.length;i++)
-				{
+					{
 					hauptButtons[i].setVisible(true);
 					if(i!=2)
 					{
 						spielButtons[i].setVisible(false);
 					}
 					gameover.setVisible(true);
-				}
+					}
+				}//else
 			}
 		}
 	}

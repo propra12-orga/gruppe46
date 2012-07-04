@@ -66,9 +66,9 @@ public class Leveleditor implements Runnable{
 		do{
 			height = Integer.parseInt(getInput("Level Height (5 - 15): ", "0123456789"));
 		} while((height < 5)||(height > 15));
-		int px = 0, py = 0;
-		int p2x = 1, p2y = 1;
-		int exitx=0, exity=0;
+		int px = 1, py = 1;
+		int p2x = 1, p2y = 2;
+		int exitx=1, exity=3;
 		Feld[][] spielfeld = new Feld[width][height];
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
@@ -233,7 +233,7 @@ public class Leveleditor implements Runnable{
 					
 					switch(Keyboard.getEventKey()) {
 						case Keyboard.KEY_BACK:
-							input = input.length() > 0 ? "" : input.substring(0, input.length()-1);
+							input = input.length() > 0 ? input.substring(0, input.length()-1) : "";
 							break;
 						case Keyboard.KEY_RETURN: 
 							done = true;
