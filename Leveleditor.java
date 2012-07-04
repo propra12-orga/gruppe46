@@ -13,15 +13,6 @@ import org.lwjgl.opengl.Display;
 public class Leveleditor {
 	private static LWJGL_Font lucida;
 	private static int type = 1;
-//	protected static String name;
-//	protected static Integer width;
-//	protected static Integer height;
-	
-/*	public Leveleditor(String name, int width, int height){
-		this.name = name;
-		this.width = width;
-		this.height = height;
-	} */
 	
 	//Main-Methode
 	public static void main(String[] args){
@@ -39,12 +30,9 @@ public class Leveleditor {
 			e1.printStackTrace();
 			System.exit(0);
 		}
-//		name = getInput("Level Name: ", name);
 		String name = getInput("Level Name: ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 		name = name + ".xml";
-//		width = Integer.parseInt(getInput("Level Width: ", width.toString()));
 		int width = Integer.parseInt(getInput("Level Width: ", "0123456789"));
-//		height = Integer.parseInt(getInput("Level Height: ", height.toString()));
 		int height = Integer.parseInt(getInput("Level Height: ", "0123456789"));
 				
 		int px = 0, py = 0;
