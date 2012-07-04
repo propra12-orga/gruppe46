@@ -465,7 +465,7 @@ public class Menue extends Frame
 				starten.setVisible(false);
 				Menue.this.setVisible(false);
 				
-				Main.t1 = new Thread(new Game(spieler,name));
+				Main.t1 = new Thread(new Game(spieler,name, false, false ));
 				Main.t1.start();
 				
 				for(int i=0;i<hauptButtons.length;i++)
@@ -480,6 +480,32 @@ public class Menue extends Frame
 				}
 			}
 			if(e.getActionCommand().equals("Server")){
+				spieler = 2;
+				
+				String name = "Level1.xml";
+				File test = new File(name);
+				if (!test.exists()) lvlwahl.setText("Level nicht gefunden!"); 
+				else {
+				
+				//lvlwahl.setVisible(false);
+				server.setVisible(false);
+				client.setVisible(false);
+				Menue.this.setVisible(false);
+				
+				Main.t1 = new Thread(new Game(spieler,name, true, true ));
+				Main.t1.start();
+				
+				for(int i=0;i<hauptButtons.length;i++)
+					{
+					hauptButtons[i].setVisible(true);
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
+					gameover.setVisible(true);
+					}
+				}
+				/*
 				ServerSocket server;
 				try {
 				server = new ServerSocket(12345);
@@ -492,9 +518,34 @@ public class Menue extends Frame
 				} catch (SocketException e2) {
 				} catch (IOException e3) {
 				}
-
+*/
 			}
 			if(e.getActionCommand().equals("Client")){
+				spieler = 2;
+				
+				String name = "Level1.xml";
+				File test = new File(name);
+				if (!test.exists()) lvlwahl.setText("Level nicht gefunden!"); 
+				else {
+				
+				//lvlwahl.setVisible(false);
+				server.setVisible(false);
+				client.setVisible(false);
+				Menue.this.setVisible(false);
+				
+				Main.t1 = new Thread(new Game(spieler,name, true, false ));
+				Main.t1.start();
+				
+				for(int i=0;i<hauptButtons.length;i++)
+					{
+					hauptButtons[i].setVisible(true);
+					if(i!=2)
+					{
+						spielButtons[i].setVisible(false);
+					}
+					gameover.setVisible(true);
+					}
+				}
 				/*
 				try {
 					new Thread(new Client(ip)).start();
