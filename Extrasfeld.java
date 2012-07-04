@@ -27,7 +27,7 @@ public class Extrasfeld extends Feld
 	public void draw(int x, int y){
 		if (covered==true){
 			Renderer.Tile_Break.draw(x*size, y*size);
-			Renderer.print(x*size, y*size, ""+art, 0.5f);
+//			Renderer.print(x*size, y*size, ""+art, 0.5f);
 		} else {
 			Renderer.Tile_Empty.draw(x*size, y*size); 
 			switch(art)
