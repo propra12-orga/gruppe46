@@ -75,6 +75,7 @@ class Bombe extends Thread{
 	 */
 	private void explosion(){
 		exploding = true;
+		Main.m.Ton(4);
 		Game.spielfeld[x][y]= new Explosionsfeld(this);
 		for (int i=1;i<(range+1);i++){		//Explosion nach links
 			if(Bombe.getBomb(x-i, y) != -1) {

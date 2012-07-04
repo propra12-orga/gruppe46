@@ -371,6 +371,7 @@ public class Game implements Runnable {
 			Main.m.hauptButtons[i].setVisible(true);
 			Main.m.gameover.setVisible(true);
 			Menue.conti = false;
+			Main.m.Ton(-1);
 		}
 		Main.m.setVisible(true);
 		Keyboard.destroy(); //Keyboard wird zerstört...
@@ -379,6 +380,7 @@ public class Game implements Runnable {
 		} catch (LWJGLException e){
 			e.printStackTrace();
 		}
+		Main.m.Ton(2);
 		
 		//Renderer.Theme.stop();//Hintergrund-Musik stopppen
 		Renderer.destroy();

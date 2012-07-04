@@ -1,3 +1,5 @@
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -38,6 +41,9 @@ public class Menue extends Frame
 	private JButton server, client;
 	
 	protected JTextField gameover;
+	
+	AudioClip auswahl, theme, battle, boom;
+	
 	/**
 	 * Konstruktor der Klasse Menue
 	 * @param titel: Uueberschrift des Menues.
@@ -45,6 +51,10 @@ public class Menue extends Frame
 	public Menue(String titel)
 	{
 		super(titel);
+
+		this.Ton(1);
+		this.Ton(2);
+
 		this.setResizable(true);
 		this.setLayout(null);
 		this.setBackground(Color.black);
@@ -291,6 +301,59 @@ public class Menue extends Frame
 		}
 		return j;
 	}
+	public void Ton(int i){
+		
+		if(i == -2) theme.stop();
+		if(i == -1) battle.stop();
+		if(i == 1)
+			{
+			
+			File f = new File( "default.wav" ); 
+			try {
+				auswahl = Applet.newAudioClip( f.toURL() );
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			auswahl.play();
+			}
+		if(i == 2)
+		{
+			File f = new File( "theme.wav" ); 
+			try {
+				theme = Applet.newAudioClip( f.toURL() );
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			theme.loop();
+		}
+		if(i == 3)
+		{
+			File f = new File( "battle.wav" ); 
+			try {
+				
+				battle = Applet.newAudioClip( f.toURL() );
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			battle.loop();
+		}
+		if(i == 4)
+		{
+			File f = new File( "bomb2.wav" ); 
+			try {
+				
+				boom = Applet.newAudioClip( f.toURL() );
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			boom.play();
+		}
+	}
+
 	/**
 	 * ActionListener fuer Menue
 	 * @author philip
@@ -302,11 +365,13 @@ public class Menue extends Frame
 		{
 			if(e.getActionCommand().equals("Einzelspieler"))
 			{
+				Menue.this.Ton(1);
 				for(int i=0;i<hauptButtons.length;i++)
 				{
 					hauptButtons[i].setVisible(false);
 				}
 				gameover.setVisible(false);
+				optionButton.setVisible(true);
 				lvlwahl.setVisible(true);
 				starten.setVisible(true);
 				spieler =1;
@@ -314,6 +379,8 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Mehrspieler"))
 			{
+				Menue.this.Ton(1);
+				optionButton.setVisible(true);
 				for(int i=0;i<hauptButtons.length;i++)
 				{
 					hauptButtons[i].setVisible(false);
@@ -326,6 +393,7 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Optionen"))
 			{
+				Menue.this.Ton(1);
 				for(int i=0;i<spielButtons.length;i++)
 				{
 					if(i!=2)
@@ -419,6 +487,8 @@ public class Menue extends Frame
 					}
 				}
 				leveleditor.setVisible(false);
+			    server.setVisible(false);
+			    client.setVisible(false);
 			}
 			if(e.getActionCommand().equals("Am PC"))
 			{				
@@ -441,6 +511,7 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Netzwerk"))
 			{
+				Menue.this.Ton(1);
 				for(int i=0;i<multiButtons.length;i++)
 				{
 					multiButtons[i].setVisible(false);
@@ -450,11 +521,16 @@ public class Menue extends Frame
 			}
 			if(e.getActionCommand().equals("Leveleditor"))
 			{
+				Menue.this.Ton(1);
 				Thread lvl = new Thread(new Leveleditor());
 				lvl.start();
 			}
 			if(e.getActionCommand().equals("Spiel starten!"))
 			{	
+				Menue.this.Ton(-2);
+				Menue.this.Ton(1);
+				Menue.this.Ton(3);
+
 				String name = lvlwahl.getText();
 				name += ".xml";
 				File test = new File(name);
@@ -480,6 +556,8 @@ public class Menue extends Frame
 				}
 			}
 			if(e.getActionCommand().equals("Server")){
+				Menue.this.Ton(1);
+				
 				spieler = 2;
 				
 				String name = "Level1.xml";
@@ -521,6 +599,8 @@ public class Menue extends Frame
 */
 			}
 			if(e.getActionCommand().equals("Client")){
+				Menue.this.Ton(1);
+				
 				spieler = 2;
 				
 				String name = "Level1.xml";
