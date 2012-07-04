@@ -2,6 +2,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
@@ -450,8 +456,34 @@ public class Menue extends Frame
 					}
 					gameover.setVisible(true);
 					}
-				}//else
+				}
 			}
+			if(e.getActionCommand().equals("Hosten")){
+				ServerSocket server;
+				try {
+				server = new ServerSocket(12345);
+				server.setSoTimeout(60000); //wartet eine Minute auf eingehende Verbindung
+				Socket client = server.accept();
+				new Thread(new Hosting(client)).start();
+				
+				} catch ( InterruptedIOException e1 ) {
+					  //konnte keine Verbindung hergestellt werden
+				} catch (SocketException e2) {
+				} catch (IOException e3) {
+				}
+
+			}
+			if(e.getActionCommand().equals("Client")){
+				/*
+				try {
+					new Thread(new Client(ip)).start();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+			}
+				
+			
 		}
 	}
 }
