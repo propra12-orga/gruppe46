@@ -390,5 +390,13 @@ public class Player{
 		return usingSpecials;
 	}
 	
+	public void setx(int x){
+		posx=x;
+	}
+	
+	public void sety(int y){
+		posy=y;
+	}
+	
 }
  
