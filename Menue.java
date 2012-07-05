@@ -36,6 +36,7 @@ public class Menue extends Frame
 	private JTextField[] felder;
 	private JCheckBox[] boxen;
 	private JTextField lvlwahl;
+	private JTextField host;
 	private JButton starten;
 	private int spieler;
 	private JButton server, client;
@@ -167,6 +168,15 @@ public class Menue extends Frame
 		lvlwahl.setVisible(false);
 		this.add(lvlwahl);
 		
+		
+		host = new JTextField();
+		host.setBounds(245,215,150,20);
+		host.setHorizontalAlignment(JTextField.CENTER);
+		host.setText("127.0.0.1");
+		host.setEditable(true);
+		host.setVisible(false);
+		this.add(host);
+		
 		starten = new JButton("Spiel starten!");
 		starten.setBackground(Color.white);
 		starten.setBounds(245, 240, 150, 50);
@@ -183,7 +193,7 @@ public class Menue extends Frame
 		
 		client = new JButton("Client");
 		client.setBackground(Color.white);
-		client.setBounds(245, 220, 150, 50);
+		client.setBounds(245, 240, 150, 50);
 		client.addActionListener(a);
 		client.setVisible(false);
 		this.add(client);
@@ -489,6 +499,7 @@ public class Menue extends Frame
 				leveleditor.setVisible(false);
 			    server.setVisible(false);
 			    client.setVisible(false);
+			    host.setVisible(false);
 			}
 			if(e.getActionCommand().equals("Am PC"))
 			{				
@@ -518,6 +529,7 @@ public class Menue extends Frame
 				}
 				server.setVisible(true);
 				client.setVisible(true);
+				host.setVisible(true);
 			}
 			if(e.getActionCommand().equals("Leveleditor"))
 			{
@@ -542,7 +554,7 @@ public class Menue extends Frame
 				optionButton.setVisible(false);
 				Menue.this.setVisible(false);
 				
-				Main.t1 = new Thread(new Game(spieler,name, false, false ));
+				Main.t1 = new Thread(new Game(spieler,name, false, false, "" ));
 				Main.t1.start();
 				
 				for(int i=0;i<hauptButtons.length;i++)
@@ -569,9 +581,10 @@ public class Menue extends Frame
 				//lvlwahl.setVisible(false);
 				server.setVisible(false);
 				client.setVisible(false);
+				host.setVisible(false);
 				Menue.this.setVisible(false);
 				
-				Main.t1 = new Thread(new Game(spieler,name, true, true ));
+				Main.t1 = new Thread(new Game(spieler,name, true, true, "" ));
 				Main.t1.start();
 				
 				for(int i=0;i<hauptButtons.length;i++)
@@ -612,9 +625,10 @@ public class Menue extends Frame
 				//lvlwahl.setVisible(false);
 				server.setVisible(false);
 				client.setVisible(false);
+				host.setVisible(false);
 				Menue.this.setVisible(false);
 				
-				Main.t1 = new Thread(new Game(spieler,name, true, false ));
+				Main.t1 = new Thread(new Game(spieler,name, true, false, host.getText() ));
 				Main.t1.start();
 				
 				for(int i=0;i<hauptButtons.length;i++)

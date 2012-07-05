@@ -11,7 +11,7 @@ import java.net.*;
  */
 public class Network {
 	
-	public static String hostname = "127.0.0.1";
+	public String hostname = "127.0.0.1";
 	
 	private boolean host = false;
 	private ServerSocket server;
@@ -22,7 +22,7 @@ public class Network {
 	private ObjectInputStream ois;
 	private boolean connected = false;
 	
-	public Network(boolean hosting) {
+	public Network(boolean hosting, String hostname) {
 		host = hosting;
 		if(host) {
 			try {
@@ -36,6 +36,7 @@ public class Network {
 				e3.printStackTrace();
 			}
 		} else {
+			this.hostname = hostname;
 			try {
 				client = new Socket(hostname,12346);
 				out = new DataOutputStream(client.getOutputStream());
@@ -116,6 +117,18 @@ public class Network {
 		}
 	}
 	
+	public String getHostname() {
+		if(host) {
+			try {
+				return InetAddress.getLocalHost().toString();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return hostname;
+	}
+	
 	public void send(int num) {
 		try {
 			out.write(num);
@@ -142,7 +155,6 @@ public class Network {
 			//while(in.available()>0) {
 			//	out = in.read();
 			//}
-			
 			
 				
 			Game.spielfeld= (Feld[][]) ois.readObject();

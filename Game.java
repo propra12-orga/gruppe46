@@ -52,7 +52,7 @@ public class Game implements Runnable {
 	 * @param level - Dateiname des Levels als xml
 	 * @param netzwerk - boolean wert fuer netzwerk spiel
 	 */
-	public Game(int spielerzahl, String level, boolean netzwerk, boolean hosting) {
+	public Game(int spielerzahl, String level, boolean netzwerk, boolean hosting, String host) {
 		//Spielfeld laden
 		try {
 			initialfeld(level, spielerzahl); 
@@ -65,7 +65,7 @@ public class Game implements Runnable {
 		
 		this.netzwerk = netzwerk;
 		if(netzwerk) {
-			net = new Network(hosting);
+			net = new Network(hosting, host);
 		}
 	}
 	
@@ -303,16 +303,16 @@ public class Game implements Runnable {
     	//Hintergrund-Musik starten
     	//Renderer.Theme.playAsSoundEffect(1.0f, 1.0f, false);
     	
-    	while(!Display.isCloseRequested() && (net.isConnected()==false)) {
+    	while(!Display.isCloseRequested() && (net.isConnected()==false) && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
     		Renderer.clearGL();
-    		Renderer.print(5, 5, "waiting for connection...",0.5f);
+    		Renderer.print(5, 5, "waiting for connection... ("+net.getHostname()+")",0.5f);
     		if(net.isHost()) net.pollConnect();
 		    GameTime.update();
 		    Renderer.sync();
     	}
     	
     	
-        while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
+        while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true) && net.isConnected()) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
         	
