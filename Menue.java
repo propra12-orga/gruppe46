@@ -304,7 +304,7 @@ public class Menue extends Frame
 	public void Ton(int i){
 		
 		if(i == -2) theme.stop();
-		if(i == -1) battle.stop();
+		//if(i == -1) battle.stop();
 		if(i == 1)
 			{
 			

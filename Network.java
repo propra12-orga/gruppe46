@@ -18,6 +18,8 @@ public class Network {
 	private Socket client;
 	private DataOutputStream out;
 	private DataInputStream in;
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
 	private boolean connected = false;
 	
 	public Network(boolean hosting) {
@@ -37,7 +39,8 @@ public class Network {
 			try {
 				client = new Socket(hostname,12346);
 				out = new DataOutputStream(client.getOutputStream());
-				in = new DataInputStream(client.getInputStream());
+				//in = new DataInputStream(client.getInputStream());
+				ois= new ObjectInputStream(client.getInputStream());
 				connected = true;
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
@@ -98,8 +101,9 @@ public class Network {
 			try{
 				client = server.accept();
 				connected = true;
-				out = new DataOutputStream(client.getOutputStream());
+				//out = new DataOutputStream(client.getOutputStream());
 				in = new DataInputStream(client.getInputStream());			
+				oos = new ObjectOutputStream(client.getOutputStream());
 			} catch (SocketTimeoutException e) {
 				connected = false;
 			} catch (IOException e) {
@@ -121,13 +125,29 @@ public class Network {
 		}
 	}
 	
+	public void sendmap (Feld[][] spielfeld){
+		try {
+			oos.reset();
+			oos.writeObject(spielfeld);
+			oos.flush();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public int recv() {
 		int out = -1;
 		try {
-			while(in.available()>0) {
-				out = in.read();
-			}
-		} catch (IOException e) {
+			//while(in.available()>0) {
+			//	out = in.read();
+			//}
+			
+			
+				
+				Game.spielfeld= (Feld[][]) ois.readObject();
+				
+		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

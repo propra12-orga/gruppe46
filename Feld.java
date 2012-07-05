@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 //Serializable zum Speichern des Objektes
 //import java.io.Serializable; 
 
@@ -6,7 +8,7 @@
  * abgeleitet werden koennen
  * @author simon
  */
-public abstract class Feld {
+public abstract class Feld implements Serializable {
 	/**
 	 * fuer die Konsistenzpruefung erforderlicher Boolean
 	 */
