@@ -52,7 +52,7 @@ public class Game implements Runnable {
 	 * @param level - Dateiname des Levels als xml
 	 * @param netzwerk - boolean wert fuer netzwerk spiel
 	 */
-	public Game(int spielerzahl, String level, boolean netzwerk, boolean hosting, String host) {
+	public Game(int spielerzahl, String level, boolean netzwerk, boolean hosting) {
 		//Spielfeld laden
 		try {
 			initialfeld(level, spielerzahl); 
@@ -65,7 +65,7 @@ public class Game implements Runnable {
 		
 		this.netzwerk = netzwerk;
 		if(netzwerk) {
-			net = new Network(hosting, host);
+			net = new Network(hosting);
 		}
 	}
 	
@@ -85,8 +85,12 @@ public class Game implements Runnable {
 	
 	
 	public void pollInput(){
-		lock1.lock();
 		
+		
+	   if (netzwerk){
+	    if (net.isHost()){
+				
+		lock1.lock();
 		for(int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 				
@@ -274,8 +278,10 @@ public class Game implements Runnable {
 				e.printStackTrace();
 			}
 			Main.t1.suspend();
-		}		
+		}	
+			
 		lock1.unlock();
+			}}//hostabfragerei
 	}
 	 
 	
@@ -302,29 +308,36 @@ public class Game implements Runnable {
     	
     	//Hintergrund-Musik starten
     	//Renderer.Theme.playAsSoundEffect(1.0f, 1.0f, false);
-    	
-    	while(!Display.isCloseRequested() && (net.isConnected()==false) && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-    		Renderer.clearGL();
-    		Renderer.print(5, 5, "waiting for connection... ("+net.getHostname()+")",0.5f);
-    		if(net.isHost()) net.pollConnect();
-		    GameTime.update();
-		    Renderer.sync();
+    	System.out.println("netzwerk?");
+    	System.out.println(netzwerk);
+    	if (netzwerk)
+    	while(!Display.isCloseRequested() && (net.isConnected()==false)) {
+    		
+        		Renderer.clearGL();
+        		Renderer.print(5, 5, "waiting for connection...",0.5f);
+        		if(net.isHost()) net.pollConnect();
+    		    GameTime.update();
+    		    Renderer.sync();
+    		    
     	}
     	
     	
-        while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true) && net.isConnected()) {
+        while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
-        	Renderer.clearGL();
+        	if (netzwerk){
+        		if (net.isConnected()==false) Menue.conti=false;
+        	}
         	
-			if(net.isHost()) pollInput();
-		    
+        	Renderer.clearGL();
+
+			pollInput();
 		    for(int x = 0; x < spielfeld.length; x++) {
 		    	for(int y = 0; y < spielfeld[0].length; y++) {
 		    		spielfeld[x][y].draw(x, y);
 		    	}
 		    }
 		    
-		    if (net.isHost()){
+		    
 			for(int i = 0; i < players.size(); i++) {
 				Player p = players.get(i);
 				if(p.isAlive()) p.draw();
@@ -333,25 +346,45 @@ public class Game implements Runnable {
 				}
 			}
 			
+			Renderer.print(5, 25, "recv: " + net.recv(), 0.5f);
 			if(players.size()==1) {
 				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ")", 0.5f);
 			}
 			else {
 				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... " + GameTime.getFPS(), 0.5f);
 			}
-		    }
-			if(netzwerk) {
-				Renderer.print(5, 25, "recv: " + net.recv(), 0.5f);
-				if(Keyboard.isKeyDown(Keyboard.KEY_1)) net.send(1);
-				if(Keyboard.isKeyDown(Keyboard.KEY_2)) net.send(2);
-				
+		    
+			if(netzwerk)
+				if (!(net.isHost())){
+
+					if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) net.send(1);
+					if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) net.send(2);
+					if(Keyboard.isKeyDown(Keyboard.KEY_UP)) net.send(3);
+					if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) net.send(4);
+					if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) net.send(5);
+					if(Keyboard.isKeyDown(Keyboard.KEY_RMENU)) net.send(6);
 			}
 			
 			SoundStore.get().poll(0);
 		    GameTime.update();
 		    Renderer.sync();
-		    if (net.isHost()) net.sendmap(spielfeld);
-		    //if(!net.isHost()) net.recv();
+		    if (netzwerk){
+		    if (net.isHost()) {
+		    	int[] coordsOutput= new int[4];
+		    	coordsOutput[0]= this.getPlayer(0).getx();
+		    	coordsOutput[1]= this.getPlayer(0).gety();
+		    	coordsOutput[2]= this.getPlayer(1).getx();
+		    	coordsOutput[3]= this.getPlayer(1).gety();
+		    	if (!(getPlayer(0).isAlive()) || !(getPlayer(1).isAlive()) ){
+		    		coordsOutput[0]=0;
+		    		coordsOutput[1]=0;
+		    		coordsOutput[2]=0;
+		    		coordsOutput[3]=0;
+		    	}
+		    	net.sendmap(spielfeld, coordsOutput);
+		    }
+		    net.recv();
+		    }
 		}   
         
         if(netzwerk) {
