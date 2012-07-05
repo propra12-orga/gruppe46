@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-class Bombe extends Thread{
+class Bombe extends Thread implements Serializable{
 		/**
 		 * Liste aller Bomben
 		 */

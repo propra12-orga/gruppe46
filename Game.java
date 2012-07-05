@@ -302,21 +302,21 @@ public class Game implements Runnable {
     	
     	//Hintergrund-Musik starten
     	//Renderer.Theme.playAsSoundEffect(1.0f, 1.0f, false);
-    	if(netzwerk) {
-	    	while(!Display.isCloseRequested() && (net.isConnected()==false)) {
-	    		Renderer.clearGL();
-	    		Renderer.print(5, 5, "waiting for connection...",0.5f);
-	    		if(net.isHost()) net.pollConnect();
-			    GameTime.update();
-			    Renderer.sync();
-	    	}
+    	
+    	while(!Display.isCloseRequested() && (net.isConnected()==false)) {
+    		Renderer.clearGL();
+    		Renderer.print(5, 5, "waiting for connection...",0.5f);
+    		if(net.isHost()) net.pollConnect();
+		    GameTime.update();
+		    Renderer.sync();
     	}
+    	
     	
         while (!Display.isCloseRequested() && playersAlive() && (Menue.conti == true)) {
         	// conti bezeichnet den Unterschied zwischen Spiel- und Hauptmenu
         	Renderer.clearGL();
         	
-			pollInput();
+			if(net.isHost()) pollInput();
 		    
 		    for(int x = 0; x < spielfeld.length; x++) {
 		    	for(int y = 0; y < spielfeld[0].length; y++) {
@@ -324,7 +324,7 @@ public class Game implements Runnable {
 		    	}
 		    }
 		    
-		    
+		    if (net.isHost()){
 			for(int i = 0; i < players.size(); i++) {
 				Player p = players.get(i);
 				if(p.isAlive()) p.draw();
@@ -339,7 +339,7 @@ public class Game implements Runnable {
 			else {
 				Renderer.print(5, 5, "Player 1 is " + (players.get(0).isAlive()?"alive":"dead") + " (" + players.get(0).getLives() + ") , Player 2 is " + (players.get(1).isAlive()?"alive":"dead")  + " (" + players.get(1).getLives() + ") ... " + GameTime.getFPS(), 0.5f);
 			}
-			
+		    }
 			if(netzwerk) {
 				//Renderer.print(5, 25, "recv: " + net.recv(), 0.5f);
 				if(Keyboard.isKeyDown(Keyboard.KEY_1)) net.send(1);

@@ -145,7 +145,7 @@ public class Network {
 			
 			
 				
-				Game.spielfeld= (Feld[][]) ois.readObject();
+			Game.spielfeld= (Feld[][]) ois.readObject();
 				
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
