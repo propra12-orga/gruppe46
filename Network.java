@@ -14,8 +14,10 @@ public class Network {
 	public String hostname = "127.0.0.1";
 	
 	private boolean host = false;
-	private ServerSocket server;
-	private Socket client;
+	private ServerSocket serverObject;
+	private ServerSocket serverData;
+	private Socket clientObject;
+	private Socket clientData;
 	private DataOutputStream out;
 	private DataInputStream in;
 	private ObjectOutputStream oos;
@@ -26,8 +28,10 @@ public class Network {
 		host = hosting;
 		if(host) {
 			try {
-				server = new ServerSocket(12346);
-				server.setSoTimeout(100);
+				serverObject = new ServerSocket(12345);
+				serverObject.setSoTimeout(100);
+				serverData = new ServerSocket(12346);
+				serverData.setSoTimeout(100);
 			} catch ( InterruptedIOException e1 ) {
 				  e1.printStackTrace();
 			} catch (SocketException e2) {
@@ -38,10 +42,12 @@ public class Network {
 		} else {
 			this.hostname = hostname;
 			try {
-				client = new Socket(hostname,12346);
-				out = new DataOutputStream(client.getOutputStream());
-				//in = new DataInputStream(client.getInputStream());
-				ois= new ObjectInputStream(client.getInputStream());
+				clientObject = new Socket(hostname,12345);
+				clientData = new Socket(hostname,12346);
+				out = new DataOutputStream(clientData.getOutputStream());
+				in = new DataInputStream(clientData.getInputStream());
+				ois= new ObjectInputStream(clientObject.getInputStream());
+				oos= new ObjectOutputStream(clientObject.getOutputStream());
 				connected = true;
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
@@ -57,22 +63,23 @@ public class Network {
 	public void destroy() {
 		if(host) {
 			try {
-				server.close();
+				serverObject.close();
+				serverData.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(client != null) {
-				try {
-					client.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				if(clientObject != null) clientObject.close();
+				if(clientData != null) clientData.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} else {
 			try {
-				client.close();
+				clientObject.close();
+				clientData.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -100,11 +107,13 @@ public class Network {
 		if(host) {
 			if(connected) return true;
 			try{
-				client = server.accept();
+				clientData = serverData.accept();
+				clientObject = serverObject.accept();
 				connected = true;
-				//out = new DataOutputStream(client.getOutputStream());
-				in = new DataInputStream(client.getInputStream());			
-				oos = new ObjectOutputStream(client.getOutputStream());
+				out = new DataOutputStream(clientData.getOutputStream());
+				in = new DataInputStream(clientData.getInputStream());			
+				oos = new ObjectOutputStream(clientObject.getOutputStream());
+				ois = new ObjectInputStream(clientObject.getInputStream());
 			} catch (SocketTimeoutException e) {
 				connected = false;
 			} catch (IOException e) {
@@ -152,12 +161,13 @@ public class Network {
 	public int recv() {
 		int out = -1;
 		try {
-			//while(in.available()>0) {
-			//	out = in.read();
-			//}
+			while(in.available()>0) {
+				out = in.read();
+			}
 			
-				
-			Game.spielfeld= (Feld[][]) ois.readObject();
+			if(!host) {
+				Game.spielfeld= (Feld[][]) ois.readObject();
+			}
 				
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block

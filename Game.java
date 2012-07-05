@@ -341,7 +341,7 @@ public class Game implements Runnable {
 			}
 		    }
 			if(netzwerk) {
-				//Renderer.print(5, 25, "recv: " + net.recv(), 0.5f);
+				Renderer.print(5, 25, "recv: " + net.recv(), 0.5f);
 				if(Keyboard.isKeyDown(Keyboard.KEY_1)) net.send(1);
 				if(Keyboard.isKeyDown(Keyboard.KEY_2)) net.send(2);
 				
@@ -351,7 +351,7 @@ public class Game implements Runnable {
 		    GameTime.update();
 		    Renderer.sync();
 		    if (net.isHost()) net.sendmap(spielfeld);
-		    if(!net.isHost()) net.recv();
+		    //if(!net.isHost()) net.recv();
 		}   
         
         if(netzwerk) {
